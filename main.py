@@ -34,7 +34,7 @@ for name in paths:
     files.extend(_files)
 
 train_files, val_files = train_test_split(files, test_size=0.25, 
-                                          random_state=42)
+                                          random_state=config.SEED)
 
 train_dataset = CloudDataset(train_files)
 val_dataset = CloudDataset(val_files)
