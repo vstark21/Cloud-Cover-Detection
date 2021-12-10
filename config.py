@@ -1,6 +1,7 @@
 import os
 import torch
 from loguru import logger
+from utils import *
 
 SEED = 42
 VERBOSE = 1
@@ -15,14 +16,13 @@ N_CLASSES = 1
 
 # Data
 DATA_PATHS = [
-    "/content/westeurope",
-    "/content/eastasia",
+    "data/"
 ]
 
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE = 16
-EPOCHS = 20
+EPOCHS = 50
 LEARNING_RATE = 5e-4
 AMP = True
 TRAIN_ITERS = 200
@@ -33,6 +33,13 @@ VAL_ITERS = 75
 
 # Outputs
 OUTPUT_PATH = 'outputs/'
+LOG_FILE = 'outputs/logs.log'
 
 if not os.path.exists(OUTPUT_PATH):
     os.makedirs(OUTPUT_PATH)
+
+# Removing it because loguru.logger will create it
+if os.path.exists(LOG_FILE):
+    os.remove(LOG_FILE)
+
+seed_everything(SEED)

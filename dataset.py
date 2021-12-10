@@ -9,7 +9,7 @@ class CloudDataset(Dataset):
         return len(self.files)
     
     def __getitem__(self, idx):
-        data = np.load(self.files[idx])
+        data = np.load(self.files[idx])["data"]
         inputs = data[:, :, :4]
         inputs = np.transpose(inputs, (2, 0, 1))
         labels = data[:, :, 4]

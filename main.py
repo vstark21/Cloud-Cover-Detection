@@ -20,6 +20,7 @@ from dataset import CloudDataset
 from loss import CloudLoss
 from utils import *
 from loguru import logger
+logger.add(config.LOG_FILE)
 
 files = []
 for name in config.DATA_PATHS:
@@ -66,7 +67,7 @@ for epoch in range(config.EPOCHS):
     bar = tqdm(range(config.TRAIN_ITERS), total=config.TRAIN_ITERS)
     train_epoch_loss = 0
     dataset_len = 0
-    jacc_score = 0
+    train_jacc_score = 0
 
     for i in bar:
         try:
@@ -81,7 +82,7 @@ for epoch in range(config.EPOCHS):
         with torch.cuda.amp.autocast(enabled=config.AMP):
             preds = model(images)
             loss = loss_fn(preds, labels)
-            jacc_score += jaccard_score(preds, labels).item()
+            train_jacc_score += jaccard_score(preds, labels).item()
 
         optimizer.zero_grad()
         grad_scaler.scale(loss).backward()
@@ -92,7 +93,7 @@ for epoch in range(config.EPOCHS):
         dataset_len += 1
 
         bar.set_postfix(epoch=epoch, loss=train_epoch_loss / dataset_len,
-                        jaccard=jacc_score / dataset_len,
+                        jaccard=train_jacc_score / dataset_len,
                     lr=optimizer.param_groups[0]['lr'])
     
     scheduler.step(train_epoch_loss / dataset_len)
@@ -103,7 +104,7 @@ for epoch in range(config.EPOCHS):
         bar = tqdm(range(config.VAL_ITERS), total=config.VAL_ITERS)
         val_epoch_loss = 0
         dataset_len = 0
-        jacc_score = 0
+        val_jacc_score = 0
 
         for i in bar:
             try:
@@ -117,13 +118,18 @@ for epoch in range(config.EPOCHS):
 
             preds = model(images)
             loss = loss_fn(preds, labels)
-            jacc_score += jaccard_score(preds, labels).item()
+            val_jacc_score += jaccard_score(preds, labels).item()
 
             val_epoch_loss += loss.item()
             dataset_len += 1
 
             bar.set_postfix(epoch=epoch, loss=val_epoch_loss / dataset_len,
-                        jaccard=jacc_score / dataset_len)
+                        jaccard=val_jacc_score / dataset_len)
+
+    logger.info(f"train loss: {train_epoch_loss / dataset_len}")
+    logger.info(f"train jaccard: {train_jacc_score / dataset_len}")
+    logger.info(f"val loss: {val_epoch_loss / dataset_len}")
+    logger.info(f"val jaccard: {val_jacc_score / dataset_len}")
 
     if best_val_loss > val_epoch_loss:
         best_val_loss = val_epoch_loss
