@@ -1,7 +1,6 @@
 # General imports
 import os
 import cv2
-import glob
 import time
 import json
 import scipy

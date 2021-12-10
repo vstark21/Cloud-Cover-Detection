@@ -1,1 +1,10 @@
+opencv-python
+json
+scipy
+pandas
+numpy
+tqdm
+scikit-learn
+torch
+matplotlib
 loguru
