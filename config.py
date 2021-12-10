@@ -13,10 +13,16 @@ NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
 
+# Data
+DATA_PATHS = [
+    "/content/westeurope",
+    "/content/eastasia",
+]
+
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE = 16
-EPOCHS = 6
+EPOCHS = 20
 LEARNING_RATE = 5e-4
 AMP = True
 TRAIN_ITERS = 200
@@ -26,7 +32,6 @@ VAL_BATCH_SIZE = 16
 VAL_ITERS = 75
 
 # Outputs
-SAVE_MODEL = False
 OUTPUT_PATH = 'outputs/'
 
 if not os.path.exists(OUTPUT_PATH):

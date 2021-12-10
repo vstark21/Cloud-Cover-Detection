@@ -7,12 +7,8 @@ from utils import *
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-paths = [
-    "/content/westeurope"
-]
-
 files = []
-for name in paths:
+for name in config.DATA_PATHS:
     _files = [os.path.join(name, el) for el in os.listdir(name)]
     files.extend(_files)
 
@@ -38,6 +34,7 @@ def random_predict(sname="pred_0"):
     inputs = inputs.to(config.DEVICE)
 
     pred = torch.sigmoid(model(inputs)).squeeze().cpu().numpy()
+    pred = np.round(pred)
 
     fig = plt.figure(figsize=(15, 10))
 

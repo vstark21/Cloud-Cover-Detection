@@ -59,7 +59,7 @@ def save_model_weights(model, filename, verbose=1, folder=""):
         folder (str, optional): Folder to save to. Defaults to "".
     """
     if verbose:
-        logger.info(f"Saving weights to {os.path.join(folder, filename)}\n")
+        logger.info(f"Saving weights to {os.path.join(folder, filename)}")
     torch.save(model.state_dict(), os.path.join(folder, filename))
 
 
@@ -103,3 +103,9 @@ def format_time(seconds):
     _s = ('0' + str(s)) if s < 10 else str(s)
     result += (_s + ' sec')
     return result
+
+def jaccard_score(pred, true):
+    intersection = torch.logical_and(pred, true).sum()
+    union = torch.logical_or(pred, true).sum()
+
+    return intersection / union

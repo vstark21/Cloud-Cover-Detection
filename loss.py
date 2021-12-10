@@ -12,10 +12,13 @@ class CloudLoss(nn.Module):
         inputs = torch.sigmoid(preds)       
         inputs = inputs.view(-1)
         targets = targets.view(-1)
+        preds = preds.view(-1)
         
         intersection = (inputs * targets).sum()                            
         dice_loss = 1 - (2. * intersection + smooth) / (inputs.sum() + targets.sum() + smooth)  
-        bce = F.binary_cross_entropy_with_logits (inputs, targets, reduction='mean')
+        
+        bce = F.binary_cross_entropy_with_logits(preds, targets, reduction='mean')
+        
         loss = self.l1 * bce + self.l2 * dice_loss
         
         return loss

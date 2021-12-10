@@ -22,13 +22,8 @@ from loss import CloudLoss
 from utils import *
 from loguru import logger
 
-
-paths = [
-    "/content/westeurope"
-]
-
 files = []
-for name in paths:
+for name in config.DATA_PATHS:
     _files = [os.path.join(name, el) for el in os.listdir(name)]
     files.extend(_files)
 
@@ -72,6 +67,7 @@ for epoch in range(config.EPOCHS):
     bar = tqdm(range(config.TRAIN_ITERS), total=config.TRAIN_ITERS)
     train_epoch_loss = 0
     dataset_len = 0
+    jacc_score = 0
 
     for i in bar:
         try:
@@ -86,6 +82,7 @@ for epoch in range(config.EPOCHS):
         with torch.cuda.amp.autocast(enabled=config.AMP):
             preds = model(images)
             loss = loss_fn(preds, labels)
+            jacc_score += jaccard_score(preds, labels).item()
 
         optimizer.zero_grad()
         grad_scaler.scale(loss).backward()
@@ -96,6 +93,7 @@ for epoch in range(config.EPOCHS):
         dataset_len += 1
 
         bar.set_postfix(epoch=epoch, loss=train_epoch_loss / dataset_len,
+                        jaccard=jacc_score / dataset_len,
                     lr=optimizer.param_groups[0]['lr'])
     
     scheduler.step(train_epoch_loss / dataset_len)
@@ -106,8 +104,9 @@ for epoch in range(config.EPOCHS):
         bar = tqdm(range(config.VAL_ITERS), total=config.VAL_ITERS)
         val_epoch_loss = 0
         dataset_len = 0
+        jacc_score = 0
 
-        for i, batch_data in bar:
+        for i in bar:
             try:
                 batch_data = next(val_generator)
             except StopIteration:
@@ -119,16 +118,18 @@ for epoch in range(config.EPOCHS):
 
             preds = model(images)
             loss = loss_fn(preds, labels)
+            jacc_score += jaccard_score(preds, labels).item()
 
             val_epoch_loss += loss.item()
             dataset_len += 1
 
-            bar.set_postfix(epoch=epoch, loss=val_epoch_loss / dataset_len)
+            bar.set_postfix(epoch=epoch, loss=val_epoch_loss / dataset_len,
+                        jaccard=jacc_score / dataset_len)
 
     if best_val_loss > val_epoch_loss:
         best_val_loss = val_epoch_loss
         save_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
 
-    logger.info('-'*15 + f" Epoch {epoch} ended, time taken {format_time(time.time()-tic)} " + '-'*15)
+    logger.info(f"Epoch {epoch} ended, time taken {format_time(time.time()-tic)}\n")
 
 torch.cuda.empty_cache()
