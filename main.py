@@ -19,7 +19,6 @@ import config
 from model import CloudModel
 from dataset import CloudDataset
 from loss import CloudLoss
-from trainer import Trainer
 from utils import *
 from loguru import logger
 
@@ -51,13 +50,14 @@ val_dataloader = DataLoader(
                 shuffle=False,
                 num_workers=config.NUM_WORKERS)
 
+train_generator = train_dataloader.__iter__()
+val_generator = val_dataloader.__iter__()
 loss_fn = CloudLoss()
 model = CloudModel(n_channels=config.N_CHANNELS,
                    n_classes=config.N_CLASSES).to(config.DEVICE)
 optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=2)
 grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
-trainer = Trainer(model, optimizer, loss_fn, scheduler)
 
 logger.info(f"Model has {count_parameters(model)} parameters")
 
@@ -66,13 +66,69 @@ best_val_loss = float('inf')
 for epoch in range(config.EPOCHS):
     tic = time.time()
 
-    train_loss = trainer.train(train_dataloader, epoch, grad_scaler)
-    val_loss = trainer.evaluate(val_dataloader, epoch)
+    # Training
+    model.train()
+    model.zero_grad()
+    bar = tqdm(range(config.TRAIN_ITERS), total=config.TRAIN_ITERS)
+    train_epoch_loss = 0
+    dataset_len = 0
 
-    if best_val_loss > val_loss:
-        best_val_loss = val_loss
+    for i in bar:
+        try:
+            batch_data = next(train_generator)
+        except StopIteration:
+            train_generator = train_dataloader.__iter__()
+            batch_data = next(train_generator)
+
+        images = batch_data['inputs'].to(config.DEVICE)
+        labels = batch_data['labels'].to(config.DEVICE)
+        
+        with torch.cuda.amp.autocast(enabled=config.AMP):
+            preds = model(images)
+            loss = loss_fn(preds, labels)
+
+        optimizer.zero_grad()
+        grad_scaler.scale(loss).backward()
+        grad_scaler.step(optimizer)
+        grad_scaler.update()
+
+        train_epoch_loss += loss.item()
+        dataset_len += 1
+
+        bar.set_postfix(epoch=epoch, loss=train_epoch_loss / dataset_len,
+                    lr=optimizer.param_groups[0]['lr'])
+    
+    scheduler.step(train_epoch_loss / dataset_len)
+
+    # Validation
+    with torch.no_grad():
+        model.eval()
+        bar = tqdm(range(config.VAL_ITERS), total=config.VAL_ITERS)
+        val_epoch_loss = 0
+        dataset_len = 0
+
+        for i, batch_data in bar:
+            try:
+                batch_data = next(val_generator)
+            except StopIteration:
+                val_generator = val_dataloader.__iter__()
+                batch_data = next(val_generator)
+
+            images = batch_data['inputs'].to(config.DEVICE)
+            labels = batch_data['labels'].to(config.DEVICE)
+
+            preds = model(images)
+            loss = loss_fn(preds, labels)
+
+            val_epoch_loss += loss.item()
+            dataset_len += 1
+
+            bar.set_postfix(epoch=epoch, loss=val_epoch_loss / dataset_len)
+
+    if best_val_loss > val_epoch_loss:
+        best_val_loss = val_epoch_loss
         save_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
 
-    logger.info('\n', '-'*15, f" Epoch {epoch} ended, time taken {format_time(time.time()-tic)} ", '-'*15)
+    logger.info('-'*15 + f" Epoch {epoch} ended, time taken {format_time(time.time()-tic)} " + '-'*15)
 
 torch.cuda.empty_cache()
