@@ -54,10 +54,12 @@ val_dataloader = DataLoader(
 loss_fn = CloudLoss()
 model = CloudModel(n_channels=config.N_CHANNELS,
                    n_classes=config.N_CLASSES).to(config.DEVICE)
-optimizer = getattr(torch.optim, config.OPTIMIZER)()
+optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=2)
 grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
 trainer = Trainer(model, optimizer, loss_fn, scheduler)
+
+logger.info(f"Model has {count_parameters(model)} parameters")
 
 best_val_loss = float('inf')
 

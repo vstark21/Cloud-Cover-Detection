@@ -19,8 +19,13 @@ for name in paths:
 train_files, val_files = train_test_split(files, test_size=0.25, 
                                           random_state=config.SEED)
 
+model = CloudModel(n_channels=config.N_CHANNELS,
+                   n_classes=config.N_CLASSES).to(config.DEVICE)
+model = load_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
+model.eval()
+
 @torch.no_grad()
-def random_predict():
+def random_predict(sname="pred_0"):
     name = random.choice(val_files)
     data = np.load(name)
 
@@ -32,12 +37,7 @@ def random_predict():
     inputs = torch.Tensor(inputs)
     inputs = inputs.to(config.DEVICE)
 
-    model = CloudModel(n_channels=config.N_CHANNELS,
-                   n_classes=config.N_CLASSES).to(config.DEVICE)
-    model = load_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
-    model.eval()
-
-    pred = model(inputs).squeeze().cpu().numpy()
+    pred = torch.sigmoid(model(inputs)).squeeze().cpu().numpy()
 
     fig = plt.figure(figsize=(15, 10))
 
@@ -49,4 +49,8 @@ def random_predict():
     ax.imshow(pred, cmap='gray')
     ax.set_title("Predicton")
 
+    plt.savefig(f"preds/{sname}.png")
     plt.show()
+
+for i in range(5):
+    random_predict(f"pred_{i}")
