@@ -1,0 +1,15 @@
+2021-12-11 13:26:36.826 | INFO     | __main__:<module>:57 - Model has 4320897 parameters
+2021-12-11 13:27:58.571 | INFO     | __main__:<module>:129 - train loss: 1.7186274393399557
+2021-12-11 13:27:58.572 | INFO     | __main__:<module>:130 - train jaccard: 1.6068576963742573
+2021-12-11 13:27:58.572 | INFO     | __main__:<module>:131 - val loss: 0.5568116350968679
+2021-12-11 13:27:58.572 | INFO     | __main__:<module>:132 - val jaccard: 0.6248527081807455
+2021-12-11 13:27:58.572 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/model.pt
+2021-12-11 13:27:58.914 | INFO     | __main__:<module>:138 - Epoch 0 ended, time taken 01 min 22 sec
+
+2021-12-11 13:29:21.064 | INFO     | __main__:<module>:129 - train loss: 1.4447858856121698
+2021-12-11 13:29:21.065 | INFO     | __main__:<module>:130 - train jaccard: 1.7091396045684815
+2021-12-11 13:29:21.065 | INFO     | __main__:<module>:131 - val loss: 0.522297416528066
+2021-12-11 13:29:21.065 | INFO     | __main__:<module>:132 - val jaccard: 0.6284633954366048
+2021-12-11 13:29:21.065 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/model.pt
+2021-12-11 13:29:21.248 | INFO     | __main__:<module>:138 - Epoch 1 ended, time taken 01 min 22 sec
+
