@@ -1,0 +1,74 @@
+2021-12-11 13:51:07.659 | INFO     | __main__:<module>:58 - Model has 4320897 parameters
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100% 200/200 [01:13<00:00,  2.71it/s, epoch=0, jaccard=0.603, loss=0.645, lr=0.0005]
+
+
+
+
+
+
+100% 75/75 [00:12<00:00,  5.80it/s, epoch=0, jaccard=0.625, loss=0.53]
+2021-12-11 13:52:34.482 | INFO     | __main__:<module>:133 - train loss: 0.6453815640509128
+2021-12-11 13:52:34.483 | INFO     | __main__:<module>:134 - train jaccard: 0.602571632862091
+2021-12-11 13:52:34.483 | INFO     | __main__:<module>:135 - val loss: 0.5296285472313563
+2021-12-11 13:52:34.484 | INFO     | __main__:<module>:136 - val jaccard: 0.6248527081807455
+2021-12-11 13:52:34.486 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 13:52:36.178 | INFO     | __main__:<module>:151 - Epoch 0 ended, time taken 01 min 28 sec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

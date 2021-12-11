@@ -137,10 +137,10 @@ for epoch in range(config.EPOCHS):
 
     if config.USE_WANDB:
         wandb.log({
-            "train_loss": train_epoch_loss / config.TRAIN_BATCH_SIZE,
-            "train_jaccard": train_jacc_score / config.TRAIN_BATCH_SIZE,
-            "val_loss": val_epoch_loss / config.VAL_BATCH_SIZE,
-            "val_jaccard": val_jacc_score / config.VAL_BATCH_SIZE,
+            "train_loss": train_epoch_loss,
+            "train_jaccard": train_jacc_score,
+            "val_loss": val_epoch_loss,
+            "val_jaccard": val_jacc_score,
             "lr": optimizer.param_groups[0]['lr']
         })
 
