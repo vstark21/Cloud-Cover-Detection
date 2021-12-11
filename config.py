@@ -22,14 +22,14 @@ DATA_PATHS = [
 
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
-TRAIN_BATCH_SIZE = 8
+TRAIN_BATCH_SIZE = 4 
 EPOCHS = 50
 LEARNING_RATE = 5e-4
 AMP = True
 TRAIN_ITERS = 200
 
 # Validating
-VAL_BATCH_SIZE = 8
+VAL_BATCH_SIZE = 4
 VAL_ITERS = 75
 
 # Wandb 
