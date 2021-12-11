@@ -4,6 +4,7 @@ import cv2
 import time
 import json
 import scipy
+import wandb
 import random
 import warnings
 import numpy as np
@@ -95,8 +96,9 @@ for epoch in range(config.EPOCHS):
         bar.set_postfix(epoch=epoch, loss=train_epoch_loss / dataset_len,
                         jaccard=train_jacc_score / dataset_len,
                     lr=optimizer.param_groups[0]['lr'])
-    
-    scheduler.step(train_epoch_loss / dataset_len)
+    train_epoch_loss /= dataset_len
+    train_jacc_score /= dataset_len
+    scheduler.step(train_epoch_loss)
 
     # Validation
     with torch.no_grad():
@@ -125,11 +127,22 @@ for epoch in range(config.EPOCHS):
 
             bar.set_postfix(epoch=epoch, loss=val_epoch_loss / dataset_len,
                         jaccard=val_jacc_score / dataset_len)
+    val_epoch_loss /= dataset_len
+    val_jacc_score /= dataset_len
 
-    logger.info(f"train loss: {train_epoch_loss / dataset_len}")
-    logger.info(f"train jaccard: {train_jacc_score / dataset_len}")
-    logger.info(f"val loss: {val_epoch_loss / dataset_len}")
-    logger.info(f"val jaccard: {val_jacc_score / dataset_len}")
+    logger.info(f"train loss: {train_epoch_loss}")
+    logger.info(f"train jaccard: {train_jacc_score}")
+    logger.info(f"val loss: {val_epoch_loss}")
+    logger.info(f"val jaccard: {val_jacc_score}")
+
+    if config.USE_WANDB:
+        wandb.log({
+            "train_loss": train_epoch_loss / config.TRAIN_BATCH_SIZE,
+            "train_jaccard": train_jacc_score / config.TRAIN_BATCH_SIZE,
+            "val_loss": val_epoch_loss / config.VAL_BATCH_SIZE,
+            "val_jaccard": val_jacc_score / config.VAL_BATCH_SIZE,
+            "lr": optimizer.param_groups[0]['lr']
+        })
 
     if best_val_loss > val_epoch_loss:
         best_val_loss = val_epoch_loss

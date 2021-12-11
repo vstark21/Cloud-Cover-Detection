@@ -2,13 +2,14 @@ import os
 import torch
 from loguru import logger
 from utils import *
+import wandb
 
 SEED = 42
 VERBOSE = 1
-DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 logger.info(f"Using device: {DEVICE}")
 
-NAME = 'model'
+NAME = 'CCD'
 
 NUM_WORKERS = 2
 N_CHANNELS = 4
@@ -31,6 +32,9 @@ TRAIN_ITERS = 200
 VAL_BATCH_SIZE = 8
 VAL_ITERS = 75
 
+# Wandb 
+USE_WANDB = True
+
 # Outputs
 OUTPUT_PATH = 'outputs/'
 LOG_FILE = 'outputs/logs.log'
@@ -43,3 +47,17 @@ if os.path.exists(LOG_FILE):
     os.remove(LOG_FILE)
 
 seed_everything(SEED)
+
+if USE_WANDB:
+    wandb.init(project=NAME, entity="vstark21")
+    wandb.config = {
+        "seed": SEED,
+        "device": DEVICE,
+        "optimizer": OPTIMIZER,
+        "train_batch_size": TRAIN_BATCH_SIZE,
+        "learning_rate": LEARNING_RATE,
+        "amp": AMP,
+        "train_iters": TRAIN_ITERS,
+        "val_batch_size": VAL_BATCH_SIZE,
+        "val_iters": VAL_ITERS
+    }
