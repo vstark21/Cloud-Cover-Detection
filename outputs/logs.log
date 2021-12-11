@@ -1,311 +1,311 @@
-2021-12-11 13:55:09.689 | INFO     | __main__:<module>:58 - Model has 4320897 parameters
-2021-12-11 13:56:37.659 | INFO     | __main__:<module>:133 - train loss: 0.646156659424305
-2021-12-11 13:56:37.660 | INFO     | __main__:<module>:134 - train jaccard: 0.6025714474916458
-2021-12-11 13:56:37.660 | INFO     | __main__:<module>:135 - val loss: 0.5268987552324931
-2021-12-11 13:56:37.660 | INFO     | __main__:<module>:136 - val jaccard: 0.6248527081807455
-2021-12-11 13:56:37.662 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 13:56:38.552 | INFO     | __main__:<module>:151 - Epoch 0 ended, time taken 01 min 28 sec
+2021-12-11 15:57:52.170 | INFO     | __main__:<module>:58 - Model has 4320897 parameters
+2021-12-11 15:59:20.100 | INFO     | __main__:<module>:133 - train loss: 0.6488238003849983
+2021-12-11 15:59:20.101 | INFO     | __main__:<module>:134 - train jaccard: 0.7405132830515504
+2021-12-11 15:59:20.101 | INFO     | __main__:<module>:135 - val loss: 0.5406687591473262
+2021-12-11 15:59:20.102 | INFO     | __main__:<module>:136 - val jaccard: 0.7519247666994731
+2021-12-11 15:59:20.104 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 15:59:20.271 | INFO     | __main__:<module>:151 - Epoch 0 ended, time taken 01 min 28 sec
 
-2021-12-11 13:58:06.391 | INFO     | __main__:<module>:133 - train loss: 0.5393086003512144
-2021-12-11 13:58:06.392 | INFO     | __main__:<module>:134 - train jaccard: 0.6409270222485065
-2021-12-11 13:58:06.392 | INFO     | __main__:<module>:135 - val loss: 0.523718799551328
-2021-12-11 13:58:06.392 | INFO     | __main__:<module>:136 - val jaccard: 0.6284633954366048
-2021-12-11 13:58:06.393 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 13:58:07.038 | INFO     | __main__:<module>:151 - Epoch 1 ended, time taken 01 min 28 sec
+2021-12-11 16:00:48.295 | INFO     | __main__:<module>:133 - train loss: 0.5373260989785195
+2021-12-11 16:00:48.296 | INFO     | __main__:<module>:134 - train jaccard: 0.7850372214615345
+2021-12-11 16:00:48.296 | INFO     | __main__:<module>:135 - val loss: 0.5676360030968984
+2021-12-11 16:00:48.296 | INFO     | __main__:<module>:136 - val jaccard: 0.7555752738316854
+2021-12-11 16:00:48.297 | INFO     | __main__:<module>:151 - Epoch 1 ended, time taken 01 min 28 sec
 
-2021-12-11 13:59:34.918 | INFO     | __main__:<module>:133 - train loss: 0.510736341252923
-2021-12-11 13:59:34.919 | INFO     | __main__:<module>:134 - train jaccard: 0.6261785435676575
-2021-12-11 13:59:34.919 | INFO     | __main__:<module>:135 - val loss: 0.5578641221920649
-2021-12-11 13:59:34.919 | INFO     | __main__:<module>:136 - val jaccard: 0.6408451652526855
-2021-12-11 13:59:34.920 | INFO     | __main__:<module>:151 - Epoch 2 ended, time taken 01 min 27 sec
+2021-12-11 16:02:16.820 | INFO     | __main__:<module>:133 - train loss: 0.5058906104415655
+2021-12-11 16:02:16.821 | INFO     | __main__:<module>:134 - train jaccard: 0.7995901811122894
+2021-12-11 16:02:16.822 | INFO     | __main__:<module>:135 - val loss: 0.5013899749517441
+2021-12-11 16:02:16.822 | INFO     | __main__:<module>:136 - val jaccard: 0.7792443426450094
+2021-12-11 16:02:16.823 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 16:02:17.247 | INFO     | __main__:<module>:151 - Epoch 2 ended, time taken 01 min 28 sec
 
-2021-12-11 14:01:03.828 | INFO     | __main__:<module>:133 - train loss: 0.5294119809567929
-2021-12-11 14:01:03.829 | INFO     | __main__:<module>:134 - train jaccard: 0.6130255614966154
-2021-12-11 14:01:03.829 | INFO     | __main__:<module>:135 - val loss: 0.43210581640402473
-2021-12-11 14:01:03.829 | INFO     | __main__:<module>:136 - val jaccard: 0.613350887298584
-2021-12-11 14:01:03.830 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 14:01:03.999 | INFO     | __main__:<module>:151 - Epoch 3 ended, time taken 01 min 29 sec
+2021-12-11 16:03:45.859 | INFO     | __main__:<module>:133 - train loss: 0.5301535097509622
+2021-12-11 16:03:45.859 | INFO     | __main__:<module>:134 - train jaccard: 0.7863953830301762
+2021-12-11 16:03:45.860 | INFO     | __main__:<module>:135 - val loss: 0.45183900972207386
+2021-12-11 16:03:45.860 | INFO     | __main__:<module>:136 - val jaccard: 0.8238625001907348
+2021-12-11 16:03:45.861 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 16:03:46.145 | INFO     | __main__:<module>:151 - Epoch 3 ended, time taken 01 min 28 sec
 
-2021-12-11 14:02:33.198 | INFO     | __main__:<module>:133 - train loss: 0.5238470341265201
-2021-12-11 14:02:33.199 | INFO     | __main__:<module>:134 - train jaccard: 0.6201544101536274
-2021-12-11 14:02:33.200 | INFO     | __main__:<module>:135 - val loss: 0.5377230032285054
-2021-12-11 14:02:33.200 | INFO     | __main__:<module>:136 - val jaccard: 0.594977035522461
-2021-12-11 14:02:33.201 | INFO     | __main__:<module>:151 - Epoch 4 ended, time taken 01 min 29 sec
+2021-12-11 16:05:15.475 | INFO     | __main__:<module>:133 - train loss: 0.5231912560760975
+2021-12-11 16:05:15.476 | INFO     | __main__:<module>:134 - train jaccard: 0.7980105738341808
+2021-12-11 16:05:15.476 | INFO     | __main__:<module>:135 - val loss: 0.53760295967261
+2021-12-11 16:05:15.477 | INFO     | __main__:<module>:136 - val jaccard: 0.763587060769399
+2021-12-11 16:05:15.478 | INFO     | __main__:<module>:151 - Epoch 4 ended, time taken 01 min 29 sec
 
-2021-12-11 14:04:02.094 | INFO     | __main__:<module>:133 - train loss: 0.47167624175548556
-2021-12-11 14:04:02.095 | INFO     | __main__:<module>:134 - train jaccard: 0.6349519130587578
-2021-12-11 14:04:02.095 | INFO     | __main__:<module>:135 - val loss: 0.46671975165605545
-2021-12-11 14:04:02.096 | INFO     | __main__:<module>:136 - val jaccard: 0.6242401059468587
-2021-12-11 14:04:02.097 | INFO     | __main__:<module>:151 - Epoch 5 ended, time taken 01 min 28 sec
+2021-12-11 16:06:45.444 | INFO     | __main__:<module>:133 - train loss: 0.45917643591761587
+2021-12-11 16:06:45.445 | INFO     | __main__:<module>:134 - train jaccard: 0.8250961601734161
+2021-12-11 16:06:45.445 | INFO     | __main__:<module>:135 - val loss: 0.479555525581042
+2021-12-11 16:06:45.446 | INFO     | __main__:<module>:136 - val jaccard: 0.8108494448661804
+2021-12-11 16:06:45.447 | INFO     | __main__:<module>:151 - Epoch 5 ended, time taken 01 min 29 sec
 
-2021-12-11 14:05:31.479 | INFO     | __main__:<module>:133 - train loss: 0.4836547451466322
-2021-12-11 14:05:31.479 | INFO     | __main__:<module>:134 - train jaccard: 0.6245338018983603
-2021-12-11 14:05:31.480 | INFO     | __main__:<module>:135 - val loss: 0.44881606082121533
-2021-12-11 14:05:31.480 | INFO     | __main__:<module>:136 - val jaccard: 0.6238008689880371
-2021-12-11 14:05:31.481 | INFO     | __main__:<module>:151 - Epoch 6 ended, time taken 01 min 29 sec
+2021-12-11 16:08:15.511 | INFO     | __main__:<module>:133 - train loss: 0.472398112565279
+2021-12-11 16:08:15.512 | INFO     | __main__:<module>:134 - train jaccard: 0.8143781088292599
+2021-12-11 16:08:15.512 | INFO     | __main__:<module>:135 - val loss: 0.46196521719296774
+2021-12-11 16:08:15.512 | INFO     | __main__:<module>:136 - val jaccard: 0.812217402458191
+2021-12-11 16:08:15.513 | INFO     | __main__:<module>:151 - Epoch 6 ended, time taken 01 min 30 sec
 
-2021-12-11 14:07:01.608 | INFO     | __main__:<module>:133 - train loss: 0.4688761217147112
-2021-12-11 14:07:01.608 | INFO     | __main__:<module>:134 - train jaccard: 0.6267054115235805
-2021-12-11 14:07:01.609 | INFO     | __main__:<module>:135 - val loss: 0.4641545556982358
-2021-12-11 14:07:01.609 | INFO     | __main__:<module>:136 - val jaccard: 0.6430860646565755
-2021-12-11 14:07:01.610 | INFO     | __main__:<module>:151 - Epoch 7 ended, time taken 01 min 30 sec
+2021-12-11 16:09:45.827 | INFO     | __main__:<module>:133 - train loss: 0.46831098936498167
+2021-12-11 16:09:45.827 | INFO     | __main__:<module>:134 - train jaccard: 0.8162648622691632
+2021-12-11 16:09:45.828 | INFO     | __main__:<module>:135 - val loss: 0.46238941023747127
+2021-12-11 16:09:45.828 | INFO     | __main__:<module>:136 - val jaccard: 0.8177833779652913
+2021-12-11 16:09:45.829 | INFO     | __main__:<module>:151 - Epoch 7 ended, time taken 01 min 30 sec
 
-2021-12-11 14:08:30.981 | INFO     | __main__:<module>:133 - train loss: 0.47609766766428946
-2021-12-11 14:08:30.982 | INFO     | __main__:<module>:134 - train jaccard: 0.6139057430624962
-2021-12-11 14:08:30.982 | INFO     | __main__:<module>:135 - val loss: 0.4191085920731227
-2021-12-11 14:08:30.982 | INFO     | __main__:<module>:136 - val jaccard: 0.6201348241170247
-2021-12-11 14:08:30.983 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 14:08:31.191 | INFO     | __main__:<module>:151 - Epoch 8 ended, time taken 01 min 29 sec
+2021-12-11 16:11:15.760 | INFO     | __main__:<module>:133 - train loss: 0.4681067307293415
+2021-12-11 16:11:15.761 | INFO     | __main__:<module>:134 - train jaccard: 0.815970496982336
+2021-12-11 16:11:15.761 | INFO     | __main__:<module>:135 - val loss: 0.4106277167797089
+2021-12-11 16:11:15.762 | INFO     | __main__:<module>:136 - val jaccard: 0.8503640739123026
+2021-12-11 16:11:15.763 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 16:11:16.206 | INFO     | __main__:<module>:151 - Epoch 8 ended, time taken 01 min 30 sec
 
-2021-12-11 14:10:01.272 | INFO     | __main__:<module>:133 - train loss: 0.5003075224161148
-2021-12-11 14:10:01.273 | INFO     | __main__:<module>:134 - train jaccard: 0.6264351939409971
-2021-12-11 14:10:01.273 | INFO     | __main__:<module>:135 - val loss: 0.4797227277358373
-2021-12-11 14:10:01.274 | INFO     | __main__:<module>:136 - val jaccard: 0.5944573402404785
-2021-12-11 14:10:01.275 | INFO     | __main__:<module>:151 - Epoch 9 ended, time taken 01 min 30 sec
+2021-12-11 16:12:46.674 | INFO     | __main__:<module>:133 - train loss: 0.4783392360061407
+2021-12-11 16:12:46.675 | INFO     | __main__:<module>:134 - train jaccard: 0.812681455463171
+2021-12-11 16:12:46.676 | INFO     | __main__:<module>:135 - val loss: 0.4628760822614034
+2021-12-11 16:12:46.676 | INFO     | __main__:<module>:136 - val jaccard: 0.8101133334636689
+2021-12-11 16:12:46.677 | INFO     | __main__:<module>:151 - Epoch 9 ended, time taken 01 min 30 sec
 
-2021-12-11 14:11:31.098 | INFO     | __main__:<module>:133 - train loss: 0.4441223393380642
-2021-12-11 14:11:31.099 | INFO     | __main__:<module>:134 - train jaccard: 0.6159417743235827
-2021-12-11 14:11:31.099 | INFO     | __main__:<module>:135 - val loss: 0.4174686878919601
-2021-12-11 14:11:31.099 | INFO     | __main__:<module>:136 - val jaccard: 0.6153972562154134
-2021-12-11 14:11:31.100 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 14:11:31.234 | INFO     | __main__:<module>:151 - Epoch 10 ended, time taken 01 min 29 sec
+2021-12-11 16:14:17.169 | INFO     | __main__:<module>:133 - train loss: 0.41892759218811987
+2021-12-11 16:14:17.170 | INFO     | __main__:<module>:134 - train jaccard: 0.8392974160611629
+2021-12-11 16:14:17.170 | INFO     | __main__:<module>:135 - val loss: 0.4228638885418574
+2021-12-11 16:14:17.171 | INFO     | __main__:<module>:136 - val jaccard: 0.8306384313106537
+2021-12-11 16:14:17.172 | INFO     | __main__:<module>:151 - Epoch 10 ended, time taken 01 min 30 sec
 
-2021-12-11 14:13:00.942 | INFO     | __main__:<module>:133 - train loss: 0.44124715693295
-2021-12-11 14:13:00.943 | INFO     | __main__:<module>:134 - train jaccard: 0.6289459405839444
-2021-12-11 14:13:00.943 | INFO     | __main__:<module>:135 - val loss: 0.41808079610268273
-2021-12-11 14:13:00.943 | INFO     | __main__:<module>:136 - val jaccard: 0.6399680201212565
-2021-12-11 14:13:00.944 | INFO     | __main__:<module>:151 - Epoch 11 ended, time taken 01 min 29 sec
+2021-12-11 16:15:47.208 | INFO     | __main__:<module>:133 - train loss: 0.41803196161985395
+2021-12-11 16:15:47.209 | INFO     | __main__:<module>:134 - train jaccard: 0.8399770265817642
+2021-12-11 16:15:47.209 | INFO     | __main__:<module>:135 - val loss: 0.41957983126242954
+2021-12-11 16:15:47.209 | INFO     | __main__:<module>:136 - val jaccard: 0.8363693122069041
+2021-12-11 16:15:47.211 | INFO     | __main__:<module>:151 - Epoch 11 ended, time taken 01 min 30 sec
 
-2021-12-11 14:14:30.624 | INFO     | __main__:<module>:133 - train loss: 0.4792619440704584
-2021-12-11 14:14:30.625 | INFO     | __main__:<module>:134 - train jaccard: 0.6150527129322291
-2021-12-11 14:14:30.626 | INFO     | __main__:<module>:135 - val loss: 0.4200089812278748
-2021-12-11 14:14:30.626 | INFO     | __main__:<module>:136 - val jaccard: 0.6364493815104166
-2021-12-11 14:14:30.627 | INFO     | __main__:<module>:151 - Epoch 12 ended, time taken 01 min 29 sec
+2021-12-11 16:17:16.747 | INFO     | __main__:<module>:133 - train loss: 0.44664844788610936
+2021-12-11 16:17:16.748 | INFO     | __main__:<module>:134 - train jaccard: 0.8305050726234913
+2021-12-11 16:17:16.748 | INFO     | __main__:<module>:135 - val loss: 0.408526540795962
+2021-12-11 16:17:16.748 | INFO     | __main__:<module>:136 - val jaccard: 0.842278114159902
+2021-12-11 16:17:16.749 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 16:17:16.968 | INFO     | __main__:<module>:151 - Epoch 12 ended, time taken 01 min 29 sec
 
-2021-12-11 14:16:00.238 | INFO     | __main__:<module>:133 - train loss: 0.4441219501942396
-2021-12-11 14:16:00.238 | INFO     | __main__:<module>:134 - train jaccard: 0.6431713312119246
-2021-12-11 14:16:00.239 | INFO     | __main__:<module>:135 - val loss: 0.37542064130306246
-2021-12-11 14:16:00.239 | INFO     | __main__:<module>:136 - val jaccard: 0.6103177452087403
-2021-12-11 14:16:00.240 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 14:16:00.368 | INFO     | __main__:<module>:151 - Epoch 13 ended, time taken 01 min 29 sec
+2021-12-11 16:18:46.464 | INFO     | __main__:<module>:133 - train loss: 0.4145844457298517
+2021-12-11 16:18:46.465 | INFO     | __main__:<module>:134 - train jaccard: 0.8400402644276619
+2021-12-11 16:18:46.465 | INFO     | __main__:<module>:135 - val loss: 0.3614110291004181
+2021-12-11 16:18:46.465 | INFO     | __main__:<module>:136 - val jaccard: 0.8544665479660034
+2021-12-11 16:18:46.466 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 16:18:46.986 | INFO     | __main__:<module>:151 - Epoch 13 ended, time taken 01 min 30 sec
 
-2021-12-11 14:17:29.694 | INFO     | __main__:<module>:133 - train loss: 0.44022622413933277
-2021-12-11 14:17:29.695 | INFO     | __main__:<module>:134 - train jaccard: 0.6149813832342624
-2021-12-11 14:17:29.695 | INFO     | __main__:<module>:135 - val loss: 0.45398053477207817
-2021-12-11 14:17:29.696 | INFO     | __main__:<module>:136 - val jaccard: 0.6010610262552897
-2021-12-11 14:17:29.697 | INFO     | __main__:<module>:151 - Epoch 14 ended, time taken 01 min 29 sec
+2021-12-11 16:20:17.704 | INFO     | __main__:<module>:133 - train loss: 0.4155744735896587
+2021-12-11 16:20:17.705 | INFO     | __main__:<module>:134 - train jaccard: 0.840627643764019
+2021-12-11 16:20:17.706 | INFO     | __main__:<module>:135 - val loss: 0.4269807700316111
+2021-12-11 16:20:17.706 | INFO     | __main__:<module>:136 - val jaccard: 0.8298962259292603
+2021-12-11 16:20:17.707 | INFO     | __main__:<module>:151 - Epoch 14 ended, time taken 01 min 30 sec
 
-2021-12-11 14:18:59.688 | INFO     | __main__:<module>:133 - train loss: 0.44624439723789694
-2021-12-11 14:18:59.689 | INFO     | __main__:<module>:134 - train jaccard: 0.6206066273152828
-2021-12-11 14:18:59.690 | INFO     | __main__:<module>:135 - val loss: 0.436459505657355
-2021-12-11 14:18:59.690 | INFO     | __main__:<module>:136 - val jaccard: 0.6123656527201334
-2021-12-11 14:18:59.691 | INFO     | __main__:<module>:151 - Epoch 15 ended, time taken 01 min 29 sec
+2021-12-11 16:21:48.340 | INFO     | __main__:<module>:133 - train loss: 0.42605579443275926
+2021-12-11 16:21:48.341 | INFO     | __main__:<module>:134 - train jaccard: 0.8345679610967636
+2021-12-11 16:21:48.341 | INFO     | __main__:<module>:135 - val loss: 0.40426927189032236
+2021-12-11 16:21:48.342 | INFO     | __main__:<module>:136 - val jaccard: 0.8404279919465383
+2021-12-11 16:21:48.343 | INFO     | __main__:<module>:151 - Epoch 15 ended, time taken 01 min 30 sec
 
-2021-12-11 14:20:29.908 | INFO     | __main__:<module>:133 - train loss: 0.42304760761559007
-2021-12-11 14:20:29.909 | INFO     | __main__:<module>:134 - train jaccard: 0.6130254153907299
-2021-12-11 14:20:29.909 | INFO     | __main__:<module>:135 - val loss: 0.4458241719007492
-2021-12-11 14:20:29.910 | INFO     | __main__:<module>:136 - val jaccard: 0.6458476066589356
-2021-12-11 14:20:29.911 | INFO     | __main__:<module>:151 - Epoch 16 ended, time taken 01 min 30 sec
+2021-12-11 16:23:18.451 | INFO     | __main__:<module>:133 - train loss: 0.401763272061944
+2021-12-11 16:23:18.452 | INFO     | __main__:<module>:134 - train jaccard: 0.8439876560866832
+2021-12-11 16:23:18.452 | INFO     | __main__:<module>:135 - val loss: 0.38414023727178576
+2021-12-11 16:23:18.453 | INFO     | __main__:<module>:136 - val jaccard: 0.8505622406800588
+2021-12-11 16:23:18.454 | INFO     | __main__:<module>:151 - Epoch 16 ended, time taken 01 min 30 sec
 
-2021-12-11 14:21:59.637 | INFO     | __main__:<module>:133 - train loss: 0.44006551124155524
-2021-12-11 14:21:59.638 | INFO     | __main__:<module>:134 - train jaccard: 0.6283038011193276
-2021-12-11 14:21:59.638 | INFO     | __main__:<module>:135 - val loss: 0.4282891043027242
-2021-12-11 14:21:59.638 | INFO     | __main__:<module>:136 - val jaccard: 0.6365637524922689
-2021-12-11 14:21:59.639 | INFO     | __main__:<module>:151 - Epoch 17 ended, time taken 01 min 29 sec
+2021-12-11 16:24:48.402 | INFO     | __main__:<module>:133 - train loss: 0.41197559632360936
+2021-12-11 16:24:48.403 | INFO     | __main__:<module>:134 - train jaccard: 0.8450539436936378
+2021-12-11 16:24:48.403 | INFO     | __main__:<module>:135 - val loss: 0.4079111351569494
+2021-12-11 16:24:48.404 | INFO     | __main__:<module>:136 - val jaccard: 0.8485632737477621
+2021-12-11 16:24:48.405 | INFO     | __main__:<module>:151 - Epoch 17 ended, time taken 01 min 29 sec
 
-2021-12-11 14:23:29.233 | INFO     | __main__:<module>:133 - train loss: 0.41590379022061824
-2021-12-11 14:23:29.234 | INFO     | __main__:<module>:134 - train jaccard: 0.6128170645236969
-2021-12-11 14:23:29.234 | INFO     | __main__:<module>:135 - val loss: 0.3765786943833033
-2021-12-11 14:23:29.235 | INFO     | __main__:<module>:136 - val jaccard: 0.6032613881429036
-2021-12-11 14:23:29.236 | INFO     | __main__:<module>:151 - Epoch 18 ended, time taken 01 min 29 sec
+2021-12-11 16:26:18.585 | INFO     | __main__:<module>:133 - train loss: 0.3893720867484808
+2021-12-11 16:26:18.586 | INFO     | __main__:<module>:134 - train jaccard: 0.8463842239975929
+2021-12-11 16:26:18.586 | INFO     | __main__:<module>:135 - val loss: 0.35363014121850334
+2021-12-11 16:26:18.587 | INFO     | __main__:<module>:136 - val jaccard: 0.8622604219118754
+2021-12-11 16:26:18.588 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 16:26:18.854 | INFO     | __main__:<module>:151 - Epoch 18 ended, time taken 01 min 30 sec
 
-2021-12-11 14:24:59.029 | INFO     | __main__:<module>:133 - train loss: 0.42906313069164753
-2021-12-11 14:24:59.030 | INFO     | __main__:<module>:134 - train jaccard: 0.6285211401432753
-2021-12-11 14:24:59.031 | INFO     | __main__:<module>:135 - val loss: 0.4928216862678528
-2021-12-11 14:24:59.031 | INFO     | __main__:<module>:136 - val jaccard: 0.6030845832824707
-2021-12-11 14:24:59.032 | INFO     | __main__:<module>:151 - Epoch 19 ended, time taken 01 min 29 sec
+2021-12-11 16:27:49.337 | INFO     | __main__:<module>:133 - train loss: 0.39933077298104763
+2021-12-11 16:27:49.338 | INFO     | __main__:<module>:134 - train jaccard: 0.8497686789929867
+2021-12-11 16:27:49.338 | INFO     | __main__:<module>:135 - val loss: 0.47604437271753947
+2021-12-11 16:27:49.338 | INFO     | __main__:<module>:136 - val jaccard: 0.8063607541720073
+2021-12-11 16:27:49.340 | INFO     | __main__:<module>:151 - Epoch 19 ended, time taken 01 min 30 sec
 
-2021-12-11 14:26:28.707 | INFO     | __main__:<module>:133 - train loss: 0.4037259259074926
-2021-12-11 14:26:28.708 | INFO     | __main__:<module>:134 - train jaccard: 0.6179103268682957
-2021-12-11 14:26:28.708 | INFO     | __main__:<module>:135 - val loss: 0.4793245313564936
-2021-12-11 14:26:28.708 | INFO     | __main__:<module>:136 - val jaccard: 0.6233240954081217
-2021-12-11 14:26:28.709 | INFO     | __main__:<module>:151 - Epoch 20 ended, time taken 01 min 29 sec
+2021-12-11 16:29:19.458 | INFO     | __main__:<module>:133 - train loss: 0.3914919786155224
+2021-12-11 16:29:19.459 | INFO     | __main__:<module>:134 - train jaccard: 0.8499189481139183
+2021-12-11 16:29:19.459 | INFO     | __main__:<module>:135 - val loss: 0.4083689264456431
+2021-12-11 16:29:19.460 | INFO     | __main__:<module>:136 - val jaccard: 0.8360710593064626
+2021-12-11 16:29:19.461 | INFO     | __main__:<module>:151 - Epoch 20 ended, time taken 01 min 30 sec
 
-2021-12-11 14:27:58.122 | INFO     | __main__:<module>:133 - train loss: 0.4392155222594738
-2021-12-11 14:27:58.122 | INFO     | __main__:<module>:134 - train jaccard: 0.6222565372288227
-2021-12-11 14:27:58.123 | INFO     | __main__:<module>:135 - val loss: 0.4201839417219162
-2021-12-11 14:27:58.123 | INFO     | __main__:<module>:136 - val jaccard: 0.6330409304300944
-2021-12-11 14:27:58.124 | INFO     | __main__:<module>:151 - Epoch 21 ended, time taken 01 min 29 sec
+2021-12-11 16:30:50.204 | INFO     | __main__:<module>:133 - train loss: 0.41714706376194954
+2021-12-11 16:30:50.205 | INFO     | __main__:<module>:134 - train jaccard: 0.842201132774353
+2021-12-11 16:30:50.205 | INFO     | __main__:<module>:135 - val loss: 0.37856476376454035
+2021-12-11 16:30:50.206 | INFO     | __main__:<module>:136 - val jaccard: 0.859558823108673
+2021-12-11 16:30:50.207 | INFO     | __main__:<module>:151 - Epoch 21 ended, time taken 01 min 30 sec
 
-2021-12-11 14:29:28.191 | INFO     | __main__:<module>:133 - train loss: 0.43342239767313
-2021-12-11 14:29:28.192 | INFO     | __main__:<module>:134 - train jaccard: 0.614565332531929
-2021-12-11 14:29:28.193 | INFO     | __main__:<module>:135 - val loss: 0.3869247698783875
-2021-12-11 14:29:28.193 | INFO     | __main__:<module>:136 - val jaccard: 0.6319149843851726
-2021-12-11 14:29:28.194 | INFO     | __main__:<module>:151 - Epoch 22 ended, time taken 01 min 30 sec
+2021-12-11 16:32:21.048 | INFO     | __main__:<module>:133 - train loss: 0.4102696444094181
+2021-12-11 16:32:21.049 | INFO     | __main__:<module>:134 - train jaccard: 0.8434269186854363
+2021-12-11 16:32:21.050 | INFO     | __main__:<module>:135 - val loss: 0.3670243454972903
+2021-12-11 16:32:21.050 | INFO     | __main__:<module>:136 - val jaccard: 0.8625702313582102
+2021-12-11 16:32:21.051 | INFO     | __main__:<module>:151 - Epoch 22 ended, time taken 01 min 30 sec
 
-2021-12-11 14:30:57.749 | INFO     | __main__:<module>:133 - train loss: 0.40036450922489164
-2021-12-11 14:30:57.750 | INFO     | __main__:<module>:134 - train jaccard: 0.6234293891489506
-2021-12-11 14:30:57.750 | INFO     | __main__:<module>:135 - val loss: 0.3770381361246109
-2021-12-11 14:30:57.750 | INFO     | __main__:<module>:136 - val jaccard: 0.6108477719624837
-2021-12-11 14:30:57.751 | INFO     | __main__:<module>:151 - Epoch 23 ended, time taken 01 min 29 sec
+2021-12-11 16:33:51.925 | INFO     | __main__:<module>:133 - train loss: 0.3849610321968794
+2021-12-11 16:33:51.926 | INFO     | __main__:<module>:134 - train jaccard: 0.8522852782905102
+2021-12-11 16:33:51.926 | INFO     | __main__:<module>:135 - val loss: 0.34571551859378813
+2021-12-11 16:33:51.926 | INFO     | __main__:<module>:136 - val jaccard: 0.8649080999692281
+2021-12-11 16:33:51.927 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 16:33:52.103 | INFO     | __main__:<module>:151 - Epoch 23 ended, time taken 01 min 31 sec
 
-2021-12-11 14:32:27.757 | INFO     | __main__:<module>:133 - train loss: 0.43184120923280717
-2021-12-11 14:32:27.758 | INFO     | __main__:<module>:134 - train jaccard: 0.6227961388230324
-2021-12-11 14:32:27.758 | INFO     | __main__:<module>:135 - val loss: 0.450810429751873
-2021-12-11 14:32:27.759 | INFO     | __main__:<module>:136 - val jaccard: 0.6046524365743001
-2021-12-11 14:32:27.760 | INFO     | __main__:<module>:151 - Epoch 24 ended, time taken 01 min 30 sec
+2021-12-11 16:35:22.989 | INFO     | __main__:<module>:133 - train loss: 0.4113587200641632
+2021-12-11 16:35:22.990 | INFO     | __main__:<module>:134 - train jaccard: 0.846588339060545
+2021-12-11 16:35:22.991 | INFO     | __main__:<module>:135 - val loss: 0.4314040187994639
+2021-12-11 16:35:22.991 | INFO     | __main__:<module>:136 - val jaccard: 0.8296594270070394
+2021-12-11 16:35:22.992 | INFO     | __main__:<module>:151 - Epoch 24 ended, time taken 01 min 30 sec
 
-2021-12-11 14:33:57.879 | INFO     | __main__:<module>:133 - train loss: 0.3912580247223377
-2021-12-11 14:33:57.879 | INFO     | __main__:<module>:134 - train jaccard: 0.6374609149992466
-2021-12-11 14:33:57.880 | INFO     | __main__:<module>:135 - val loss: 0.41936610410610836
-2021-12-11 14:33:57.880 | INFO     | __main__:<module>:136 - val jaccard: 0.6299644978841146
-2021-12-11 14:33:57.881 | INFO     | __main__:<module>:151 - Epoch 25 ended, time taken 01 min 30 sec
+2021-12-11 16:36:53.521 | INFO     | __main__:<module>:133 - train loss: 0.374387569129467
+2021-12-11 16:36:53.522 | INFO     | __main__:<module>:134 - train jaccard: 0.8607207554578781
+2021-12-11 16:36:53.522 | INFO     | __main__:<module>:135 - val loss: 0.3904444697499275
+2021-12-11 16:36:53.523 | INFO     | __main__:<module>:136 - val jaccard: 0.8474225930372874
+2021-12-11 16:36:53.524 | INFO     | __main__:<module>:151 - Epoch 25 ended, time taken 01 min 30 sec
 
-2021-12-11 14:35:28.065 | INFO     | __main__:<module>:133 - train loss: 0.41883114326745274
-2021-12-11 14:35:28.066 | INFO     | __main__:<module>:134 - train jaccard: 0.6119538989663124
-2021-12-11 14:35:28.066 | INFO     | __main__:<module>:135 - val loss: 0.4284171046813329
-2021-12-11 14:35:28.066 | INFO     | __main__:<module>:136 - val jaccard: 0.6276269467671712
-2021-12-11 14:35:28.067 | INFO     | __main__:<module>:151 - Epoch 26 ended, time taken 01 min 30 sec
+2021-12-11 16:38:24.000 | INFO     | __main__:<module>:133 - train loss: 0.40718019764870406
+2021-12-11 16:38:24.001 | INFO     | __main__:<module>:134 - train jaccard: 0.8420125308632851
+2021-12-11 16:38:24.001 | INFO     | __main__:<module>:135 - val loss: 0.3661644434928894
+2021-12-11 16:38:24.001 | INFO     | __main__:<module>:136 - val jaccard: 0.8595059291521708
+2021-12-11 16:38:24.002 | INFO     | __main__:<module>:151 - Epoch 26 ended, time taken 01 min 30 sec
 
-2021-12-11 14:36:57.507 | INFO     | __main__:<module>:133 - train loss: 0.41206715662032367
-2021-12-11 14:36:57.508 | INFO     | __main__:<module>:134 - train jaccard: 0.6133636810630559
-2021-12-11 14:36:57.508 | INFO     | __main__:<module>:135 - val loss: 0.41486639966567357
-2021-12-11 14:36:57.508 | INFO     | __main__:<module>:136 - val jaccard: 0.6320488548278809
-2021-12-11 14:36:57.510 | INFO     | __main__:<module>:151 - Epoch 27 ended, time taken 01 min 29 sec
+2021-12-11 16:39:54.836 | INFO     | __main__:<module>:133 - train loss: 0.40099063344299796
+2021-12-11 16:39:54.838 | INFO     | __main__:<module>:134 - train jaccard: 0.8477918982505799
+2021-12-11 16:39:54.838 | INFO     | __main__:<module>:135 - val loss: 0.3849031564593315
+2021-12-11 16:39:54.839 | INFO     | __main__:<module>:136 - val jaccard: 0.852951542933782
+2021-12-11 16:39:54.840 | INFO     | __main__:<module>:151 - Epoch 27 ended, time taken 01 min 30 sec
 
-2021-12-11 14:38:27.599 | INFO     | __main__:<module>:133 - train loss: 0.4255444473773241
-2021-12-11 14:38:27.600 | INFO     | __main__:<module>:134 - train jaccard: 0.639566655755043
-2021-12-11 14:38:27.600 | INFO     | __main__:<module>:135 - val loss: 0.33988806188106535
-2021-12-11 14:38:27.600 | INFO     | __main__:<module>:136 - val jaccard: 0.6005804824829102
-2021-12-11 14:38:27.601 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 14:38:27.862 | INFO     | __main__:<module>:151 - Epoch 28 ended, time taken 01 min 30 sec
+2021-12-11 16:41:25.117 | INFO     | __main__:<module>:133 - train loss: 0.3991218776255846
+2021-12-11 16:41:25.117 | INFO     | __main__:<module>:134 - train jaccard: 0.8534026551246643
+2021-12-11 16:41:25.118 | INFO     | __main__:<module>:135 - val loss: 0.337967127263546
+2021-12-11 16:41:25.118 | INFO     | __main__:<module>:136 - val jaccard: 0.8691308665275573
+2021-12-11 16:41:25.119 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 16:41:25.320 | INFO     | __main__:<module>:151 - Epoch 28 ended, time taken 01 min 30 sec
 
-2021-12-11 14:39:58.006 | INFO     | __main__:<module>:133 - train loss: 0.391265180259943
-2021-12-11 14:39:58.007 | INFO     | __main__:<module>:134 - train jaccard: 0.6240280169248581
-2021-12-11 14:39:58.007 | INFO     | __main__:<module>:135 - val loss: 0.43230796585480374
-2021-12-11 14:39:58.007 | INFO     | __main__:<module>:136 - val jaccard: 0.6062343215942383
-2021-12-11 14:39:58.008 | INFO     | __main__:<module>:151 - Epoch 29 ended, time taken 01 min 30 sec
+2021-12-11 16:42:55.997 | INFO     | __main__:<module>:133 - train loss: 0.39360800966620446
+2021-12-11 16:42:55.998 | INFO     | __main__:<module>:134 - train jaccard: 0.8520146170258522
+2021-12-11 16:42:55.998 | INFO     | __main__:<module>:135 - val loss: 0.4340500988562902
+2021-12-11 16:42:55.999 | INFO     | __main__:<module>:136 - val jaccard: 0.8316444361209869
+2021-12-11 16:42:56.000 | INFO     | __main__:<module>:151 - Epoch 29 ended, time taken 01 min 30 sec
 
-2021-12-11 14:41:27.453 | INFO     | __main__:<module>:133 - train loss: 0.35948400139808656
-2021-12-11 14:41:27.454 | INFO     | __main__:<module>:134 - train jaccard: 0.6152504117786884
-2021-12-11 14:41:27.454 | INFO     | __main__:<module>:135 - val loss: 0.34710152039925257
-2021-12-11 14:41:27.454 | INFO     | __main__:<module>:136 - val jaccard: 0.635446891784668
-2021-12-11 14:41:27.455 | INFO     | __main__:<module>:151 - Epoch 30 ended, time taken 01 min 29 sec
+2021-12-11 16:44:26.378 | INFO     | __main__:<module>:133 - train loss: 0.3706236094981432
+2021-12-11 16:44:26.379 | INFO     | __main__:<module>:134 - train jaccard: 0.8539052471518517
+2021-12-11 16:44:26.380 | INFO     | __main__:<module>:135 - val loss: 0.34804211646318434
+2021-12-11 16:44:26.380 | INFO     | __main__:<module>:136 - val jaccard: 0.8666736102104187
+2021-12-11 16:44:26.381 | INFO     | __main__:<module>:151 - Epoch 30 ended, time taken 01 min 30 sec
 
-2021-12-11 14:42:57.449 | INFO     | __main__:<module>:133 - train loss: 0.33761438343673944
-2021-12-11 14:42:57.450 | INFO     | __main__:<module>:134 - train jaccard: 0.6228593304753304
-2021-12-11 14:42:57.450 | INFO     | __main__:<module>:135 - val loss: 0.3984194205204646
-2021-12-11 14:42:57.450 | INFO     | __main__:<module>:136 - val jaccard: 0.6307914924621582
-2021-12-11 14:42:57.451 | INFO     | __main__:<module>:151 - Epoch 31 ended, time taken 01 min 29 sec
+2021-12-11 16:45:56.451 | INFO     | __main__:<module>:133 - train loss: 0.3512609250098467
+2021-12-11 16:45:56.452 | INFO     | __main__:<module>:134 - train jaccard: 0.8631112241744995
+2021-12-11 16:45:56.452 | INFO     | __main__:<module>:135 - val loss: 0.38753527492284773
+2021-12-11 16:45:56.453 | INFO     | __main__:<module>:136 - val jaccard: 0.8539900124073029
+2021-12-11 16:45:56.454 | INFO     | __main__:<module>:151 - Epoch 31 ended, time taken 01 min 30 sec
 
-2021-12-11 14:44:27.083 | INFO     | __main__:<module>:133 - train loss: 0.39474460944533346
-2021-12-11 14:44:27.083 | INFO     | __main__:<module>:134 - train jaccard: 0.6192181585729122
-2021-12-11 14:44:27.084 | INFO     | __main__:<module>:135 - val loss: 0.35655731449524564
-2021-12-11 14:44:27.084 | INFO     | __main__:<module>:136 - val jaccard: 0.6222621917724609
-2021-12-11 14:44:27.085 | INFO     | __main__:<module>:151 - Epoch 32 ended, time taken 01 min 29 sec
+2021-12-11 16:47:27.151 | INFO     | __main__:<module>:133 - train loss: 0.40582608424127103
+2021-12-11 16:47:27.152 | INFO     | __main__:<module>:134 - train jaccard: 0.8463723528385162
+2021-12-11 16:47:27.152 | INFO     | __main__:<module>:135 - val loss: 0.3674411458770434
+2021-12-11 16:47:27.152 | INFO     | __main__:<module>:136 - val jaccard: 0.8583826839923858
+2021-12-11 16:47:27.153 | INFO     | __main__:<module>:151 - Epoch 32 ended, time taken 01 min 30 sec
 
-2021-12-11 14:45:57.126 | INFO     | __main__:<module>:133 - train loss: 0.4044182217493653
-2021-12-11 14:45:57.127 | INFO     | __main__:<module>:134 - train jaccard: 0.628461051248014
-2021-12-11 14:45:57.127 | INFO     | __main__:<module>:135 - val loss: 0.34656336655219394
-2021-12-11 14:45:57.127 | INFO     | __main__:<module>:136 - val jaccard: 0.6040879948933919
-2021-12-11 14:45:57.128 | INFO     | __main__:<module>:151 - Epoch 33 ended, time taken 01 min 30 sec
+2021-12-11 16:48:57.708 | INFO     | __main__:<module>:133 - train loss: 0.41966858983039856
+2021-12-11 16:48:57.709 | INFO     | __main__:<module>:134 - train jaccard: 0.8406629958748817
+2021-12-11 16:48:57.709 | INFO     | __main__:<module>:135 - val loss: 0.3518131943543752
+2021-12-11 16:48:57.709 | INFO     | __main__:<module>:136 - val jaccard: 0.863832426071167
+2021-12-11 16:48:57.711 | INFO     | __main__:<module>:151 - Epoch 33 ended, time taken 01 min 30 sec
 
-2021-12-11 14:47:27.805 | INFO     | __main__:<module>:133 - train loss: 0.36113354422152044
-2021-12-11 14:47:27.806 | INFO     | __main__:<module>:134 - train jaccard: 0.6143990185856819
-2021-12-11 14:47:27.806 | INFO     | __main__:<module>:135 - val loss: 0.41658716460069023
-2021-12-11 14:47:27.807 | INFO     | __main__:<module>:136 - val jaccard: 0.6127950922648112
-2021-12-11 14:47:27.808 | INFO     | __main__:<module>:151 - Epoch 34 ended, time taken 01 min 30 sec
+2021-12-11 16:50:27.402 | INFO     | __main__:<module>:133 - train loss: 0.3788202218711376
+2021-12-11 16:50:27.403 | INFO     | __main__:<module>:134 - train jaccard: 0.8542559707164764
+2021-12-11 16:50:27.404 | INFO     | __main__:<module>:135 - val loss: 0.4172068539261818
+2021-12-11 16:50:27.404 | INFO     | __main__:<module>:136 - val jaccard: 0.8355282668272654
+2021-12-11 16:50:27.405 | INFO     | __main__:<module>:151 - Epoch 34 ended, time taken 01 min 29 sec
 
-2021-12-11 14:48:57.744 | INFO     | __main__:<module>:133 - train loss: 0.36583212308585644
-2021-12-11 14:48:57.745 | INFO     | __main__:<module>:134 - train jaccard: 0.623700056746602
-2021-12-11 14:48:57.745 | INFO     | __main__:<module>:135 - val loss: 0.3638471923271815
-2021-12-11 14:48:57.745 | INFO     | __main__:<module>:136 - val jaccard: 0.6322198422749837
-2021-12-11 14:48:57.746 | INFO     | __main__:<module>:151 - Epoch 35 ended, time taken 01 min 29 sec
+2021-12-11 16:51:57.976 | INFO     | __main__:<module>:133 - train loss: 0.38333740934729577
+2021-12-11 16:51:57.977 | INFO     | __main__:<module>:134 - train jaccard: 0.8548403133451938
+2021-12-11 16:51:57.977 | INFO     | __main__:<module>:135 - val loss: 0.37568435768286385
+2021-12-11 16:51:57.977 | INFO     | __main__:<module>:136 - val jaccard: 0.854681918223699
+2021-12-11 16:51:57.978 | INFO     | __main__:<module>:151 - Epoch 35 ended, time taken 01 min 30 sec
 
-2021-12-11 14:50:27.389 | INFO     | __main__:<module>:133 - train loss: 0.373114584684372
-2021-12-11 14:50:27.390 | INFO     | __main__:<module>:134 - train jaccard: 0.6198460757732391
-2021-12-11 14:50:27.390 | INFO     | __main__:<module>:135 - val loss: 0.3628432498375575
-2021-12-11 14:50:27.391 | INFO     | __main__:<module>:136 - val jaccard: 0.6350148328145345
-2021-12-11 14:50:27.392 | INFO     | __main__:<module>:151 - Epoch 36 ended, time taken 01 min 29 sec
+2021-12-11 16:53:27.874 | INFO     | __main__:<module>:133 - train loss: 0.39087208978831767
+2021-12-11 16:53:27.874 | INFO     | __main__:<module>:134 - train jaccard: 0.8501670117676258
+2021-12-11 16:53:27.875 | INFO     | __main__:<module>:135 - val loss: 0.37264289687077207
+2021-12-11 16:53:27.875 | INFO     | __main__:<module>:136 - val jaccard: 0.8578592133522034
+2021-12-11 16:53:27.876 | INFO     | __main__:<module>:151 - Epoch 36 ended, time taken 01 min 29 sec
 
-2021-12-11 14:51:57.398 | INFO     | __main__:<module>:133 - train loss: 0.3600391342490912
-2021-12-11 14:51:57.398 | INFO     | __main__:<module>:134 - train jaccard: 0.6281333976984024
-2021-12-11 14:51:57.399 | INFO     | __main__:<module>:135 - val loss: 0.33922447234392167
-2021-12-11 14:51:57.399 | INFO     | __main__:<module>:136 - val jaccard: 0.6149501609802246
-2021-12-11 14:51:57.400 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 14:51:57.576 | INFO     | __main__:<module>:151 - Epoch 37 ended, time taken 01 min 30 sec
+2021-12-11 16:54:58.244 | INFO     | __main__:<module>:133 - train loss: 0.380651046782732
+2021-12-11 16:54:58.245 | INFO     | __main__:<module>:134 - train jaccard: 0.8597935804724693
+2021-12-11 16:54:58.245 | INFO     | __main__:<module>:135 - val loss: 0.3493033842245738
+2021-12-11 16:54:58.246 | INFO     | __main__:<module>:136 - val jaccard: 0.8662260588010152
+2021-12-11 16:54:58.246 | INFO     | __main__:<module>:151 - Epoch 37 ended, time taken 01 min 30 sec
 
-2021-12-11 14:53:28.441 | INFO     | __main__:<module>:133 - train loss: 0.3951977590471506
-2021-12-11 14:53:28.442 | INFO     | __main__:<module>:134 - train jaccard: 0.6169430398195982
-2021-12-11 14:53:28.443 | INFO     | __main__:<module>:135 - val loss: 0.362343024512132
-2021-12-11 14:53:28.443 | INFO     | __main__:<module>:136 - val jaccard: 0.6028443272908529
-2021-12-11 14:53:28.444 | INFO     | __main__:<module>:151 - Epoch 38 ended, time taken 01 min 30 sec
+2021-12-11 16:56:28.795 | INFO     | __main__:<module>:133 - train loss: 0.41097260199487207
+2021-12-11 16:56:28.797 | INFO     | __main__:<module>:134 - train jaccard: 0.841401160955429
+2021-12-11 16:56:28.797 | INFO     | __main__:<module>:135 - val loss: 0.37587885876496635
+2021-12-11 16:56:28.797 | INFO     | __main__:<module>:136 - val jaccard: 0.8550267807642619
+2021-12-11 16:56:28.798 | INFO     | __main__:<module>:151 - Epoch 38 ended, time taken 01 min 30 sec
 
-2021-12-11 14:54:58.798 | INFO     | __main__:<module>:133 - train loss: 0.3767779653891921
-2021-12-11 14:54:58.799 | INFO     | __main__:<module>:134 - train jaccard: 0.6272961609065533
-2021-12-11 14:54:58.799 | INFO     | __main__:<module>:135 - val loss: 0.39945004393657046
-2021-12-11 14:54:58.799 | INFO     | __main__:<module>:136 - val jaccard: 0.6187655194600423
-2021-12-11 14:54:58.801 | INFO     | __main__:<module>:151 - Epoch 39 ended, time taken 01 min 30 sec
+2021-12-11 16:57:59.809 | INFO     | __main__:<module>:133 - train loss: 0.3983943736553192
+2021-12-11 16:57:59.811 | INFO     | __main__:<module>:134 - train jaccard: 0.8536856183409691
+2021-12-11 16:57:59.811 | INFO     | __main__:<module>:135 - val loss: 0.4059577166040738
+2021-12-11 16:57:59.811 | INFO     | __main__:<module>:136 - val jaccard: 0.8383056584993999
+2021-12-11 16:57:59.813 | INFO     | __main__:<module>:151 - Epoch 39 ended, time taken 01 min 31 sec
 
-2021-12-11 14:56:28.971 | INFO     | __main__:<module>:133 - train loss: 0.35684361178427937
-2021-12-11 14:56:28.972 | INFO     | __main__:<module>:134 - train jaccard: 0.6250619666278362
-2021-12-11 14:56:28.972 | INFO     | __main__:<module>:135 - val loss: 0.3712751691540082
-2021-12-11 14:56:28.972 | INFO     | __main__:<module>:136 - val jaccard: 0.6363225746154785
-2021-12-11 14:56:28.973 | INFO     | __main__:<module>:151 - Epoch 40 ended, time taken 01 min 30 sec
+2021-12-11 16:59:30.375 | INFO     | __main__:<module>:133 - train loss: 0.37221656762063504
+2021-12-11 16:59:30.376 | INFO     | __main__:<module>:134 - train jaccard: 0.8644950497150421
+2021-12-11 16:59:30.376 | INFO     | __main__:<module>:135 - val loss: 0.37842702607313794
+2021-12-11 16:59:30.376 | INFO     | __main__:<module>:136 - val jaccard: 0.8540187295277913
+2021-12-11 16:59:30.377 | INFO     | __main__:<module>:151 - Epoch 40 ended, time taken 01 min 30 sec
 
-2021-12-11 14:57:59.043 | INFO     | __main__:<module>:133 - train loss: 0.39290774911642073
-2021-12-11 14:57:59.044 | INFO     | __main__:<module>:134 - train jaccard: 0.6063270864635706
-2021-12-11 14:57:59.044 | INFO     | __main__:<module>:135 - val loss: 0.34606504370768865
-2021-12-11 14:57:59.045 | INFO     | __main__:<module>:136 - val jaccard: 0.6347077242533365
-2021-12-11 14:57:59.046 | INFO     | __main__:<module>:151 - Epoch 41 ended, time taken 01 min 30 sec
+2021-12-11 17:01:01.363 | INFO     | __main__:<module>:133 - train loss: 0.4151905469596386
+2021-12-11 17:01:01.364 | INFO     | __main__:<module>:134 - train jaccard: 0.837511884868145
+2021-12-11 17:01:01.364 | INFO     | __main__:<module>:135 - val loss: 0.35265210549036663
+2021-12-11 17:01:01.364 | INFO     | __main__:<module>:136 - val jaccard: 0.8695114294687907
+2021-12-11 17:01:01.366 | INFO     | __main__:<module>:151 - Epoch 41 ended, time taken 01 min 30 sec
 
-2021-12-11 14:59:28.683 | INFO     | __main__:<module>:133 - train loss: 0.3878970313072205
-2021-12-11 14:59:28.684 | INFO     | __main__:<module>:134 - train jaccard: 0.6171649347245693
-2021-12-11 14:59:28.684 | INFO     | __main__:<module>:135 - val loss: 0.33589325775702794
-2021-12-11 14:59:28.685 | INFO     | __main__:<module>:136 - val jaccard: 0.6101554807027181
-2021-12-11 14:59:28.686 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 14:59:28.883 | INFO     | __main__:<module>:151 - Epoch 42 ended, time taken 01 min 29 sec
+2021-12-11 17:02:32.524 | INFO     | __main__:<module>:133 - train loss: 0.41393384817987683
+2021-12-11 17:02:32.525 | INFO     | __main__:<module>:134 - train jaccard: 0.8398563883453608
+2021-12-11 17:02:32.525 | INFO     | __main__:<module>:135 - val loss: 0.34760132133960725
+2021-12-11 17:02:32.525 | INFO     | __main__:<module>:136 - val jaccard: 0.8677410924434662
+2021-12-11 17:02:32.526 | INFO     | __main__:<module>:151 - Epoch 42 ended, time taken 01 min 31 sec
 
-2021-12-11 15:00:58.395 | INFO     | __main__:<module>:133 - train loss: 0.3484902580082416
-2021-12-11 15:00:58.396 | INFO     | __main__:<module>:134 - train jaccard: 0.6367659088969231
-2021-12-11 15:00:58.396 | INFO     | __main__:<module>:135 - val loss: 0.3853675928711891
-2021-12-11 15:00:58.396 | INFO     | __main__:<module>:136 - val jaccard: 0.596429131825765
-2021-12-11 15:00:58.397 | INFO     | __main__:<module>:151 - Epoch 43 ended, time taken 01 min 29 sec
+2021-12-11 17:04:02.323 | INFO     | __main__:<module>:133 - train loss: 0.3663473859429359
+2021-12-11 17:04:02.324 | INFO     | __main__:<module>:134 - train jaccard: 0.8624357551336288
+2021-12-11 17:04:02.325 | INFO     | __main__:<module>:135 - val loss: 0.39801321595907213
+2021-12-11 17:04:02.325 | INFO     | __main__:<module>:136 - val jaccard: 0.8462083514531453
+2021-12-11 17:04:02.326 | INFO     | __main__:<module>:151 - Epoch 43 ended, time taken 01 min 29 sec
 
-2021-12-11 15:02:29.212 | INFO     | __main__:<module>:133 - train loss: 0.37776776634156706
-2021-12-11 15:02:29.213 | INFO     | __main__:<module>:134 - train jaccard: 0.619375996440649
-2021-12-11 15:02:29.214 | INFO     | __main__:<module>:135 - val loss: 0.38535052667061487
-2021-12-11 15:02:29.214 | INFO     | __main__:<module>:136 - val jaccard: 0.6261957359313964
-2021-12-11 15:02:29.216 | INFO     | __main__:<module>:151 - Epoch 44 ended, time taken 01 min 30 sec
+2021-12-11 17:05:33.389 | INFO     | __main__:<module>:133 - train loss: 0.39636990081518886
+2021-12-11 17:05:33.390 | INFO     | __main__:<module>:134 - train jaccard: 0.8502042081952095
+2021-12-11 17:05:33.391 | INFO     | __main__:<module>:135 - val loss: 0.39515445709228514
+2021-12-11 17:05:33.391 | INFO     | __main__:<module>:136 - val jaccard: 0.8444663484891256
+2021-12-11 17:05:33.392 | INFO     | __main__:<module>:151 - Epoch 44 ended, time taken 01 min 31 sec
 
-2021-12-11 15:03:59.784 | INFO     | __main__:<module>:133 - train loss: 0.38174844086170195
-2021-12-11 15:03:59.785 | INFO     | __main__:<module>:134 - train jaccard: 0.612683506757021
-2021-12-11 15:03:59.785 | INFO     | __main__:<module>:135 - val loss: 0.3795462408661842
-2021-12-11 15:03:59.786 | INFO     | __main__:<module>:136 - val jaccard: 0.6341995938618978
-2021-12-11 15:03:59.787 | INFO     | __main__:<module>:151 - Epoch 45 ended, time taken 01 min 30 sec
+2021-12-11 17:07:04.141 | INFO     | __main__:<module>:133 - train loss: 0.40229881964623926
+2021-12-11 17:07:04.142 | INFO     | __main__:<module>:134 - train jaccard: 0.8477880737185478
+2021-12-11 17:07:04.142 | INFO     | __main__:<module>:135 - val loss: 0.39202989379564923
+2021-12-11 17:07:04.142 | INFO     | __main__:<module>:136 - val jaccard: 0.8489619016647338
+2021-12-11 17:07:04.143 | INFO     | __main__:<module>:151 - Epoch 45 ended, time taken 01 min 30 sec
 
-2021-12-11 15:05:29.840 | INFO     | __main__:<module>:133 - train loss: 0.37375618118792775
-2021-12-11 15:05:29.841 | INFO     | __main__:<module>:134 - train jaccard: 0.6213752320408821
-2021-12-11 15:05:29.841 | INFO     | __main__:<module>:135 - val loss: 0.37590007970730466
-2021-12-11 15:05:29.841 | INFO     | __main__:<module>:136 - val jaccard: 0.6333014869689941
-2021-12-11 15:05:29.842 | INFO     | __main__:<module>:151 - Epoch 46 ended, time taken 01 min 30 sec
+2021-12-11 17:08:33.926 | INFO     | __main__:<module>:133 - train loss: 0.39080249454826116
+2021-12-11 17:08:33.927 | INFO     | __main__:<module>:134 - train jaccard: 0.8535015276074409
+2021-12-11 17:08:33.928 | INFO     | __main__:<module>:135 - val loss: 0.39265062322219213
+2021-12-11 17:08:33.928 | INFO     | __main__:<module>:136 - val jaccard: 0.8458894904454549
+2021-12-11 17:08:33.929 | INFO     | __main__:<module>:151 - Epoch 46 ended, time taken 01 min 29 sec
 
-2021-12-11 15:07:00.308 | INFO     | __main__:<module>:133 - train loss: 0.3569671931117773
-2021-12-11 15:07:00.309 | INFO     | __main__:<module>:134 - train jaccard: 0.6148456872999668
-2021-12-11 15:07:00.309 | INFO     | __main__:<module>:135 - val loss: 0.32225938826799394
-2021-12-11 15:07:00.309 | INFO     | __main__:<module>:136 - val jaccard: 0.6167812840143839
-2021-12-11 15:07:00.310 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
-2021-12-11 15:07:00.464 | INFO     | __main__:<module>:151 - Epoch 47 ended, time taken 01 min 30 sec
+2021-12-11 17:10:03.277 | INFO     | __main__:<module>:133 - train loss: 0.3720346401631832
+2021-12-11 17:10:03.278 | INFO     | __main__:<module>:134 - train jaccard: 0.8575193384289741
+2021-12-11 17:10:03.278 | INFO     | __main__:<module>:135 - val loss: 0.3337190326054891
+2021-12-11 17:10:03.279 | INFO     | __main__:<module>:136 - val jaccard: 0.8720711068312327
+2021-12-11 17:10:03.280 | INFO     | utils:save_model_weights:62 - Saving weights to outputs/CCD.pt
+2021-12-11 17:10:03.759 | INFO     | __main__:<module>:151 - Epoch 47 ended, time taken 01 min 29 sec
 
-2021-12-11 15:08:31.055 | INFO     | __main__:<module>:133 - train loss: 0.3547466086223722
-2021-12-11 15:08:31.056 | INFO     | __main__:<module>:134 - train jaccard: 0.6238431037217379
-2021-12-11 15:08:31.057 | INFO     | __main__:<module>:135 - val loss: 0.3957002676526705
-2021-12-11 15:08:31.057 | INFO     | __main__:<module>:136 - val jaccard: 0.5958973693847657
-2021-12-11 15:08:31.058 | INFO     | __main__:<module>:151 - Epoch 48 ended, time taken 01 min 30 sec
+2021-12-11 17:11:34.111 | INFO     | __main__:<module>:133 - train loss: 0.3740173428878188
+2021-12-11 17:11:34.112 | INFO     | __main__:<module>:134 - train jaccard: 0.8563007833063603
+2021-12-11 17:11:34.112 | INFO     | __main__:<module>:135 - val loss: 0.41213683287302655
+2021-12-11 17:11:34.113 | INFO     | __main__:<module>:136 - val jaccard: 0.837528817653656
+2021-12-11 17:11:34.114 | INFO     | __main__:<module>:151 - Epoch 48 ended, time taken 01 min 30 sec
 
-2021-12-11 15:10:00.936 | INFO     | __main__:<module>:133 - train loss: 0.3934048143774271
-2021-12-11 15:10:00.937 | INFO     | __main__:<module>:134 - train jaccard: 0.6336445583403111
-2021-12-11 15:10:00.937 | INFO     | __main__:<module>:135 - val loss: 0.3951473383108775
-2021-12-11 15:10:00.938 | INFO     | __main__:<module>:136 - val jaccard: 0.6262972640991211
-2021-12-11 15:10:00.939 | INFO     | __main__:<module>:151 - Epoch 49 ended, time taken 01 min 29 sec
+2021-12-11 17:13:04.387 | INFO     | __main__:<module>:133 - train loss: 0.4147742448747158
+2021-12-11 17:13:04.388 | INFO     | __main__:<module>:134 - train jaccard: 0.8460809600353241
+2021-12-11 17:13:04.388 | INFO     | __main__:<module>:135 - val loss: 0.40860060781240465
+2021-12-11 17:13:04.388 | INFO     | __main__:<module>:136 - val jaccard: 0.8398878343900045
+2021-12-11 17:13:04.389 | INFO     | __main__:<module>:151 - Epoch 49 ended, time taken 01 min 30 sec
 
