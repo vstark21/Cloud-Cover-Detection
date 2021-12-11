@@ -1,13 +1,12 @@
 import os
 import torch
-from loguru import logger
 from utils import *
 import wandb
+from loguru import logger
 
 SEED = 42
 VERBOSE = 1
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-logger.info(f"Using device: {DEVICE}")
 
 NAME = 'CCD'
 
@@ -45,6 +44,8 @@ if not os.path.exists(OUTPUT_PATH):
 # Removing it because loguru.logger will create it
 if os.path.exists(LOG_FILE):
     os.remove(LOG_FILE)
+logger.add(LOG_FILE)
+logger.info(f"Using device: {DEVICE}")
 
 seed_everything(SEED)
 

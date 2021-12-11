@@ -21,7 +21,6 @@ from dataset import CloudDataset
 from loss import CloudLoss
 from utils import *
 from loguru import logger
-logger.add(config.LOG_FILE)
 
 files = []
 for name in config.DATA_PATHS:
@@ -52,7 +51,7 @@ loss_fn = CloudLoss()
 model = CloudModel(n_channels=config.N_CHANNELS,
                    n_classes=config.N_CLASSES).to(config.DEVICE)
 optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
-scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=2)
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=2, factor=0.5)
 grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
 
 logger.info(f"Model has {count_parameters(model)} parameters")
@@ -149,5 +148,9 @@ for epoch in range(config.EPOCHS):
         save_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
 
     logger.info(f"Epoch {epoch} ended, time taken {format_time(time.time()-tic)}\n")
+
+if config.USE_WANDB:
+    wandb.save(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
+    wandb.save(config.LOG_FILE)
 
 torch.cuda.empty_cache()
