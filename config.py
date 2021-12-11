@@ -50,15 +50,18 @@ logger.info(f"Using device: {DEVICE}")
 seed_everything(SEED)
 
 if USE_WANDB:
-    wandb.init(project=NAME, entity="vstark21")
-    wandb.config = {
-        "seed": SEED,
-        "device": DEVICE,
-        "optimizer": OPTIMIZER,
-        "train_batch_size": TRAIN_BATCH_SIZE,
-        "learning_rate": LEARNING_RATE,
-        "amp": AMP,
-        "train_iters": TRAIN_ITERS,
-        "val_batch_size": VAL_BATCH_SIZE,
-        "val_iters": VAL_ITERS
-    }
+    wandb.init(
+        project=NAME, 
+        entity="vstark21", 
+        config = {
+            "seed": SEED,
+            "device": DEVICE,
+            "optimizer": OPTIMIZER,
+            "train_batch_size": TRAIN_BATCH_SIZE,
+            "learning_rate": LEARNING_RATE,
+            "amp": AMP,
+            "train_iters": TRAIN_ITERS,
+            "val_batch_size": VAL_BATCH_SIZE,
+            "val_iters": VAL_ITERS
+        }
+    )
