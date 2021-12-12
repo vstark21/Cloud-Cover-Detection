@@ -26,7 +26,7 @@ DICE_LW = 1.0
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE = 4 
-EPOCHS = 50
+EPOCHS = 1
 LEARNING_RATE = 5e-4
 AMP = True
 TRAIN_ITERS = 1000
@@ -36,7 +36,7 @@ VAL_BATCH_SIZE = 4
 VAL_ITERS = 300
 
 # Wandb 
-USE_WANDB = True
+USE_WANDB = False
 
 # Outputs
 OUTPUT_PATH = 'outputs/'

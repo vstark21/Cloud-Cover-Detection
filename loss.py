@@ -19,6 +19,6 @@ class CloudLoss(nn.Module):
         
         bce = F.binary_cross_entropy_with_logits(preds, targets, reduction='mean')
         
-        loss = self.l1 * bce + self.l2 * dice_loss
+        loss = self.bce_lw * bce + self.dice_lw * dice_loss
         
         return loss, bce, dice_loss
