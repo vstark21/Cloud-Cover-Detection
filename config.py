@@ -21,12 +21,12 @@ DATA_PATHS = [
 
 # Loss
 BCE_LW = 1.0
-DICE_LW = 1.0
+DICE_LW = 3.0
 
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE = 4 
-EPOCHS = 1
+EPOCHS = 50
 LEARNING_RATE = 5e-4
 AMP = True
 TRAIN_ITERS = 1000
@@ -36,7 +36,7 @@ VAL_BATCH_SIZE = 4
 VAL_ITERS = 300
 
 # Wandb 
-USE_WANDB = False
+USE_WANDB = True
 
 # Outputs
 OUTPUT_PATH = 'outputs/'
