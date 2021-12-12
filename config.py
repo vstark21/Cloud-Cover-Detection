@@ -19,6 +19,10 @@ DATA_PATHS = [
     "data/"
 ]
 
+# Loss
+BCE_LW = 1.0
+DICE_LW = 1.0
+
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE = 4 

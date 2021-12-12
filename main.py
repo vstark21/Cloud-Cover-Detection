@@ -56,7 +56,7 @@ grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
 
 logger.info(f"Model has {count_parameters(model)} parameters")
 
-best_val_loss = float('inf')
+best_val_js = 0
 
 for epoch in range(config.EPOCHS):
     tic = time.time()
@@ -65,7 +65,7 @@ for epoch in range(config.EPOCHS):
     model.train()
     model.zero_grad()
     bar = tqdm(range(config.TRAIN_ITERS), total=config.TRAIN_ITERS)
-    train_epoch_loss = 0
+    train_loss, train_bce_loss, train_dice_loss = 0, 0, 0
     dataset_len = 0
     train_jacc_score = 0
 
@@ -81,7 +81,7 @@ for epoch in range(config.EPOCHS):
         
         with torch.cuda.amp.autocast(enabled=config.AMP):
             preds = model(images)
-            loss = loss_fn(preds, labels)
+            loss, bce_loss, dice_loss = loss_fn(preds, labels)
             train_jacc_score += jaccard_score(preds, labels).item()
 
         optimizer.zero_grad()
@@ -89,21 +89,30 @@ for epoch in range(config.EPOCHS):
         grad_scaler.step(optimizer)
         grad_scaler.update()
 
-        train_epoch_loss += loss.item()
+        train_loss += loss.item()
+        train_bce_loss += bce_loss.item()
+        train_dice_loss += dice_loss.item()
         dataset_len += 1
 
-        bar.set_postfix(epoch=epoch, loss=train_epoch_loss / dataset_len,
-                        jaccard=train_jacc_score / dataset_len,
-                    lr=optimizer.param_groups[0]['lr'])
-    train_epoch_loss /= dataset_len
+        bar.set_postfix(
+            epoch=epoch, 
+            total_loss=train_loss / dataset_len,
+            bce_loss=train_bce_loss / dataset_len,
+            dice_loss=train_dice_loss / dataset_len,
+            jacc_score=train_jacc_score / dataset_len,
+            lr=optimizer.param_groups[0]['lr']
+        )
+    train_loss /= dataset_len
+    train_bce_loss /= dataset_len
+    train_dice_loss /= dataset_len
     train_jacc_score /= dataset_len
-    scheduler.step(train_epoch_loss)
+    scheduler.step(train_loss)
 
     # Validation
     with torch.no_grad():
         model.eval()
         bar = tqdm(range(config.VAL_ITERS), total=config.VAL_ITERS)
-        val_epoch_loss = 0
+        val_loss, val_bce_loss, val_dice_loss = 0, 0, 0
         dataset_len = 0
         val_jacc_score = 0
 
@@ -118,33 +127,51 @@ for epoch in range(config.EPOCHS):
             labels = batch_data['labels'].to(config.DEVICE)
 
             preds = model(images)
-            loss = loss_fn(preds, labels)
-            val_jacc_score += jaccard_score(preds, labels).item()
+            loss, bce_loss, dice_loss = loss_fn(preds, labels)
 
-            val_epoch_loss += loss.item()
+            val_loss += loss.item()
+            val_bce_loss += bce_loss.item()
+            val_dice_loss += dice_loss.item()
+            val_jacc_score += jaccard_score(preds, labels).item()
             dataset_len += 1
 
-            bar.set_postfix(epoch=epoch, loss=val_epoch_loss / dataset_len,
-                        jaccard=val_jacc_score / dataset_len)
-    val_epoch_loss /= dataset_len
+            bar.set_postfix(
+                epoch=epoch, 
+                total_loss=val_loss / dataset_len,
+                bce_loss=val_bce_loss / dataset_len,
+                dice_loss=val_dice_loss / dataset_len,
+                jacc_score=val_jacc_score / dataset_len
+            )
+
+    val_loss /= dataset_len
+    val_bce_loss /= dataset_len
+    val_dice_loss /= dataset_len
     val_jacc_score /= dataset_len
 
-    logger.info(f"train loss: {train_epoch_loss}")
+    logger.info(f"train loss: {train_loss}")
+    logger.info(f"train bce loss: {train_bce_loss}")
+    logger.info(f"train dice loss: {train_dice_loss}")
     logger.info(f"train jaccard: {train_jacc_score}")
-    logger.info(f"val loss: {val_epoch_loss}")
+    logger.info(f"val loss: {val_loss}")
+    logger.info(f"val bce loss: {val_bce_loss}")
+    logger.info(f"val dice loss: {val_dice_loss}")
     logger.info(f"val jaccard: {val_jacc_score}")
 
     if config.USE_WANDB:
         wandb.log({
-            "train_loss": train_epoch_loss,
+            "train_loss": train_loss,
+            "train_bce_loss": train_bce_loss,
+            "train_dice_loss": train_dice_loss,
             "train_jaccard": train_jacc_score,
-            "val_loss": val_epoch_loss,
+            "val_loss": val_loss,
+            "val_bce_loss": val_bce_loss,
+            "val_dice_loss": val_dice_loss,
             "val_jaccard": val_jacc_score,
             "lr": optimizer.param_groups[0]['lr']
         })
 
-    if best_val_loss > val_epoch_loss:
-        best_val_loss = val_epoch_loss
+    if best_val_js < val_jacc_score:
+        best_val_js = val_jacc_score
         save_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
 
     logger.info(f"Epoch {epoch} ended, time taken {format_time(time.time()-tic)}\n")

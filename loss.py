@@ -3,10 +3,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class CloudLoss(nn.Module):
-    def __init__(self, l1=1.0, l2=1.0):
+    def __init__(self, bce_lw=1.0, dice_lw=1.0):
         super().__init__()
-        self.l1 = l1
-        self.l2 = l2
+        self.bce_lw = bce_lw / (bce_lw + dice_lw)
+        self.dice_lw = dice_lw / (bce_lw + dice_lw)
 
     def __call__(self, preds, targets, smooth=1):
         inputs = torch.sigmoid(preds)       
@@ -21,4 +21,4 @@ class CloudLoss(nn.Module):
         
         loss = self.l1 * bce + self.l2 * dice_loss
         
-        return loss
+        return loss, bce, dice_loss
