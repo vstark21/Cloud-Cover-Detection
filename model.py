@@ -71,24 +71,34 @@ class OutConv(nn.Module):
         return self.conv(x)
 
 class CloudModel(nn.Module):
-    def __init__(self, n_channels, n_classes, bilinear=True):
+    def __init__(
+        self, 
+        n_channels, 
+        n_classes, 
+        bilinear=True,
+        model_size='small'
+    ):
         super().__init__()
         
+        if not model_size in ["small", "large"]:
+            raise ValueError("model_size must be `small` or `large`")
+
         self.n_channels = n_channels
         self.n_classes = n_classes
         self.bilinear = bilinear
+        size = 2 if model_size == 'large' else 1
 
-        self.inc = DoubleConv(n_channels, 64)
-        self.down1 = Down(64, 128)
-        self.down2 = Down(128, 256)
-        self.down3 = Down(256, 512)
+        self.inc = DoubleConv(n_channels, 32 * size)
+        self.down1 = Down(32 * size, 64 * size)
+        self.down2 = Down(64 * size, 128 * size)
+        self.down3 = Down(128 * size, 256 * size)
         factor = 2 if bilinear else 1
-        self.down4 = Down(512, 1024 // factor)
-        self.up1 = Up(1024, 512 // factor, bilinear)
-        self.up2 = Up(512, 256 // factor, bilinear)
-        self.up3 = Up(256, 128 // factor, bilinear)
-        self.up4 = Up(128, 64, bilinear)
-        self.outc = OutConv(64, n_classes)
+        self.down4 = Down(256 * size, 512 * size // factor)
+        self.up1 = Up(512 * size, 256 * size // factor, bilinear)
+        self.up2 = Up(256 * size, 128 * size // factor, bilinear)
+        self.up3 = Up(128 * size, 64 * size // factor, bilinear)
+        self.up4 = Up(64 * size, 32 * size, bilinear)
+        self.outc = OutConv(32 * size, n_classes)
 
     def forward(self, x):
         x1 = self.inc(x)

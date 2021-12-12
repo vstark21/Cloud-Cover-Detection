@@ -49,7 +49,8 @@ train_generator = train_dataloader.__iter__()
 val_generator = val_dataloader.__iter__()
 loss_fn = CloudLoss()
 model = CloudModel(n_channels=config.N_CHANNELS,
-                   n_classes=config.N_CLASSES).to(config.DEVICE)
+                   n_classes=config.N_CLASSES,
+                   model_size=config.MODEL_SIZE).to(config.DEVICE)
 optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=2, factor=0.5)
 grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)

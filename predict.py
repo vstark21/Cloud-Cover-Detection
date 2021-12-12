@@ -16,7 +16,8 @@ train_files, val_files = train_test_split(files, test_size=0.25,
                                           random_state=config.SEED)
 
 model = CloudModel(n_channels=config.N_CHANNELS,
-                   n_classes=config.N_CLASSES).to(config.DEVICE)
+                   n_classes=config.N_CLASSES,
+                   model_size=config.MODEL_SIZE).to(config.DEVICE)
 model = load_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
 model.eval()
 
