@@ -13,7 +13,7 @@ NAME = 'CCD'
 NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
-MODEL_SIZE = 'small'
+MODEL_SIZE = 'large'
 
 # Data
 DATA_PATHS = [
