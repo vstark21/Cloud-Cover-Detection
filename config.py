@@ -22,7 +22,8 @@ DATA_PATHS = [
 
 # Loss
 BCE_LW = 1.0
-DICE_LW = 3.0
+DICE_LW = 1.0
+JACC_LW = 1.0
 
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html

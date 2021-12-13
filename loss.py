@@ -1,24 +1,30 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import segmentation_models_pytorch as smp
 
 class CloudLoss(nn.Module):
-    def __init__(self, bce_lw=1.0, dice_lw=1.0):
+    def __init__(
+        self, 
+        bce_lw=1.0, 
+        dice_lw=1.0, 
+        jacc_lw=1.0
+    ):
         super().__init__()
-        self.bce_lw = bce_lw / (bce_lw + dice_lw)
-        self.dice_lw = dice_lw / (bce_lw + dice_lw)
+        self.bce_lw = bce_lw / (bce_lw + dice_lw + jacc_lw)
+        self.dice_lw = dice_lw / (bce_lw + dice_lw + jacc_lw)
+        self.jacc_lw = jacc_lw / (bce_lw + dice_lw + jacc_lw)
+
+        self.bce_loss = nn.BCEWithLogitsLoss()
+        self.dice_loss = smp.losses.DiceLoss(mode='binary', smooth=1)
+        self.jacc_loss = smp.losses.JaccardLoss(mode='binary', smooth=1)
 
     def __call__(self, preds, targets, smooth=1):
-        inputs = torch.sigmoid(preds)       
-        inputs = inputs.view(-1)
-        targets = targets.view(-1)
-        preds = preds.view(-1)
-        
-        intersection = (inputs * targets).sum()                            
-        dice_loss = 1 - (2. * intersection + smooth) / (inputs.sum() + targets.sum() + smooth)  
-        
-        bce = F.binary_cross_entropy_with_logits(preds, targets, reduction='mean')
-        
-        loss = self.bce_lw * bce + self.dice_lw * dice_loss
-        
-        return loss, bce, dice_loss
+        bce = self.bce_loss(preds, targets)
+        dice = self.dice_loss(preds, targets)
+        jacc = self.jacc_loss(preds, targets)
+        loss = self.bce_lw * bce + \
+                self.dice_lw * dice + \
+                self.jacc_lw * jacc
+
+        return loss, bce, dice

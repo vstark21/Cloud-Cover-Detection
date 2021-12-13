@@ -47,7 +47,11 @@ val_dataloader = DataLoader(
 
 train_generator = train_dataloader.__iter__()
 val_generator = val_dataloader.__iter__()
-loss_fn = CloudLoss()
+loss_fn = CloudLoss(
+    bce_lw=config.BCE_LW,
+    dice_lw=config.DICE_LW,
+    jacc_lw=config.JACC_LW
+)
 model = CloudModel(n_channels=config.N_CHANNELS,
                    n_classes=config.N_CLASSES,
                    model_size=config.MODEL_SIZE).to(config.DEVICE)
