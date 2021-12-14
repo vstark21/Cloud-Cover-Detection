@@ -15,7 +15,7 @@ NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
 # Unet
-MODEL_SIZE = 'large'
+MODEL_SIZE = 'small'
 # cloudnetp
 INCEPTION_DEPTH = 6
 
