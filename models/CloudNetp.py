@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 class ContractionBlock(nn.Module):
     def __init__(self, ni):
-        super().__init__()
+        super(ContractionBlock, self).__init__()
 
         self.conv1 = nn.Conv2d(ni, ni, kernel_size=3, stride=1, padding=1)
         self.conv2 = nn.Conv2d(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
@@ -28,7 +28,7 @@ class ContractionBlock(nn.Module):
 
 class FeedForwardBlock(nn.Module):
     def __init__(self, ni, n):
-        super().__init__()
+        super(FeedForwardBlock, self).__init__()
 
         self.poolings = []
         for i in range(n):
@@ -55,7 +55,7 @@ class FeedForwardBlock(nn.Module):
 
 class ExpandingBlock(nn.Module):
     def __init__(self, ni):
-        super().__init__()
+        super(ExpandingBlock, self).__init__()
 
         self.conv_t = nn.ConvTranspose2d(2 * ni, ni, kernel_size=3, stride=2, padding=1, output_padding=1)
 
@@ -83,7 +83,7 @@ class ExpandingBlock(nn.Module):
 
 class UpSamplingBlock(nn.Module):
     def __init__(self, ni, nout, n):
-        super().__init__()
+        super(UpSamplingBlock, self).__init__()
         # TODO: Try to use ConvTranspose2d here instead of Upsample.
         self.up = nn.Upsample(scale_factor=(2 ** (n + 2), 2 ** (n + 2)))
         self.conv = nn.Conv2d(ni, nout, kernel_size=1, stride=1, padding=0)
@@ -101,11 +101,9 @@ class CloudNetp(nn.Module):
         inception_depth=6,
         model_size='small'
     ):
-        super().__init__()
+        super(CloudNetp, self).__init__()
         if not model_size in ["small", "large"]:
             raise ValueError("model_size must be `small` or `large`")
-
-        self.kindred = []
 
         self.c_blocks = []
         self.f_blocks = []
@@ -117,7 +115,6 @@ class CloudNetp(nn.Module):
             self.use_conv_init = True
             self.conv_init = nn.Conv2d(n_channels, n_channels * 2, kernel_size=3, stride=1, padding=1)
             n_channels *= 2
-            self.kindred.append(self.conv_init)
 
 
         for i in range(0, inception_depth):
@@ -140,11 +137,10 @@ class CloudNetp(nn.Module):
          
         self.conv = nn.Conv2d(n_classes, n_classes, kernel_size=3, stride=1, padding=1)
 
-        self.kindred.extend(self.c_blocks)
-        self.kindred.extend(self.f_blocks)
-        self.kindred.extend(self.e_blocks)
-        self.kindred.extend(self.u_blocks)
-        self.kindred.append(self.conv)
+        self.c_blocks = nn.ModuleList(self.c_blocks)
+        self.f_blocks = nn.ModuleList(self.f_blocks)
+        self.e_blocks = nn.ModuleList(self.e_blocks)
+        self.u_blocks = nn.ModuleList(self.u_blocks)
         
     def forward(self, x: torch.Tensor):
         if self.use_conv_init:
@@ -173,11 +169,3 @@ class CloudNetp(nn.Module):
         
         out = self.conv(u_sum)
         return out
-
-    def children(self):
-        for module in self.kindred:
-            yield module
-
-    def parameters(self):
-        for module in self.kindred:
-            yield from module.parameters()

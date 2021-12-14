@@ -61,7 +61,8 @@ elif config.MODEL == 'cloudnetp':
     model = CloudNetp(
         n_channels=config.N_CHANNELS,
         n_classes=config.N_CLASSES,
-        inception_depth=config.INCEPTION_DEPTH)
+        inception_depth=config.INCEPTION_DEPTH,
+        model_size=config.MODEL_SIZE)
 
 model = model.to(config.DEVICE)
 optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
