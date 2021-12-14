@@ -1,13 +1,22 @@
+from re import I
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 class Conv(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, bias=True):
+    def __init__(
+        self, 
+        in_channels, 
+        out_channels,
+        kernel_size=3, 
+        stride=1, 
+        padding=0, 
+        bias=True
+    ):
         super(Conv, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
         self.bn = nn.BatchNorm2d(out_channels)
-        self.act = nn.ReLU()
+        self.act = nn.ReLU(inplace=True)
 
     def forward(self, x):
         x = self.conv(x)
@@ -16,15 +25,52 @@ class Conv(nn.Module):
 
         return x
 
+class ResBlock(nn.Module):
+    def __init__(
+        self, 
+        channels,
+        kernel_size=3, 
+        stride=1, 
+        padding=0, 
+        bias=True
+    ):
+        super(ResBlock, self).__init__()
+        self.conv1 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
+        self.bn1 = nn.BatchNorm2d(channels)
+        self.conv2 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
+        self.bn2 = nn.BatchNorm2d(channels)
+        self.act = nn.ReLU(inplace=True)
+    
+    def forward(self, x):
+        identity = x
+
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = self.act(out)
+        out = self.conv2(out)
+        out = self.bn2(out)
+
+        out += identity
+        out = self.act(out)
+        return out
+
 class ContractionBlock(nn.Module):
-    def __init__(self, ni):
+    def __init__(self, ni, residual=False):
         super(ContractionBlock, self).__init__()
 
-        self.conv1 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
-        self.conv2 = Conv(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
-        self.conv3 = Conv(2 * ni, 2 * ni, kernel_size=3, stride=1, padding=1)
+        if residual:
+            self.conv1 = ResBlock(ni, kernel_size=3, stride=1, padding=1)
+            self.conv2 = Conv(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
+            self.conv3 = ResBlock(2 * ni, kernel_size=3, stride=1, padding=1)
 
-        self.conv4 = Conv(ni, ni, kernel_size=1, stride=1, padding=0)
+            self.conv4 = ResBlock(ni, kernel_size=1, stride=1, padding=0)
+
+        else:
+            self.conv1 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
+            self.conv2 = Conv(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
+            self.conv3 = Conv(2 * ni, 2 * ni, kernel_size=3, stride=1, padding=1)
+
+            self.conv4 = Conv(ni, ni, kernel_size=1, stride=1, padding=0)
 
         self.l5 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
     
@@ -41,7 +87,7 @@ class ContractionBlock(nn.Module):
         return x
 
 class FeedForwardBlock(nn.Module):
-    def __init__(self, ni, n):
+    def __init__(self, ni, n, residual=False):
         super(FeedForwardBlock, self).__init__()
 
         self.poolings = []
@@ -50,7 +96,11 @@ class FeedForwardBlock(nn.Module):
             layer = nn.MaxPool2d(kernel_size=3, stride=s, padding=1)
 
             self.poolings.append(layer)
-        self.conv = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
+        
+        if residual:
+            self.conv = ResBlock(ni, kernel_size=3, stride=1, padding=1)
+        else:
+            self.conv = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
 
     def forward(self, x: torch.Tensor):
         n = len(self.poolings)
@@ -68,14 +118,18 @@ class FeedForwardBlock(nn.Module):
         return out
 
 class ExpandingBlock(nn.Module):
-    def __init__(self, ni):
+    def __init__(self, ni, residual=False):
         super(ExpandingBlock, self).__init__()
 
         self.conv_t = nn.ConvTranspose2d(2 * ni, ni, kernel_size=3, stride=2, padding=1, output_padding=1)
 
         self.conv1 = Conv(2 * ni, ni, kernel_size=3, stride=1, padding=1)
-        self.conv2 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
-        self.conv3 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
+        if residual:
+            self.conv2 = ResBlock(ni, kernel_size=3, stride=1, padding=1)
+            self.conv3 = ResBlock(ni, kernel_size=3, stride=1, padding=1)
+        else:
+            self.conv2 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
+            self.conv3 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
 
     def forward(self, pe_out, ff, contr):
         """
@@ -96,7 +150,7 @@ class ExpandingBlock(nn.Module):
         return x
 
 class UpSamplingBlock(nn.Module):
-    def __init__(self, ni, nout, n):
+    def __init__(self, ni, nout, n, residual=False):
         super(UpSamplingBlock, self).__init__()
         # TODO: Try to use ConvTranspose2d here instead of Upsample.
         self.up = nn.Upsample(scale_factor=(2 ** (n + 2), 2 ** (n + 2)))
@@ -113,7 +167,8 @@ class CloudNetp(nn.Module):
         n_channels=4,
         n_classes=1,
         inception_depth=6,
-        model_size='small'
+        model_size='small',
+        residual=False
     ):
         super(CloudNetp, self).__init__()
         if not model_size in ["small", "large"]:
@@ -132,21 +187,21 @@ class CloudNetp(nn.Module):
 
 
         for i in range(0, inception_depth):
-            c_block = ContractionBlock(n_channels * (2 ** i))
+            c_block = ContractionBlock(n_channels * (2 ** i), residual)
             self.c_blocks.append(c_block)
 
         for i in range(1, inception_depth):
-            f_block = FeedForwardBlock(n_channels * 2 * (2 ** i), i)
+            f_block = FeedForwardBlock(n_channels * 2 * (2 ** i), i, residual)
             self.f_blocks.append(f_block)  
 
         for i in range(1, inception_depth):
-            e_block = ExpandingBlock(n_channels * 2  * (2 ** i))
+            e_block = ExpandingBlock(n_channels * 2  * (2 ** i), residual)
             self.e_blocks.append(e_block)
 
         for i in range(0, inception_depth - 1):
             u_block = UpSamplingBlock(n_channels * 2 * (2 ** (i + 1)), n_classes, i)
             self.u_blocks.append(u_block)
-        u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2)
+        u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2, residual)
         self.u_blocks.append(u_block)
          
         self.conv = Conv(n_classes, n_classes, kernel_size=3, stride=1, padding=1)
