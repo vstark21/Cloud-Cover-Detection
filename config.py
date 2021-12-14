@@ -10,10 +10,14 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 NAME = 'CCD'
 
+MODEL = 'cloudnetp'
 NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
+# Unet
 MODEL_SIZE = 'large'
+# cloudnetp
+INCEPTION_DEPTH = 6
 
 # Data
 DATA_PATHS = [
@@ -63,6 +67,11 @@ if USE_WANDB:
             "seed": SEED,
             "device": DEVICE,
             "optimizer": OPTIMIZER,
+            "model": MODEL,
+            "model_size": MODEL_SIZE,
+            "bce_lw": BCE_LW,
+            "dice_lw": DICE_LW,
+            "jacc_lw": JACC_LW,
             "train_batch_size": TRAIN_BATCH_SIZE,
             "learning_rate": LEARNING_RATE,
             "amp": AMP,

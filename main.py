@@ -16,9 +16,9 @@ import torch
 from torch.utils.data import DataLoader
 
 import config
-from model import CloudModel
-from dataset import CloudDataset
-from loss import CloudLoss
+from models import Unet, CloudNetp
+from datasets import CloudDataset
+from losses import CloudLoss
 from utils import *
 from loguru import logger
 
@@ -52,9 +52,18 @@ loss_fn = CloudLoss(
     dice_lw=config.DICE_LW,
     jacc_lw=config.JACC_LW
 )
-model = CloudModel(n_channels=config.N_CHANNELS,
-                   n_classes=config.N_CLASSES,
-                   model_size=config.MODEL_SIZE).to(config.DEVICE)
+if config.MODEL == 'unet':
+    model = Unet(
+        n_channels=config.N_CHANNELS,
+        n_classes=config.N_CLASSES,
+        model_size=config.MODEL_SIZE)
+elif config.MODEL == 'cloudnetp':
+    model = CloudNetp(
+        n_channels=config.N_CHANNELS,
+        n_classes=config.N_CLASSES,
+        inception_depth=config.INCEPTION_DEPTH)
+
+model = model.to(config.DEVICE)
 optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=2, factor=0.5)
 grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
