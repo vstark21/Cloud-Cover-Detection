@@ -2,15 +2,27 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+class Conv(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, bias=True):
+        super(Conv, self).__init__()
+        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
+        self.bn = nn.BatchNorm2d(out_channels)
+        self.act = nn.ReLU()
+
+    def forward(self, x):
+        x = self.conv(x)
+        x = self.bn(x)
+        x = self.act(x)
+
 class ContractionBlock(nn.Module):
     def __init__(self, ni):
         super(ContractionBlock, self).__init__()
 
-        self.conv1 = nn.Conv2d(ni, ni, kernel_size=3, stride=1, padding=1)
-        self.conv2 = nn.Conv2d(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
-        self.conv3 = nn.Conv2d(2 * ni, 2 * ni, kernel_size=3, stride=1, padding=1)
+        self.conv1 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
+        self.conv2 = Conv(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
+        self.conv3 = Conv(2 * ni, 2 * ni, kernel_size=3, stride=1, padding=1)
 
-        self.conv4 = nn.Conv2d(ni, ni, kernel_size=1, stride=1, padding=0)
+        self.conv4 = Conv(ni, ni, kernel_size=1, stride=1, padding=0)
 
         self.l5 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
     
@@ -36,7 +48,7 @@ class FeedForwardBlock(nn.Module):
             layer = nn.MaxPool2d(kernel_size=3, stride=s, padding=1)
 
             self.poolings.append(layer)
-        self.conv = nn.Conv2d(ni, ni, kernel_size=3, stride=1, padding=1)
+        self.conv = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
 
     def forward(self, x: torch.Tensor):
         n = len(self.poolings)
@@ -59,9 +71,9 @@ class ExpandingBlock(nn.Module):
 
         self.conv_t = nn.ConvTranspose2d(2 * ni, ni, kernel_size=3, stride=2, padding=1, output_padding=1)
 
-        self.conv1 = nn.Conv2d(2 * ni, ni, kernel_size=3, stride=1, padding=1)
-        self.conv2 = nn.Conv2d(ni, ni, kernel_size=3, stride=1, padding=1)
-        self.conv3 = nn.Conv2d(ni, ni, kernel_size=3, stride=1, padding=1)
+        self.conv1 = Conv(2 * ni, ni, kernel_size=3, stride=1, padding=1)
+        self.conv2 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
+        self.conv3 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
 
     def forward(self, pe_out, ff, contr):
         """
@@ -86,7 +98,7 @@ class UpSamplingBlock(nn.Module):
         super(UpSamplingBlock, self).__init__()
         # TODO: Try to use ConvTranspose2d here instead of Upsample.
         self.up = nn.Upsample(scale_factor=(2 ** (n + 2), 2 ** (n + 2)))
-        self.conv = nn.Conv2d(ni, nout, kernel_size=1, stride=1, padding=0)
+        self.conv = Conv(ni, nout, kernel_size=1, stride=1, padding=0)
 
     def forward(self, x: torch.Tensor):
         x = self.up(x)
@@ -113,7 +125,7 @@ class CloudNetp(nn.Module):
 
         if model_size == 'large':
             self.use_conv_init = True
-            self.conv_init = nn.Conv2d(n_channels, n_channels * 2, kernel_size=3, stride=1, padding=1)
+            self.conv_init = Conv(n_channels, n_channels * 2, kernel_size=3, stride=1, padding=1)
             n_channels *= 2
 
 
@@ -135,7 +147,7 @@ class CloudNetp(nn.Module):
         u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2)
         self.u_blocks.append(u_block)
          
-        self.conv = nn.Conv2d(n_classes, n_classes, kernel_size=3, stride=1, padding=1)
+        self.conv = Conv(n_classes, n_classes, kernel_size=3, stride=1, padding=1)
 
         self.c_blocks = nn.ModuleList(self.c_blocks)
         self.f_blocks = nn.ModuleList(self.f_blocks)
