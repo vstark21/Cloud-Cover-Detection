@@ -14,6 +14,8 @@ class Conv(nn.Module):
         x = self.bn(x)
         x = self.act(x)
 
+        return x
+
 class ContractionBlock(nn.Module):
     def __init__(self, ni):
         super(ContractionBlock, self).__init__()
