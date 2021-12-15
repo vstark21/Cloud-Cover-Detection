@@ -18,7 +18,7 @@ N_CLASSES = 1
 MODEL_SIZE = 'small'
 # cloudnetp
 INCEPTION_DEPTH = 6
-USE_RESIDUAL = True
+USE_RESIDUAL = False
 
 # Data
 DATA_PATHS = [

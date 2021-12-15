@@ -1,4 +1,3 @@
-from re import I
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -204,7 +203,7 @@ class CloudNetp(nn.Module):
         u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2, residual)
         self.u_blocks.append(u_block)
          
-        self.conv = Conv(n_classes, n_classes, kernel_size=3, stride=1, padding=1)
+        self.out_conv = nn.Conv2d(n_classes, n_classes, kernel_size=3, stride=1, padding=1)
 
         self.c_blocks = nn.ModuleList(self.c_blocks)
         self.f_blocks = nn.ModuleList(self.f_blocks)
@@ -236,5 +235,5 @@ class CloudNetp(nn.Module):
         for i in range(0, n - 1):
             u_sum = u_sum + self.u_blocks[i](e_outs[i])
         
-        out = self.conv(u_sum)
+        out = self.out_conv(u_sum)
         return out
