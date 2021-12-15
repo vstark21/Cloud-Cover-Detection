@@ -62,7 +62,7 @@ class ContractionBlock(nn.Module):
             self.conv2 = Conv(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
             self.conv3 = ResBlock(2 * ni, kernel_size=3, stride=1, padding=1)
 
-            self.conv4 = Conv(ni, kernel_size=1, stride=1, padding=0)
+            self.conv4 = Conv(ni, ni, kernel_size=1, stride=1, padding=0)
 
         else:
             self.conv1 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
