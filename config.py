@@ -31,15 +31,15 @@ JACC_LW = 1.0
 
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
-TRAIN_BATCH_SIZE = 4 
+TRAIN_BATCH_SIZE = 2
 EPOCHS = 50
 LEARNING_RATE = 5e-4
 AMP = True
-TRAIN_ITERS = 1000
+TRAIN_ITERS = 1000 * 2
 
 # Validating
-VAL_BATCH_SIZE = 4
-VAL_ITERS = 300
+VAL_BATCH_SIZE = 2
+VAL_ITERS = 300 * 2
 
 # Wandb 
 USE_WANDB = True
