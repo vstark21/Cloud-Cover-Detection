@@ -20,7 +20,7 @@ class CloudLoss(nn.Module):
         self.jacc_loss = smp.losses.JaccardLoss(mode='binary', smooth=1)
 
     def __call__(self, preds, targets, smooth=1):
-        bce = self.bce_loss(preds, targets)
+        bce = 0
         dice = self.dice_loss(preds, targets)
         jacc = self.jacc_loss(preds, targets)
         loss = self.bce_lw * bce + \
