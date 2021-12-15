@@ -10,12 +10,16 @@ class Conv(nn.Module):
         kernel_size=3, 
         stride=1, 
         padding=0, 
-        bias=True
+        bias=True,
+        activation='silu'
     ):
         super(Conv, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
         self.bn = nn.BatchNorm2d(out_channels)
-        self.act = nn.ReLU(inplace=True)
+        if activation == 'relu':
+            self.act = nn.ReLU(inplace=True)
+        elif activation == 'silu':
+            self.act = nn.SiLU(inplace=True)
 
     def forward(self, x):
         x = self.conv(x)
@@ -31,14 +35,18 @@ class ResBlock(nn.Module):
         kernel_size=3, 
         stride=1, 
         padding=0, 
-        bias=True
+        bias=True,
+        activation='silu'
     ):
         super(ResBlock, self).__init__()
         self.conv1 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
         self.bn1 = nn.BatchNorm2d(channels)
         self.conv2 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
         self.bn2 = nn.BatchNorm2d(channels)
-        self.act = nn.ReLU(inplace=True)
+        if activation == 'relu':
+            self.act = nn.ReLU(inplace=True)
+        elif activation == 'silu':
+            self.act = nn.SiLU(inplace=True)
     
     def forward(self, x):
         identity = x

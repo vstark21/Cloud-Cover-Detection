@@ -25,7 +25,7 @@ DATA_PATHS = [
 ]
 
 # Loss
-BCE_LW = 0.0
+BCE_LW = 1.0
 DICE_LW = 1.0
 JACC_LW = 1.0
 
@@ -82,3 +82,6 @@ if USE_WANDB:
             "val_iters": VAL_ITERS
         }
     )
+
+# Anamoly detection for nan values detection
+torch.autograd.set_detect_anomaly(True)
