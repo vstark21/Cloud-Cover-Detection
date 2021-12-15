@@ -14,10 +14,10 @@ MODEL = 'cloudnetp'
 NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
-MODEL_SIZE = 'small'
+MODEL_SIZE = 'large'
 # cloudnetp
 INCEPTION_DEPTH = 6
-USE_RESIDUAL = True
+USE_RESIDUAL = False
 
 # Data
 DATA_PATHS = [
