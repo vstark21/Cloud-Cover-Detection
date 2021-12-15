@@ -14,11 +14,10 @@ MODEL = 'cloudnetp'
 NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
-# Unet
 MODEL_SIZE = 'small'
 # cloudnetp
 INCEPTION_DEPTH = 6
-USE_RESIDUAL = False
+USE_RESIDUAL = True
 
 # Data
 DATA_PATHS = [
@@ -70,6 +69,8 @@ if USE_WANDB:
             "optimizer": OPTIMIZER,
             "model": MODEL,
             "model_size": MODEL_SIZE,
+            "inception_depth": INCEPTION_DEPTH,
+            "use_residual": USE_RESIDUAL,
             "bce_lw": BCE_LW,
             "dice_lw": DICE_LW,
             "jacc_lw": JACC_LW,
