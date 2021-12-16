@@ -39,7 +39,7 @@ TRAIN_ITERS = 1000
 
 # Validating
 VAL_BATCH_SIZE = 4
-VAL_ITERS = 300
+VAL_ITERS = 500
 
 # Wandb 
 USE_WANDB = True
