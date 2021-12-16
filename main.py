@@ -56,7 +56,8 @@ if config.MODEL == 'unet':
     model = Unet(
         n_channels=config.N_CHANNELS,
         n_classes=config.N_CLASSES,
-        model_size=config.MODEL_SIZE)
+        model_size=config.MODEL_SIZE,
+        bilinear=config.BILINEAR)
 elif config.MODEL == 'cloudnetp':
     model = CloudNetp(
         n_channels=config.N_CHANNELS,

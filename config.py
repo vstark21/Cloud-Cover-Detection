@@ -1,5 +1,6 @@
 import os
 import torch
+from torch.nn.modules.linear import Bilinear
 from utils import *
 import wandb
 from loguru import logger
@@ -10,10 +11,11 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 NAME = 'CCD'
 
-MODEL = 'cloudnetp'
+MODEL = 'unet'
 NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
+BILINEAR = False
 MODEL_SIZE = 'small'
 # cloudnetp
 INCEPTION_DEPTH = 6
