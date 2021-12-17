@@ -11,12 +11,12 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 NAME = 'CCD'
 
-MODEL = 'unet'
+MODEL = 'cloutnetp' # 'cloutnetp' or 'unet'
 NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
 BILINEAR = False
-MODEL_SIZE = 'small'
+MODEL_SIZE = 'small' # 'small' or 'large'
 # cloudnetp
 INCEPTION_DEPTH = 6
 USE_RESIDUAL = True
@@ -37,11 +37,12 @@ TRAIN_BATCH_SIZE = 4
 EPOCHS = 50
 LEARNING_RATE = 5e-4
 AMP = True
-TRAIN_ITERS = 1000
+TRAIN_ITERS = 1024
+N_ACCUMULATE = 16
 
 # Validating
 VAL_BATCH_SIZE = 4
-VAL_ITERS = 500
+VAL_ITERS = 512
 
 # Wandb 
 USE_WANDB = True

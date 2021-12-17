@@ -86,7 +86,7 @@ for epoch in range(config.EPOCHS):
     dataset_len = 0
     train_jacc_score = 0
 
-    for i in bar:
+    for step in bar:
         try:
             batch_data = next(train_generator)
         except StopIteration:
@@ -99,16 +99,22 @@ for epoch in range(config.EPOCHS):
         with torch.cuda.amp.autocast(enabled=config.AMP):
             preds = model(images)
             loss, bce_loss, dice_loss = loss_fn(preds, labels)
+
+            train_loss += loss.item()
+            train_bce_loss += bce_loss.item()
+            train_dice_loss += dice_loss.item()
             train_jacc_score += jaccard_score(preds, labels).item()
 
-        optimizer.zero_grad()
-        grad_scaler.scale(loss).backward()
-        grad_scaler.step(optimizer)
-        grad_scaler.update()
+            loss = loss / config.N_ACCUMULATE
 
-        train_loss += loss.item()
-        train_bce_loss += bce_loss.item()
-        train_dice_loss += dice_loss.item()
+        grad_scaler.scale(loss).backward()
+
+        if (step + 1) % config.N_ACCUMULATE == 0:
+            grad_scaler.step(optimizer)
+            grad_scaler.update()
+
+            optimizer.zero_grad()
+
         dataset_len += 1
 
         bar.set_postfix(
