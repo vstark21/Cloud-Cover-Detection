@@ -27,7 +27,7 @@ DATA_PATHS = [
 ]
 
 # Loss
-BCE_LW = 1.0
+BCE_LW = 0.0
 DICE_LW = 1.0
 JACC_LW = 1.0
 
