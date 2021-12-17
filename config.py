@@ -11,7 +11,7 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 NAME = 'CCD'
 
-MODEL = 'cloutnetp' # 'cloutnetp' or 'unet'
+MODEL = 'cloudnetp' # 'cloudnetp' or 'unet'
 NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
