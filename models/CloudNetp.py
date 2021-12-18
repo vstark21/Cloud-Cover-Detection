@@ -11,7 +11,8 @@ class Conv(nn.Module):
         stride=1, 
         padding=0, 
         bias=True,
-        activation='silu'
+        activation='silu',
+        dropout_p=0.2
     ):
         super(Conv, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
@@ -20,10 +21,12 @@ class Conv(nn.Module):
             self.act = nn.ReLU(inplace=True)
         elif activation == 'silu':
             self.act = nn.SiLU(inplace=True)
+        self.drop = nn.Dropout(p=dropout_p)
 
     def forward(self, x):
         x = self.conv(x)
         x = self.bn(x)
+        x = self.drop(x)
         x = self.act(x)
 
         return x
@@ -36,7 +39,8 @@ class ResBlock(nn.Module):
         stride=1, 
         padding=0, 
         bias=True,
-        activation='silu'
+        activation='silu',
+        dropout_p=0.2
     ):
         super(ResBlock, self).__init__()
         self.conv1 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
@@ -47,12 +51,14 @@ class ResBlock(nn.Module):
             self.act = nn.ReLU(inplace=True)
         elif activation == 'silu':
             self.act = nn.SiLU(inplace=True)
+        self.drop = nn.Dropout(p=dropout_p)
     
     def forward(self, x):
         identity = x
 
         out = self.conv1(x)
         out = self.bn1(out)
+        out = self.drop(out)
         out = self.act(out)
         out = self.conv2(out)
         out = self.bn2(out)
@@ -157,7 +163,7 @@ class ExpandingBlock(nn.Module):
         return x
 
 class UpSamplingBlock(nn.Module):
-    def __init__(self, ni, nout, n, residual=False):
+    def __init__(self, ni, nout, n):
         super(UpSamplingBlock, self).__init__()
         # TODO: Try to use ConvTranspose2d here instead of Upsample.
         self.up = nn.Upsample(scale_factor=(2 ** (n + 2), 2 ** (n + 2)))
@@ -208,7 +214,7 @@ class CloudNetp(nn.Module):
         for i in range(0, inception_depth - 1):
             u_block = UpSamplingBlock(n_channels * 2 * (2 ** (i + 1)), n_classes, i)
             self.u_blocks.append(u_block)
-        u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2, residual)
+        u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2)
         self.u_blocks.append(u_block)
          
         self.out_conv = nn.Conv2d(n_classes, n_classes, kernel_size=3, stride=1, padding=1)

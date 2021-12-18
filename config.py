@@ -16,7 +16,7 @@ NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
 BILINEAR = False
-MODEL_SIZE = 'small' # 'small' or 'large'
+MODEL_SIZE = 'large' # 'small' or 'large'
 # cloudnetp
 INCEPTION_DEPTH = 6
 USE_RESIDUAL = True
