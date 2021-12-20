@@ -12,7 +12,7 @@ class Conv(nn.Module):
         padding=0, 
         bias=True,
         activation='silu',
-        dropout_p=0.2
+        dropout_p=0
     ):
         super(Conv, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
@@ -40,7 +40,7 @@ class ResBlock(nn.Module):
         padding=0, 
         bias=True,
         activation='silu',
-        dropout_p=0.2
+        dropout_p=0
     ):
         super(ResBlock, self).__init__()
         self.conv1 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)

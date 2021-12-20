@@ -28,22 +28,22 @@ DATA_PATHS = [
 
 # Loss
 BCE_LW = 0.0
-DICE_LW = 1.0
+DICE_LW = 0.0
 JACC_LW = 1.0
 
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
-TRAIN_BATCH_SIZE = 2
+TRAIN_BATCH_SIZE = 4
 EPOCHS = 128
 LEARNING_RATE = 5e-4
 AMP = True
-TRAIN_ITERS = 1024 * 2
-N_ACCUMULATE = 16 * 4
-MIN_LEARNING_RATE = 1e-6
+TRAIN_ITERS = 1024
+N_ACCUMULATE = 16
+MIN_LEARNING_RATE = 1e-5
 
 # Validating
-VAL_BATCH_SIZE = 2
-VAL_ITERS = 512 * 2
+VAL_BATCH_SIZE = 4
+VAL_ITERS = 512
 
 # Wandb 
 USE_WANDB = True
