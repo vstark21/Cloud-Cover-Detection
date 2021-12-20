@@ -11,8 +11,7 @@ class Conv(nn.Module):
         stride=1, 
         padding=0, 
         bias=True,
-        activation='silu',
-        dropout_p=0
+        activation='silu'
     ):
         super(Conv, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
@@ -21,12 +20,10 @@ class Conv(nn.Module):
             self.act = nn.ReLU(inplace=True)
         elif activation == 'silu':
             self.act = nn.SiLU(inplace=True)
-        self.drop = nn.Dropout(p=dropout_p)
 
     def forward(self, x):
         x = self.conv(x)
         x = self.bn(x)
-        x = self.drop(x)
         x = self.act(x)
 
         return x
@@ -39,8 +36,7 @@ class ResBlock(nn.Module):
         stride=1, 
         padding=0, 
         bias=True,
-        activation='silu',
-        dropout_p=0
+        activation='silu'
     ):
         super(ResBlock, self).__init__()
         self.conv1 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
@@ -51,14 +47,12 @@ class ResBlock(nn.Module):
             self.act = nn.ReLU(inplace=True)
         elif activation == 'silu':
             self.act = nn.SiLU(inplace=True)
-        self.drop = nn.Dropout(p=dropout_p)
     
     def forward(self, x):
         identity = x
 
         out = self.conv1(x)
         out = self.bn1(out)
-        out = self.drop(out)
         out = self.act(out)
         out = self.conv2(out)
         out = self.bn2(out)
