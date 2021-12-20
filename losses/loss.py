@@ -21,9 +21,9 @@ class CloudLoss(nn.Module):
         self.jacc_loss = JaccardLoss()
 
     def __call__(self, preds, targets):
+        jacc = self.jacc_loss(preds, targets)
         bce = self.bce_loss(preds, targets)
         dice = self.dice_loss(preds, targets)
-        jacc = self.jacc_loss(preds, targets)
         loss = self.bce_lw * bce + \
                 self.dice_lw * dice + \
                 self.jacc_lw * jacc
