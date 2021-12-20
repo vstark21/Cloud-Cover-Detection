@@ -17,10 +17,10 @@ class CloudLoss(nn.Module):
         self.jacc_lw = jacc_lw / (bce_lw + dice_lw + jacc_lw)
 
         self.bce_loss = nn.BCEWithLogitsLoss()
-        self.dice_loss = DiceLoss(smooth=1)
-        self.jacc_loss = JaccardLoss(smooth=1)
+        self.dice_loss = DiceLoss()
+        self.jacc_loss = JaccardLoss()
 
-    def __call__(self, preds, targets, smooth=1):
+    def __call__(self, preds, targets):
         bce = self.bce_loss(preds, targets)
         dice = self.dice_loss(preds, targets)
         jacc = self.jacc_loss(preds, targets)
