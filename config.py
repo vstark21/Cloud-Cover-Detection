@@ -82,6 +82,8 @@ if USE_WANDB:
             "learning_rate": LEARNING_RATE,
             "amp": AMP,
             "train_iters": TRAIN_ITERS,
+            "n_accumulate": N_ACCUMULATE,
+            "min_learning_rate": MIN_LEARNING_RATE,
             "val_batch_size": VAL_BATCH_SIZE,
             "val_iters": VAL_ITERS
         }
