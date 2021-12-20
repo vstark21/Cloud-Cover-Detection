@@ -16,7 +16,7 @@ NUM_WORKERS = 2
 N_CHANNELS = 4
 N_CLASSES = 1
 BILINEAR = False
-MODEL_SIZE = 'small' # 'small' or 'large'
+MODEL_SIZE = 'large' # 'small' or 'large'
 # cloudnetp
 INCEPTION_DEPTH = 6
 USE_RESIDUAL = True
@@ -33,16 +33,17 @@ JACC_LW = 1.0
 
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
-TRAIN_BATCH_SIZE = 4
-EPOCHS = 50
+TRAIN_BATCH_SIZE = 2
+EPOCHS = 128
 LEARNING_RATE = 5e-4
 AMP = True
-TRAIN_ITERS = 1024
-N_ACCUMULATE = 16
+TRAIN_ITERS = 1024 * 2
+N_ACCUMULATE = 16 * 2
+MIN_LEARNING_RATE = 1e-6
 
 # Validating
-VAL_BATCH_SIZE = 4
-VAL_ITERS = 512
+VAL_BATCH_SIZE = 2
+VAL_ITERS = 512 * 2
 
 # Wandb 
 USE_WANDB = True
