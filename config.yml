@@ -16,7 +16,7 @@ USE_RESIDUAL: True
 
 # Data
 DATA_PATHS:
-    - "data/ccd_data/"
+    - "data/"
 
 # Loss
 BCE_LW: 0.0
