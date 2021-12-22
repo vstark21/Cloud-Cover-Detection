@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from losses import JaccardLoss
+from losses.jaccard_loss import JaccardLoss
 
 def low_and_high_pass(
     y: torch.Tensor,
@@ -43,7 +43,7 @@ class FilteredJaccardLoss(nn.Module):
         batch_size = y.shape[0]
         y = y.view(batch_size, -1)
         t = t.view(batch_size, -1)
-        
+
         lp, hp = low_and_high_pass(y, self.pc, self.m)
         jl = self.jl(y, t)
         gl = 0
