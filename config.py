@@ -2,7 +2,6 @@ import os
 import torch
 from torch.nn.modules.linear import Bilinear
 from utils import *
-import wandb
 from loguru import logger
 
 SEED = 42
@@ -65,6 +64,7 @@ logger.info(f"Using device: {DEVICE}")
 seed_everything(SEED)
 
 if USE_WANDB:
+    import wandb
     wandb.init(
         project=NAME, 
         entity="vstark21", 

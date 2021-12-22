@@ -4,7 +4,6 @@ import cv2
 import time
 import json
 import scipy
-import wandb
 import random
 import warnings
 import numpy as np
@@ -21,6 +20,8 @@ from datasets import CloudDataset
 from losses import CloudLoss
 from utils import *
 from loguru import logger
+if config.USE_WANDB:
+    import wandb
 
 files = []
 for name in config.DATA_PATHS:
