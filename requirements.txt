@@ -8,3 +8,4 @@ matplotlib
 loguru
 wandb
 segmentation_models_pytorch
+pyaml

@@ -1,0 +1,46 @@
+---
+SEED: 42
+VERBOSE: 1
+
+NAME: 'CCD'
+
+MODEL: 'cloudnetp' # 'cloudnetp' or 'unet'
+NUM_WORKERS: 2
+N_CHANNELS: 4
+N_CLASSES: 1
+BILINEAR: False
+MODEL_SIZE: 'small' # 'small' or 'large'
+# cloudnetp only parameters
+INCEPTION_DEPTH: 6
+USE_RESIDUAL: True
+
+# Data
+DATA_PATHS:
+    - "data/ccd_data/"
+
+# Loss
+BCE_LW: 0.0
+DICE_LW: 0.0
+JACC_LW: 0.0
+FJACC_LW: 1.0
+
+# Training
+OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
+TRAIN_BATCH_SIZE: 4
+EPOCHS: 128
+LEARNING_RATE: 5.0e-4
+AMP: True
+TRAIN_ITERS: 1024
+N_ACCUMULATE: 16
+MIN_LEARNING_RATE: 1.0e-5
+
+# Validating
+VAL_BATCH_SIZE: 4
+VAL_ITERS: 512
+
+# Wandb 
+USE_WANDB: True
+
+# Outputs
+OUTPUT_PATH: 'outputs/'
+LOG_FILE: 'outputs/logs.log'
