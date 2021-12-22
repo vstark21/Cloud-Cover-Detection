@@ -29,7 +29,8 @@ DATA_PATHS = [
 # Loss
 BCE_LW = 0.0
 DICE_LW = 0.0
-JACC_LW = 1.0
+JACC_LW = 0.0
+FJACC_LW = 1.0
 
 # Training
 OPTIMIZER = 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
@@ -78,6 +79,7 @@ if USE_WANDB:
             "bce_lw": BCE_LW,
             "dice_lw": DICE_LW,
             "jacc_lw": JACC_LW,
+            "fjacc_lw": FJACC_LW,
             "train_batch_size": TRAIN_BATCH_SIZE,
             "learning_rate": LEARNING_RATE,
             "amp": AMP,

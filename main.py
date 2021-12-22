@@ -50,7 +50,8 @@ val_generator = val_dataloader.__iter__()
 loss_fn = CloudLoss(
     bce_lw=config.BCE_LW,
     dice_lw=config.DICE_LW,
-    jacc_lw=config.JACC_LW
+    jacc_lw=config.JACC_LW,
+    fjacc_lw=config.FJACC_LW
 )
 if config.MODEL == 'unet':
     model = Unet(
