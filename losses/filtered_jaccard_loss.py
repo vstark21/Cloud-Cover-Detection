@@ -52,7 +52,7 @@ class FilteredJaccardLoss(nn.Module):
         # TODO: implement the other mode (bce)
         loss = (
             self.kg * gl * lp + self.kj * jl * hp
-        )
+        ).mean()
         return loss
         
         
