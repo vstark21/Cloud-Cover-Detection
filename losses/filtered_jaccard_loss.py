@@ -9,8 +9,9 @@ def low_and_high_pass(
 ):
     S = y.sum(dim=1)
 
-    lp = 1 / (1 + torch.exp(steepness * (S - cutoff)))
-    hp = 1 / (1 + torch.exp(steepness * (-S + cutoff)))
+    lp = torch.sigmoid(-steepness * (S - cutoff))
+    hp = torch.sigmoid(-steepness * (-S + cutoff))
+    
     return lp, hp
 
 
