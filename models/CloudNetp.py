@@ -15,16 +15,16 @@ class Conv(nn.Module):
     ):
         super(Conv, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
+        self.bn = nn.BatchNorm2d(out_channels)
         if activation == 'relu':
             self.act = nn.ReLU(inplace=True)
         elif activation == 'silu':
             self.act = nn.SiLU(inplace=True)
-        self.bn = nn.BatchNorm2d(out_channels)
 
     def forward(self, x):
         x = self.conv(x)
-        x = self.act(x)
         x = self.bn(x)
+        x = self.act(x)
 
         return x
 
@@ -43,31 +43,24 @@ class ResBlock(nn.Module):
         self.bn1 = nn.BatchNorm2d(channels)
         self.conv2 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
         self.bn2 = nn.BatchNorm2d(channels)
-        self.conv3 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
-        self.bn3 = nn.BatchNorm2d(channels)
         if activation == 'relu':
             self.act1 = nn.ReLU(inplace=True)
             self.act2 = nn.ReLU(inplace=True)
-            self.act3 = nn.ReLU(inplace=True)
         elif activation == 'silu':
             self.act1 = nn.SiLU(inplace=True)
             self.act2 = nn.SiLU(inplace=True)
-            self.act3 = nn.SiLU(inplace=True)
     
     def forward(self, x):
         identity = x
 
         out = self.conv1(x)
-        out = self.act1(out)
         out = self.bn1(out)
+        out = self.act1(out)
         out = self.conv2(out)
-        out = self.act2(out)
         out = self.bn2(out)
-        out = self.conv3(out)
-        
+
         out += identity
-        out = self.act3(out)
-        out = self.bn3(out)
+        out = self.act2(out)
         return out
 
 class ContractionBlock(nn.Module):
