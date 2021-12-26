@@ -49,8 +49,8 @@ if __name__ == "__main__":
     train_files, val_files = train_test_split(files, test_size=0.25, 
                                             random_state=config.SEED)
 
-    train_dataset = CloudDataset(train_files)
-    val_dataset = CloudDataset(val_files)
+    train_dataset = CloudDataset(train_files, config.DATA_MEAN, config.DATA_STD)
+    val_dataset = CloudDataset(val_files, config.DATA_MEAN, config.DATA_STD)
 
     train_dataloader = DataLoader(
                         train_dataset,
@@ -216,13 +216,14 @@ if __name__ == "__main__":
         if best_val_js < val_jacc_score:
             best_val_js = val_jacc_score
             save_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
+            if config.USE_WANDB:
+                wandb.save(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
         logger.info(f"Epoch {epoch} ended, time taken {format_time(time.time()-tic)}\n")
         if optimizer.param_groups[0]['lr'] <= config.MIN_LEARNING_RATE:
             logger.info(f"Learning rate has reached its minimum value, stopping training at {epoch + 1}")
             break
 
     if config.USE_WANDB:
-        wandb.save(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
         wandb.save(config.LOG_FILE)
 
     torch.cuda.empty_cache()
