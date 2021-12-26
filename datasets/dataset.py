@@ -4,8 +4,8 @@ import numpy as np
 class CloudDataset(Dataset):
     def __init__(self, paths, mean, std):
         self.files = paths
-        self.mean = mean
-        self.std = std
+        self.mean = np.array(mean)
+        self.std = np.array(std)
             
     def __len__(self):
         return len(self.files)
