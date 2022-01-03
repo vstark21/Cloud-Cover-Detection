@@ -61,7 +61,7 @@ JACC_LW: 1.0
 FJACC_LW: 1.0
 
 # Training
-OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
+OPTIMIZER: 'SGD' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE: 4
 EPOCHS: 128
 LEARNING_RATE: 5.0e-4

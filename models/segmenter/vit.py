@@ -134,7 +134,6 @@ class VisionTransformer(nn.Module):
         x = self.norm(x)
 
         if return_features:
-            print(x.shape)
             return x
 
         if self.distilled:
