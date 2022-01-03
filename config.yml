@@ -6,13 +6,39 @@ NAME: 'CCD'
 
 MODEL: 'cloudnetp' # 'cloudnetp' or 'unet'
 NUM_WORKERS: 2
-N_CHANNELS: 4
-N_CLASSES: 1
-BILINEAR: False
-MODEL_SIZE: 'small' # 'small' or 'large'
-# cloudnetp only parameters
-INCEPTION_DEPTH: 6
-USE_RESIDUAL: True
+MODEL_PARAMS:
+    unet:
+        n_channels: 4
+        n_classes: 1
+        model_size: 'small'
+        bilinear: False
+    cloudnetp:
+        n_channels: 4
+        n_classes: 1
+        inception_depth: 6
+        model_size: 'small'
+        residual: True
+    segmenter:
+        backbone: vit_small_patch16_384
+        d_model: 384
+        decoder:
+            drop_path_rate: 0.0
+            dropout: 0.1
+            n_cls: 150
+            n_layers: 2
+            name: mask_transformer
+        distilled: false
+        drop_path_rate: 0.1
+        dropout: 0.0
+        image_size: !!python/tuple
+        - 512
+        - 512
+        - 4
+        n_cls: 1
+        n_heads: 6
+        n_layers: 12
+        normalization: vit
+        patch_size: 16
 
 # Data
 DATA_PATHS:
@@ -43,6 +69,11 @@ AMP: True
 TRAIN_ITERS: 1024
 N_ACCUMULATE: 16
 MIN_LEARNING_RATE: 1.0e-5
+SCHEDULER: "ReduceLROnPlateau" # Should be one of the scheduler in https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+SCHEDULER_PARAMS:
+    mode: "min"
+    patience: 2
+    factor: 0.5
 
 # Validating
 VAL_BATCH_SIZE: 4

@@ -20,6 +20,7 @@ from datasets import CloudDataset
 from losses import CloudLoss
 from utils import *
 from loguru import logger
+from models.segmenter.factory import create_segmenter
 
 # config
 with open("config.yml", "r") as f:
@@ -74,21 +75,20 @@ if __name__ == "__main__":
     )
     if config.MODEL == 'unet':
         model = Unet(
-            n_channels=config.N_CHANNELS,
-            n_classes=config.N_CLASSES,
-            model_size=config.MODEL_SIZE,
-            bilinear=config.BILINEAR)
+            **config.MODEL_PARAMS[config.MODEL]
+        )
     elif config.MODEL == 'cloudnetp':
         model = CloudNetp(
-            n_channels=config.N_CHANNELS,
-            n_classes=config.N_CLASSES,
-            inception_depth=config.INCEPTION_DEPTH,
-            model_size=config.MODEL_SIZE,
-            residual=config.USE_RESIDUAL)
+            **config.MODEL_PARAMS[config.MODEL]
+        )
+    elif config.MODEL == 'segmenter':
+        model = create_segmenter(
+            **config.MODEL_PARAMS[config.MODEL]
+        )
 
     model = model.to(config.DEVICE)
     optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=2, factor=0.5)
+    scheduler = getattr(torch.optim.lr_scheduler, config.SCHEDULER)(optimizer, **config.SCHEDULER_PARAMS)
     grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
 
     logger.info(f"Model has {count_parameters(model)} parameters")
