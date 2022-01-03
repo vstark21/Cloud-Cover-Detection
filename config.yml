@@ -22,11 +22,11 @@ MODEL_PARAMS:
         model_cfg:
             d_model: 192
             decoder:
-                # drop_path_rate: 0.0
-                # dropout: 0.1
+                drop_path_rate: 0.0
+                dropout: 0.1
                 n_cls: 150
-                # n_layers: 2
-                name: "linear" # "mask_transformer" or "linear"
+                n_layers: 2
+                name: "mask_transformer" # "mask_transformer" or "linear"
             distilled: false
             drop_path_rate: 0.1
             dropout: 0.0
@@ -67,7 +67,7 @@ EPOCHS: 128
 LEARNING_RATE: 5.0e-4
 AMP: True
 TRAIN_ITERS: 1024
-N_ACCUMULATE: 16
+N_ACCUMULATE: 1
 MIN_LEARNING_RATE: 1.0e-5
 SCHEDULER: "ReduceLROnPlateau" # Should be one of the scheduler in https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
 SCHEDULER_PARAMS:
@@ -80,7 +80,7 @@ VAL_BATCH_SIZE: 4
 VAL_ITERS: 512
 
 # Wandb 
-USE_WANDB: True
+USE_WANDB: False
 
 # Outputs
 OUTPUT_PATH: 'outputs/'
