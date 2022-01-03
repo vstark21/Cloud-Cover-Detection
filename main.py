@@ -50,12 +50,8 @@ if __name__ == "__main__":
     train_files, val_files = train_test_split(files, test_size=0.25, 
                                             random_state=config.SEED)
 
-    train_dataset = CloudDataset(
-        train_files, config.DATA_MEAN, config.DATA_STD, **config.MODEL_MEAN[config.MODEL]
-    )
-    val_dataset = CloudDataset(
-        val_files, config.DATA_MEAN, config.DATA_STD, **config.MODEL_MEAN[config.MODEL]
-    )
+    train_dataset = CloudDataset(train_files, config.DATA_MEAN, config.DATA_STD)
+    val_dataset = CloudDataset(val_files, config.DATA_MEAN, config.DATA_STD)
 
     train_dataloader = DataLoader(
                         train_dataset,
