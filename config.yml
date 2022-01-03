@@ -26,7 +26,7 @@ MODEL_PARAMS:
                 dropout: 0.1
                 n_cls: 150
                 n_layers: 2
-                name: mask_transformer
+                name: "linear" # "mask_transformer" or "linear"
             distilled: false
             drop_path_rate: 0.1
             dropout: 0.0
