@@ -80,7 +80,7 @@ VAL_BATCH_SIZE: 4
 VAL_ITERS: 512
 
 # Wandb 
-USE_WANDB: True
+USE_WANDB: False
 
 # Outputs
 OUTPUT_PATH: 'outputs/'
