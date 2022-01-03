@@ -34,12 +34,12 @@ MODEL_PARAMS:
             image_size:
                 - 512
                 - 512
-                - 4
             n_cls: 1
             n_heads: 6
             n_layers: 12
             normalization: vit
             patch_size: 16
+            channels: 4
 
 # Data
 DATA_PATHS:

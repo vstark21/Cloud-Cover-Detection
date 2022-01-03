@@ -59,7 +59,7 @@ def create_vit(model_cfg):
         )
 
     default_cfg["input_size"] = (
-        model_cfg["image_size"][2],
+        model_cfg["channels"],
         model_cfg["image_size"][0],
         model_cfg["image_size"][1],
     )
