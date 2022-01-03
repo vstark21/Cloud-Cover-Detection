@@ -55,19 +55,19 @@ DATA_STD:
     - 2424.18942846
 
 # Loss
-BCE_LW: 1.0
-DICE_LW: 0.0
-JACC_LW: 0.0
-FJACC_LW: 0.0
+BCE_LW: 0.0
+DICE_LW: 1.0
+JACC_LW: 1.0
+FJACC_LW: 1.0
 
 # Training
-OPTIMIZER: 'SGD' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
+OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE: 4
 EPOCHS: 128
 LEARNING_RATE: 5.0e-4
-AMP: False
+AMP: True
 TRAIN_ITERS: 1024
-N_ACCUMULATE: 1
+N_ACCUMULATE: 16
 MIN_LEARNING_RATE: 1.0e-5
 SCHEDULER: "ReduceLROnPlateau" # Should be one of the scheduler in https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
 SCHEDULER_PARAMS:
@@ -80,7 +80,7 @@ VAL_BATCH_SIZE: 4
 VAL_ITERS: 512
 
 # Wandb 
-USE_WANDB: False
+USE_WANDB: True
 
 # Outputs
 OUTPUT_PATH: 'outputs/'
