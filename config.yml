@@ -67,7 +67,7 @@ EPOCHS: 128
 LEARNING_RATE: 5.0e-4
 AMP: False
 TRAIN_ITERS: 1024
-N_ACCUMULATE: 2
+N_ACCUMULATE: 1
 MIN_LEARNING_RATE: 1.0e-5
 SCHEDULER: "ReduceLROnPlateau" # Should be one of the scheduler in https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
 SCHEDULER_PARAMS:
