@@ -30,10 +30,10 @@ MODEL_PARAMS:
         distilled: false
         drop_path_rate: 0.1
         dropout: 0.0
-        image_size: !!python/tuple
-        - 512
-        - 512
-        - 4
+        image_size:
+            - 512
+            - 512
+            - 4
         n_cls: 1
         n_heads: 6
         n_layers: 12
