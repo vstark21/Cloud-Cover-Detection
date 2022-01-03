@@ -64,7 +64,7 @@ FJACC_LW: 1.0
 OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE: 4
 EPOCHS: 128
-LEARNING_RATE: 5.0e-3
+LEARNING_RATE: 5.0e-4
 AMP: False
 TRAIN_ITERS: 1024
 N_ACCUMULATE: 2
