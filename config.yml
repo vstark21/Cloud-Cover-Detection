@@ -22,10 +22,10 @@ MODEL_PARAMS:
         model_cfg:
             d_model: 192
             decoder:
-                drop_path_rate: 0.0
-                dropout: 0.1
+                # drop_path_rate: 0.0
+                # dropout: 0.1
                 n_cls: 150
-                n_layers: 2
+                # n_layers: 2
                 name: "linear" # "mask_transformer" or "linear"
             distilled: false
             drop_path_rate: 0.1
