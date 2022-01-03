@@ -4,7 +4,7 @@ VERBOSE: 1
 
 NAME: 'CCD'
 
-MODEL: 'cloudnetp' # 'cloudnetp', 'unet' or 'segmenter'
+MODEL: 'segmenter' # 'cloudnetp', 'unet' or 'segmenter'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     unet:
@@ -55,9 +55,9 @@ DATA_STD:
     - 2424.18942846
 
 # Loss
-BCE_LW: 1.0
+BCE_LW: 0.0
 DICE_LW: 1.0
-JACC_LW: 0.0
+JACC_LW: 1.0
 FJACC_LW: 1.0
 
 # Training
