@@ -5,6 +5,7 @@ https://github.com/rwightman/pytorch-image-models
 
 import torch
 import torch.nn as nn
+from einops import rearrange
 from pathlib import Path
 
 import torch.nn.functional as F

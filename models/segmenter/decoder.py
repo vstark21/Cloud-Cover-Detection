@@ -71,9 +71,7 @@ class MaskTransformer(nn.Module):
         self.mask_norm = nn.LayerNorm(n_cls)
 
         self.apply(init_weights)
-        # trunc_normal_(self.cls_emb, std=0.02)
-        trunc_normal_(self.cls_emb, std=1.0)
-
+        trunc_normal_(self.cls_emb, std=0.02)
 
     @torch.jit.ignore
     def no_weight_decay(self):
