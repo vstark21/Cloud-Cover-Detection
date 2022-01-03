@@ -118,6 +118,7 @@ if __name__ == "__main__":
             
             with torch.cuda.amp.autocast(enabled=config.AMP):
                 preds = model(images)
+                print(preds)
                 loss, bce_loss, dice_loss = loss_fn(preds, labels)
 
                 train_loss += loss.item()

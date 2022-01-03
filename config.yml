@@ -20,7 +20,6 @@ MODEL_PARAMS:
         residual: True
     segmenter:
         model_cfg:
-            backbone: vit_small_patch16_384
             d_model: 384
             decoder:
                 drop_path_rate: 0.0
@@ -58,7 +57,7 @@ DATA_STD:
 # Loss
 BCE_LW: 1.0
 DICE_LW: 0.0
-JACC_LW: 1.0
+JACC_LW: 0.0
 FJACC_LW: 0.0
 
 # Training
@@ -81,7 +80,7 @@ VAL_BATCH_SIZE: 4
 VAL_ITERS: 512
 
 # Wandb 
-USE_WANDB: True
+USE_WANDB: False
 
 # Outputs
 OUTPUT_PATH: 'outputs/'
