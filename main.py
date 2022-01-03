@@ -132,7 +132,7 @@ if __name__ == "__main__":
             if (step + 1) % config.N_ACCUMULATE == 0:
                 grad_scaler.step(optimizer)
                 grad_scaler.update()
-                print(preds.max().item(), preds.min().item())
+                logger.info(f"MAX: {preds.max().item()}, MIN: {preds.min().item()}")
 
                 optimizer.zero_grad()
 
