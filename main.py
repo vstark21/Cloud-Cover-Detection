@@ -94,6 +94,7 @@ if __name__ == "__main__":
     logger.info(f"Model has {count_parameters(model)} parameters")
 
     best_val_js = 0
+    print(model.parameters())
 
     for epoch in range(config.EPOCHS):
         tic = time.time()
@@ -130,6 +131,7 @@ if __name__ == "__main__":
             grad_scaler.scale(loss).backward()
 
             if (step + 1) % config.N_ACCUMULATE == 0:
+                print(model.encoder.head.grad)
                 grad_scaler.step(optimizer)
                 grad_scaler.update()
                 bar.set_description(f"MAX: {images.max().item()}, MIN: {images.min().item()}, MAX: {preds.max().item()}, MIN: {preds.min().item()}")
