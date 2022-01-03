@@ -132,6 +132,7 @@ if __name__ == "__main__":
 
             if (step + 1) % config.N_ACCUMULATE == 0:
                 print(model.encoder.head.weight.grad)
+                print(model.decoder.proj_dec.weight.grad)
                 grad_scaler.step(optimizer)
                 grad_scaler.update()
                 bar.set_description(f"MAX: {images.max().item()}, MIN: {images.min().item()}, MAX: {preds.max().item()}, MIN: {preds.min().item()}")
