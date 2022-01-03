@@ -4,7 +4,7 @@ VERBOSE: 1
 
 NAME: 'CCD'
 
-MODEL: 'segmenter' # 'cloudnetp' or 'unet'
+MODEL: 'cloudnetp' # 'cloudnetp', 'unet' or 'segmenter'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     unet:
