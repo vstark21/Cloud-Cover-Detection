@@ -118,7 +118,6 @@ if __name__ == "__main__":
             
             with torch.cuda.amp.autocast(enabled=config.AMP):
                 preds = model(images)
-                print(preds)
                 loss, bce_loss, dice_loss = loss_fn(preds, labels)
 
                 train_loss += loss.item()
@@ -133,6 +132,7 @@ if __name__ == "__main__":
             if (step + 1) % config.N_ACCUMULATE == 0:
                 grad_scaler.step(optimizer)
                 grad_scaler.update()
+                print(preds.max().item(), preds.min().item())
 
                 optimizer.zero_grad()
 
