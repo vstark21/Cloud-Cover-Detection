@@ -131,7 +131,7 @@ if __name__ == "__main__":
             grad_scaler.scale(loss).backward()
 
             if (step + 1) % config.N_ACCUMULATE == 0:
-                print(model.encoder.head.weight.grad)
+                print(model.encoder.head.weight.grad, model.encoder.cls_token.grad)
                 print(model.decoder.proj_dec.weight.grad)
                 grad_scaler.step(optimizer)
                 grad_scaler.update()
