@@ -20,7 +20,6 @@ from datasets import CloudDataset
 from losses import CloudLoss
 from utils import *
 from loguru import logger
-from models.segmenter.factory import create_segmenter
 
 # config
 with open("config.yml", "r") as f:
@@ -81,10 +80,6 @@ if __name__ == "__main__":
         model = CloudNetp(
             **config.MODEL_PARAMS[config.MODEL]
         )
-    elif config.MODEL == 'segmenter':
-        model = create_segmenter(
-            **config.MODEL_PARAMS[config.MODEL]
-        )
 
     model = model.to(config.DEVICE)
     optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
@@ -132,8 +127,6 @@ if __name__ == "__main__":
             if (step + 1) % config.N_ACCUMULATE == 0:
                 grad_scaler.step(optimizer)
                 grad_scaler.update()
-                bar.set_description(f"MAX: {images.max().item()}, MIN: {images.min().item()}, MAX: {preds.max().item()}, MIN: {preds.min().item()}")
-
                 optimizer.zero_grad()
 
             dataset_len += 1
