@@ -249,11 +249,12 @@ class UPerHead(nn.Module):
         used_backbone_levels = len(laterals)
         for i in range(used_backbone_levels - 1, 0, -1):
             prev_shape = laterals[i - 1].shape[2:]
-            laterals[i - 1] += resize(
-                laterals[i],
-                size=prev_shape,
-                mode='bilinear',
-                align_corners=self.align_corners)
+            laterals[i - 1] = laterals[i - 1] + resize(
+                                        laterals[i],
+                                        size=prev_shape,
+                                        mode='bilinear',
+                                        align_corners=self.align_corners
+                                    )
 
         # build outputs
         fpn_outs = []
