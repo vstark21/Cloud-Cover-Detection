@@ -237,10 +237,11 @@ class UPerHead(nn.Module):
         inputs = self._transform_inputs(inputs)
 
         # build laterals
-        laterals = [
-            lateral_conv(inputs[i])
-            for i, lateral_conv in enumerate(self.lateral_convs)
-        ]
+        laterals = []
+        for i, lateral_conv in enumerate(self.lateral_convs):
+            laterals.append(
+                lateral_conv(inputs[i])
+            )
 
         laterals.append(self.psp_forward(inputs))
 
@@ -255,10 +256,11 @@ class UPerHead(nn.Module):
                 align_corners=self.align_corners)
 
         # build outputs
-        fpn_outs = [
-            self.fpn_convs[i](laterals[i])
-            for i in range(used_backbone_levels - 1)
-        ]
+        fpn_outs = []
+        for i in range(used_backbone_levels - 1):
+            fpn_outs.append(
+                self.fpn_convs[i](laterals[i])
+            )
         # append psp feature
         fpn_outs.append(laterals[-1])
 
