@@ -8,31 +8,37 @@ from losses.filtered_jaccard_loss import *
 class CloudLoss(nn.Module):
     def __init__(
         self, 
-        bce_lw=1.0, 
-        dice_lw=1.0, 
-        jacc_lw=1.0,
-        fjacc_lw=1.0,
+        out_weights: dict,
+        loss_weights: list
     ):
         super().__init__()
-        s = (bce_lw + dice_lw + jacc_lw + fjacc_lw)
-        self.bce_lw = bce_lw / s
-        self.dice_lw = dice_lw / s
-        self.jacc_lw = jacc_lw / s
-        self.fjacc_lw = fjacc_lw / s
+        s = sum(loss_weights)
+        self.bce_lw = loss_weights[0] / s
+        self.dice_lw = loss_weights[1] / s
+        self.jacc_lw = loss_weights[2] / s
+        self.fjacc_lw = loss_weights[3] / s
+        self.out_weights = out_weights
 
         self.bce_loss = nn.BCEWithLogitsLoss()
         self.dice_loss = DiceLoss()
         self.jacc_loss = JaccardLoss()
         self.filtered_jacc_loss = FilteredJaccardLoss()
 
-    def __call__(self, preds, targets):
-        jacc = self.jacc_loss(preds, targets)
-        bce = self.bce_loss(preds, targets)
-        dice = self.dice_loss(preds, targets)
-        fjacc = self.filtered_jacc_loss(preds, targets)
-        loss = self.bce_lw * bce + \
-                self.dice_lw * dice + \
-                self.jacc_lw * jacc + \
-                self.fjacc_lw * fjacc
+    def __call__(self, preds_dict, targets):
+        loss, bce, dice = 0, 0, 0
+
+        for key, preds in preds_dict.items():
+            cur_jacc = self.jacc_loss(preds, targets)
+            cur_bce = self.bce_loss(preds, targets)
+            cur_dice = self.dice_loss(preds, targets)
+            cur_fjacc = self.filtered_jacc_loss(preds, targets)
+            cur_loss = self.bce_lw * cur_bce + \
+                    self.dice_lw * cur_dice + \
+                    self.jacc_lw * cur_jacc + \
+                    self.fjacc_lw * cur_fjacc
+            
+            loss += (self.out_weights[key] * cur_loss)
+            bce += (self.out_weights[key] * cur_bce)
+            dice += (self.out_weights[key] * cur_dice)
 
         return loss, bce, dice

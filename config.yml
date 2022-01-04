@@ -4,40 +4,78 @@ VERBOSE: 1
 
 NAME: 'CCD'
 
-MODEL: 'cloudnetp' # 'cloudnetp', 'unet'
+MODEL: 'SwinSegmenter' # 'CloudNetp', 'Unet' or 'SwinSegmenter'
 NUM_WORKERS: 2
 MODEL_PARAMS:
-    unet:
+    Unet:
         n_channels: 4
         n_classes: 1
         model_size: 'small'
         bilinear: False
-    cloudnetp:
+    CloudNetp:
         n_channels: 4
         n_classes: 1
         inception_depth: 6
         model_size: 'small'
         residual: True
+    SwinSegmenter:
+        cfg:
+            backbone:
+                img_size: 512
+                embed_dim: 96
+                depths: [2, 2, 18, 2]
+                num_heads: [3, 6, 12, 24]
+                window_size: 7
+                mlp_ratio: 4.
+                qkv_bias: True
+                qk_scale: null
+                drop_rate: 0.
+                attn_drop_rate: 0.
+                drop_path_rate: 0.3
+                ape: False
+                patch_norm: True
+                out_indices: [0, 1, 2, 3]
+                use_checkpoint: False
+            decode_head:
+                in_channels: [96, 192, 384, 768]
+                in_index: [0, 1, 2, 3]
+                pool_scales: [1, 2, 3, 6]
+                channels: 512
+                dropout_ratio: 0.1
+                num_classes: 512
+                norm_cfg: 
+                    type: 'BN2d'
+                    requires_grad: True
+                align_corners: False
+            auxiliary_head:
+                in_channels: 384
+                in_index: 2
+                channels: 256
+                num_convs: 1
+                concat_input: False
+                dropout_ratio: 0.1
+                num_classes: 512
+                norm_cfg:  
+                    type: 'BN2d'
+                    requires_grad: True
+                align_corners: False
 
 # Data
 DATA_PATHS:
     - "data/"
-DATA_MEAN: 
-    - 2848.06411202
-    - 2839.08714853
-    - 2741.28910764
-    - 3657.90921129
-DATA_STD:
-    - 3156.92684648 
-    - 2899.28014451 
-    - 2789.96160889 
-    - 2424.18942846
+DATA_MEAN: [2848.06411202, 2839.08714853, 2741.28910764, 3657.90921129]
+DATA_STD: [3156.92684648, 2899.28014451, 2789.96160889, 2424.18942846]
 
 # Loss
 BCE_LW: 0.0
 DICE_LW: 1.0
 JACC_LW: 1.0
 FJACC_LW: 1.0
+LOSS_PARAMS:
+    loss_weights: [0., 1., 1., 1.] # bce, dice, jacc, fjacc
+    out_weights:
+        out: 1.
+        aux_out: 0.4
 
 # Training
 OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
@@ -59,7 +97,7 @@ VAL_BATCH_SIZE: 4
 VAL_ITERS: 512
 
 # Wandb 
-USE_WANDB: True
+USE_WANDB: False
 
 # Outputs
 OUTPUT_PATH: 'outputs/'

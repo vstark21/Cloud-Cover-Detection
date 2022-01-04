@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 import torch
 from torch.utils.data import DataLoader
 
-from models import Unet, CloudNetp
+import models
 from datasets import CloudDataset
 from losses import CloudLoss
 from utils import *
@@ -67,27 +67,16 @@ if __name__ == "__main__":
     train_generator = train_dataloader.__iter__()
     val_generator = val_dataloader.__iter__()
     loss_fn = CloudLoss(
-        bce_lw=config.BCE_LW,
-        dice_lw=config.DICE_LW,
-        jacc_lw=config.JACC_LW,
-        fjacc_lw=config.FJACC_LW
+        **config.LOSS_PARAMS
     )
-    if config.MODEL == 'unet':
-        model = Unet(
-            **config.MODEL_PARAMS[config.MODEL]
-        )
-    elif config.MODEL == 'cloudnetp':
-        model = CloudNetp(
-            **config.MODEL_PARAMS[config.MODEL]
-        )
-
-    model = model.to(config.DEVICE)
+    model = getattr(models, config.MODEL)(
+        **config.MODEL_PARAMS[config.MODEL]
+    ).to(config.DEVICE)
     optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
     scheduler = getattr(torch.optim.lr_scheduler, config.SCHEDULER)(optimizer, **config.SCHEDULER_PARAMS)
     grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
 
     logger.info(f"Model has {count_parameters(model)} parameters")
-
     best_val_js = 0
 
     for epoch in range(config.EPOCHS):
@@ -112,13 +101,13 @@ if __name__ == "__main__":
             labels = batch_data['labels'].to(config.DEVICE)
             
             with torch.cuda.amp.autocast(enabled=config.AMP):
-                preds = model(images)
-                loss, bce_loss, dice_loss = loss_fn(preds, labels)
+                preds_dict = model(images)
+                loss, bce_loss, dice_loss = loss_fn(preds_dict, labels)
 
                 train_loss += loss.item()
                 train_bce_loss += bce_loss.item()
                 train_dice_loss += dice_loss.item()
-                train_jacc_score += jaccard_score(preds, labels).item()
+                train_jacc_score += jaccard_score(preds_dict['out'], labels).item()
 
                 loss = loss / config.N_ACCUMULATE
 
@@ -163,13 +152,13 @@ if __name__ == "__main__":
                 images = batch_data['inputs'].to(config.DEVICE)
                 labels = batch_data['labels'].to(config.DEVICE)
 
-                preds = model(images)
-                loss, bce_loss, dice_loss = loss_fn(preds, labels)
+                preds_dict = model(images)
+                loss, bce_loss, dice_loss = loss_fn(preds_dict, labels)
 
                 val_loss += loss.item()
                 val_bce_loss += bce_loss.item()
                 val_dice_loss += dice_loss.item()
-                val_jacc_score += jaccard_score(preds, labels).item()
+                val_jacc_score += jaccard_score(preds_dict['out'], labels).item()
                 dataset_len += 1
 
                 bar.set_postfix(
