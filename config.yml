@@ -1,7 +1,7 @@
 ---
 SEED: 42
 VERBOSE: 1
-DEBUG: True
+DEBUG: False
 
 NAME: 'CCD'
 
@@ -81,7 +81,7 @@ LOSS_PARAMS:
 
 # Training
 OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
-TRAIN_BATCH_SIZE: 4
+TRAIN_BATCH_SIZE: 2
 EPOCHS: 128
 LEARNING_RATE: 5.0e-4
 AMP: True
@@ -95,7 +95,7 @@ SCHEDULER_PARAMS:
     factor: 0.5
 
 # Validating
-VAL_BATCH_SIZE: 4
+VAL_BATCH_SIZE: 2
 VAL_ITERS: 512
 
 # Wandb 
