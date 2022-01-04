@@ -24,6 +24,9 @@ from loguru import logger
 # config
 with open("config.yml", "r") as f:
     config = AttrDict(yaml.safe_load(f))
+if config.DEBUG:
+    config.USE_WANDB = False
+    config.N_ACCUMULATE = 2
 
 config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 if not os.path.exists(config.OUTPUT_PATH):

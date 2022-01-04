@@ -72,7 +72,7 @@ class ConvModule(nn.Module):
                  conv_cfg=None,
                  norm_cfg=None,
                  act_cfg=dict(type='ReLU'),
-                 inplace=True,
+                 inplace=False,
                  with_spectral_norm=False,
                  padding_mode='zeros',
                  order=('conv', 'norm', 'act')):

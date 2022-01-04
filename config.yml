@@ -1,6 +1,7 @@
 ---
 SEED: 42
 VERBOSE: 1
+DEBUG: True
 
 NAME: 'CCD'
 
@@ -98,7 +99,7 @@ VAL_BATCH_SIZE: 4
 VAL_ITERS: 512
 
 # Wandb 
-USE_WANDB: False
+USE_WANDB: True
 
 # Outputs
 OUTPUT_PATH: 'outputs/'
