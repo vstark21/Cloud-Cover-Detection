@@ -26,6 +26,7 @@ with open("config.yml", "r") as f:
     config = AttrDict(yaml.safe_load(f))
 if config.DEBUG:
     config.USE_WANDB = False
+    config.AMP = False
     config.N_ACCUMULATE = 2
 
 config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
