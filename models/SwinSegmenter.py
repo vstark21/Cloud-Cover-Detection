@@ -31,6 +31,9 @@ class SwinSegmenter(nn.Module):
         x_1 = self.decode_up(x_1)
         out_1 = self.decode_conv(x_1)
 
+        if not self.training:
+            return dict(out=out_1)
+
         x_2 = self.auxiliary_head(x)
         x_2 = self.auxiliary_up(x_2)
         out_2 = self.auxiliary_conv(x_2)
