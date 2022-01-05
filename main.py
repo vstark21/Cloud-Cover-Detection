@@ -106,6 +106,8 @@ if __name__ == "__main__":
             
             with torch.cuda.amp.autocast(enabled=config.AMP):
                 preds_dict = model(images)
+                print(preds_dict['out'].max(), preds_dict['out'].min(), preds_dict['out'].mean(), preds_dict['out'].std())
+                print(preds_dict['aux_out'].max(), preds_dict['aux_out'].min(), preds_dict['aux_out'].mean(), preds_dict['aux_out'].std())
                 loss, bce_loss, dice_loss = loss_fn(preds_dict, labels)
 
                 train_loss += loss.item()
@@ -157,8 +159,6 @@ if __name__ == "__main__":
                 labels = batch_data['labels'].to(config.DEVICE)
 
                 preds_dict = model(images)
-                print(preds_dict['out'].max(), preds_dict['out'].min(), preds_dict['out'].mean(), preds_dict['out'].std())
-                print(preds_dict['aux_out'].max(), preds_dict['aux_out'].min(), preds_dict['aux_out'].mean(), preds_dict['aux_out'].std())
                 loss, bce_loss, dice_loss = loss_fn(preds_dict, labels)
 
                 val_loss += loss.item()
