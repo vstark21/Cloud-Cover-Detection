@@ -283,11 +283,11 @@ class DoubleConv(nn.Module):
 class UpBlock(nn.Module):
     """Upscaling then double conv"""
 
-    def __init__(self, in_channels, out_channels, size=(512, 512)):
+    def __init__(self, in_channels, out_channels, size=(512, 512), act_layer=nn.ReLU):
         super().__init__()
 
         self.up = nn.Upsample(size=size, mode='bilinear', align_corners=True)
-        self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
+        self.conv = DoubleConv(in_channels, out_channels, in_channels // 2, act_layer)
 
     def forward(self, x):
         x = self.up(x)
