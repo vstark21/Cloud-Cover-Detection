@@ -179,11 +179,13 @@ if __name__ == "__main__":
             logger.info(f"val {name}: {value}")
 
         if config.USE_WANDB:
+            log_dict = dict()
             for name, value in train_metrics.items():
-                wandb.log({f"train_{name}": value})
+                log_dict[f"train_{name}"] = value
             for name, value in val_metrics.items():
-                wandb.log({f"val_{name}": value})
-            wandb.log({"lr": optimizer.param_groups[0]['lr']})
+                log_dict[f"val_{name}"] = value
+            log_dict['lr'] = optimizer.param_groups[0]['lr']
+            wandb.log(log_dict)
 
         if best_val_js < val_metrics['jaccard']:
             best_val_js = val_metrics['jaccard']
