@@ -34,9 +34,9 @@ class CloudLoss(nn.Module):
                     self.out_weights[key] * loss(preds, targets)
                 )
         loss_dict['loss'] = 0
-        for name, loss in loss_dict.items():
+        for name, weight in self.loss_weights.items():
             loss_dict['loss'] += (
-                self.loss_weights[name] * loss
+                weight * loss_dict[name]
             )
 
         return loss_dict
