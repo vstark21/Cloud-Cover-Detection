@@ -1,4 +1,5 @@
 # General imports
+from collections import defaultdict
 import os
 import cv2
 import time
@@ -71,7 +72,7 @@ if __name__ == "__main__":
     train_generator = train_dataloader.__iter__()
     val_generator = val_dataloader.__iter__()
     loss_fn = CloudLoss(
-        **config.LOSS_PARAMS
+        config.LOSS_CFG
     )
     model = getattr(models, config.MODEL)(
         **config.MODEL_PARAMS[config.MODEL]
@@ -90,9 +91,8 @@ if __name__ == "__main__":
         model.train()
         model.zero_grad()
         bar = tqdm(range(config.TRAIN_ITERS), total=config.TRAIN_ITERS)
-        train_loss, train_bce_loss, train_dice_loss = 0, 0, 0
+        train_metrics = defaultdict(lambda: 0)
         dataset_len = 0
-        train_jacc_score = 0
 
         for step in bar:
             try:
@@ -106,12 +106,13 @@ if __name__ == "__main__":
             
             with torch.cuda.amp.autocast(enabled=config.AMP):
                 preds_dict = model(images)
-                loss, bce_loss, dice_loss = loss_fn(preds_dict, labels)
+                loss_dict = loss_fn(preds_dict, labels)
+                loss = loss_dict['loss']
 
-                train_loss += loss.item()
-                train_bce_loss += bce_loss.item()
-                train_dice_loss += dice_loss.item()
-                train_jacc_score += jaccard_score(preds_dict['out'], labels).item()
+                for name, value in loss_dict.items():
+                    train_metrics[name] += value.item()
+
+                train_metrics['jaccard'] += jaccard_score(preds_dict['out'], labels).item()
 
                 loss = loss / config.N_ACCUMULATE
 
@@ -126,25 +127,21 @@ if __name__ == "__main__":
 
             bar.set_postfix(
                 epoch=epoch, 
-                total_loss=train_loss / dataset_len,
-                bce_loss=train_bce_loss / dataset_len,
-                dice_loss=train_dice_loss / dataset_len,
-                jacc_score=train_jacc_score / dataset_len,
+                **{name: value / dataset_len 
+                            for name, value in train_metrics.items()},
                 lr=optimizer.param_groups[0]['lr']
             )
-        train_loss /= dataset_len
-        train_bce_loss /= dataset_len
-        train_dice_loss /= dataset_len
-        train_jacc_score /= dataset_len
-        scheduler.step(train_loss)
+        train_metrics = {
+            name: value / dataset_len for name, value in train_metrics.items()
+        }
+        scheduler.step(train_metrics['loss'])
 
         # Validation
         with torch.no_grad():
             model.eval()
             bar = tqdm(range(config.VAL_ITERS), total=config.VAL_ITERS)
-            val_loss, val_bce_loss, val_dice_loss = 0, 0, 0
+            val_metrics = defaultdict(lambda: 0)
             dataset_len = 0
-            val_jacc_score = 0
 
             for i in bar:
                 try:
@@ -157,51 +154,39 @@ if __name__ == "__main__":
                 labels = batch_data['labels'].to(config.DEVICE)
 
                 preds_dict = model(images)
-                loss, bce_loss, dice_loss = loss_fn(preds_dict, labels)
+                loss_dict = loss_fn(preds_dict, labels)
+                loss = loss_dict['loss']
 
-                val_loss += loss.item()
-                val_bce_loss += bce_loss.item()
-                val_dice_loss += dice_loss.item()
-                val_jacc_score += jaccard_score(preds_dict['out'], labels).item()
+                for name, value in loss_dict.items():
+                    val_metrics[name] += value.item()
+
+                val_metrics['jaccard'] += jaccard_score(preds_dict['out'], labels).item()
                 dataset_len += 1
 
                 bar.set_postfix(
                     epoch=epoch, 
-                    total_loss=val_loss / dataset_len,
-                    bce_loss=val_bce_loss / dataset_len,
-                    dice_loss=val_dice_loss / dataset_len,
-                    jacc_score=val_jacc_score / dataset_len
+                    **{name: value / dataset_len 
+                                for name, value in val_metrics.items()},
                 )
 
-        val_loss /= dataset_len
-        val_bce_loss /= dataset_len
-        val_dice_loss /= dataset_len
-        val_jacc_score /= dataset_len
-
-        logger.info(f"train loss: {train_loss}")
-        logger.info(f"train bce loss: {train_bce_loss}")
-        logger.info(f"train dice loss: {train_dice_loss}")
-        logger.info(f"train jaccard: {train_jacc_score}")
-        logger.info(f"val loss: {val_loss}")
-        logger.info(f"val bce loss: {val_bce_loss}")
-        logger.info(f"val dice loss: {val_dice_loss}")
-        logger.info(f"val jaccard: {val_jacc_score}")
+        val_metrics = {
+            name: value / dataset_len for name, value in val_metrics.items()
+        }
+        
+        for name, value in train_metrics.items():
+            logger.info(f"train {name}: {value}")
+        for name, value in val_metrics.items():
+            logger.info(f"val {name}: {value}")
 
         if config.USE_WANDB:
-            wandb.log({
-                "train_loss": train_loss,
-                "train_bce_loss": train_bce_loss,
-                "train_dice_loss": train_dice_loss,
-                "train_jaccard": train_jacc_score,
-                "val_loss": val_loss,
-                "val_bce_loss": val_bce_loss,
-                "val_dice_loss": val_dice_loss,
-                "val_jaccard": val_jacc_score,
-                "lr": optimizer.param_groups[0]['lr']
-            })
+            for name, value in train_metrics.items():
+                wandb.log({f"train_{name}": value})
+            for name, value in val_metrics.items():
+                wandb.log({f"val_{name}": value})
+            wandb.log({"lr": optimizer.param_groups[0]['lr']})
 
-        if best_val_js < val_jacc_score:
-            best_val_js = val_jacc_score
+        if best_val_js < val_metrics['jaccard']:
+            best_val_js = val_metrics['jaccard']
             save_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
             if config.USE_WANDB:
                 wandb.save(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
