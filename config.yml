@@ -69,12 +69,8 @@ DATA_MEAN: [2848.06411202, 2839.08714853, 2741.28910764, 3657.90921129]
 DATA_STD: [3156.92684648, 2899.28014451, 2789.96160889, 2424.18942846]
 
 # Loss
-BCE_LW: 0.0
-DICE_LW: 1.0
-JACC_LW: 1.0
-FJACC_LW: 1.0
 LOSS_PARAMS:
-    loss_weights: [0., 1., 1., 1.] # bce, dice, jacc, fjacc
+    loss_weights: [0., 0., 1., 0.] # bce, dice, jacc, fjacc
     out_weights:
         out: 1.
         aux_out: 0.4
@@ -83,7 +79,7 @@ LOSS_PARAMS:
 OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE: 2
 EPOCHS: 128
-LEARNING_RATE: 5.0e-4
+LEARNING_RATE: 1.0e-3
 AMP: True
 TRAIN_ITERS: 1024
 N_ACCUMULATE: 32
@@ -96,7 +92,7 @@ SCHEDULER_PARAMS:
 
 # Validating
 VAL_BATCH_SIZE: 2
-VAL_ITERS: 512
+VAL_ITERS: 1024
 
 # Wandb 
 USE_WANDB: True
