@@ -71,12 +71,10 @@ DATA_STD: [3156.92684648, 2899.28014451, 2789.96160889, 2424.18942846]
 # Loss
 LOSS_CFG:
     losses:
-        bce_loss: "nn.BCEWithLogitsLoss"
         dice_loss: "DiceLoss"
         jacc_loss: "JaccardLoss"
         fjacc_loss: "FilteredJaccardLoss"
     loss_weights: 
-        bce_loss: 0.
         dice_loss: 0.
         jacc_loss: 1.
         fjacc_loss: 0.
