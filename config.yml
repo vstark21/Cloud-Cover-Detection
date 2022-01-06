@@ -1,7 +1,7 @@
 ---
 SEED: 42
 VERBOSE: 1
-DEBUG: False
+DEBUG: True
 
 NAME: 'CCD'
 
