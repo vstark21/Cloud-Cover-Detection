@@ -15,13 +15,17 @@ class CloudLoss(nn.Module):
         loss_weights = loss_cfg.pop('loss_weights')
         s = sum(loss_weights.values())
         losses = dict()
-        for name, type in loss_cfg['losses']:
+        for name, type in loss_cfg['losses'].items():
             losses[name] = globals()[type]()
             loss_weights[name] /= s
         self.losses = losses
         self.loss_weights = loss_weights
 
-    def __call__(self, preds_dict, targets):
+    def __call__(
+        self, 
+        preds_dict: dict, 
+        targets: torch.Tensor
+    ):
         loss_dict = dict()
         for name, loss in self.losses.items():
             loss_dict[name] = 0
@@ -33,5 +37,5 @@ class CloudLoss(nn.Module):
             loss_dict['loss'] += (
                 self.loss_weights[name] * loss
             )
-            
+
         return loss_dict
