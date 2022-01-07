@@ -71,11 +71,13 @@ DATA_STD: [3156.92684648, 2899.28014451, 2789.96160889, 2424.18942846]
 # Loss
 LOSS_CFG:
     losses:
+        bce_loss: "BceLoss"
         dice_loss: "DiceLoss"
         jacc_loss: "JaccardLoss"
         fjacc_loss: "FilteredJaccardLoss"
     loss_weights: 
-        dice_loss: 0.
+        bce_loss: 1.
+        dice_loss: 1.
         jacc_loss: 1.
         fjacc_loss: 0.
     out_weights:
@@ -86,7 +88,7 @@ LOSS_CFG:
 OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
 TRAIN_BATCH_SIZE: 2
 EPOCHS: 128
-LEARNING_RATE: 1.0e-3
+LEARNING_RATE: 5.0e-4
 AMP: True
 TRAIN_ITERS: 1024
 N_ACCUMULATE: 32

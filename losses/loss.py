@@ -4,6 +4,7 @@ import torch.nn.functional as F
 from losses.jaccard_loss import *
 from losses.dice_loss import *
 from losses.filtered_jaccard_loss import *
+from losses.bce_loss import *
 
 class CloudLoss(nn.Module):
     def __init__(

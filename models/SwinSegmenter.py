@@ -13,13 +13,13 @@ class SwinSegmenter(nn.Module):
         self.auxiliary_head = FCNHead(**cfg['auxiliary_head'])
 
         self.decode_up = nn.Sequential(
-            UpBlock(512, 128, (256, 256), act_layer=nn.SiLU),
-            UpBlock(128, 32, (512, 512), act_layer=nn.SiLU)
+            UpBlock(512, 128, (256, 256)),
+            UpBlock(128, 32, (512, 512))
         )
         self.auxiliary_up = nn.Sequential(
-            UpBlock(512, 256, (128, 128), act_layer=nn.SiLU),
-            UpBlock(256, 128, (256, 256), act_layer=nn.SiLU),
-            UpBlock(128, 32, (512, 512), act_layer=nn.SiLU)
+            UpBlock(512, 256, (128, 128)),
+            UpBlock(256, 128, (256, 256)),
+            UpBlock(128, 32, (512, 512))
         )
         self.decode_conv = nn.Conv2d(32, 1, kernel_size=1)
         self.auxiliary_conv = nn.Conv2d(32, 1, kernel_size=1)

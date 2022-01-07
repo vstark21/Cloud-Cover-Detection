@@ -72,7 +72,7 @@ class UPerHead(nn.Module):
         dropout_ratio=0.1,
         conv_cfg=None,
         norm_cfg=None,
-        act_cfg=dict(type='SiLU'),
+        act_cfg=dict(type='ReLU'),
         in_index=-1,
         input_transform='multiple_select',
         ignore_index=255,
