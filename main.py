@@ -77,8 +77,12 @@ if __name__ == "__main__":
     model = getattr(models, config.MODEL)(
         **config.MODEL_PARAMS[config.MODEL]
     ).to(config.DEVICE)
-    optimizer = getattr(torch.optim, config.OPTIMIZER)(model.parameters(), lr=config.LEARNING_RATE)
-    scheduler = getattr(torch.optim.lr_scheduler, config.SCHEDULER)(optimizer, **config.SCHEDULER_PARAMS)
+    optimizer = getattr(torch.optim, config.OPTIMIZER_CFG.pop('type'))(
+        model.parameters(), **config.OPTIMIZER_CFG
+    )
+    scheduler = getattr(torch.optim.lr_scheduler, config.SCHEDULER)(
+        optimizer, **config.SCHEDULER_PARAMS
+    )
     grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
 
     logger.info(f"Model has {count_parameters(model)} parameters")

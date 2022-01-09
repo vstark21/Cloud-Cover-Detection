@@ -76,19 +76,22 @@ LOSS_CFG:
         jacc_loss: "JaccardLoss"
         fjacc_loss: "FilteredJaccardLoss"
     loss_weights: 
-        bce_loss: 1.
+        bce_loss: 0.
         dice_loss: 1.
         jacc_loss: 1.
-        fjacc_loss: 0.
+        fjacc_loss: 1.
     out_weights:
         out: 1.
         aux_out: 0.4
 
 # Training
-OPTIMIZER: 'Adam' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
+OPTIMIZER_CFG: 
+    type: 'AdamW' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
+    lr: 5.0e-4
+    betas: [0.9, 0.999]
+    weight_decay: 0.01
 TRAIN_BATCH_SIZE: 2
 EPOCHS: 128
-LEARNING_RATE: 5.0e-4
 AMP: True
 TRAIN_ITERS: 1024
 N_ACCUMULATE: 32
