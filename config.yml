@@ -5,7 +5,7 @@ DEBUG: True
 
 NAME: 'CCD'
 
-MODEL: 'SeMask' # 'CloudNetp', 'Unet', 'SwinSegmenter' or 'SeMask'
+MODEL: 'CloudNetp' # 'CloudNetp', 'Unet', 'SwinSegmenter' or 'SeMask'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     Unet:
@@ -117,7 +117,7 @@ LOSS_CFG:
         bce_loss: 0.
         dice_loss: 1.
         jacc_loss: 1.
-        fjacc_loss: 0.
+        fjacc_loss: 1.
     out_weights:
         out: 1.
         aux_out: 0.4
