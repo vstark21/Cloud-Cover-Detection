@@ -1,16 +1,15 @@
 import torch
 import torch.nn as nn
-from backbones import SwinTransformer
-from heads import UPerHead, FCNHead
+from model_utils import build_backbone, build_head
 from layers import UpBlock
 
 class SwinSegmenter(nn.Module):
     def __init__(self, cfg):
         super(SwinSegmenter, self).__init__()
 
-        self.backbone = SwinTransformer(**cfg['backbone'])
-        self.decode_head = UPerHead(**cfg['decode_head'])
-        self.auxiliary_head = FCNHead(**cfg['auxiliary_head'])
+        self.backbone = build_backbone(cfg['backbone'])
+        self.decode_head = build_head(cfg['decode_head'])
+        self.auxiliary_head = build_head(cfg['auxiliary_head'])
 
         self.decode_up = nn.Sequential(
             UpBlock(512, 128, (256, 256)),

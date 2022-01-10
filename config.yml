@@ -1,11 +1,11 @@
 ---
 SEED: 42
 VERBOSE: 1
-DEBUG: False
+DEBUG: True
 
 NAME: 'CCD'
 
-MODEL: 'SwinSegmenter' # 'CloudNetp', 'Unet' or 'SwinSegmenter'
+MODEL: 'SeMask' # 'CloudNetp', 'Unet', 'SwinSegmenter' or 'SeMask'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     Unet:
@@ -22,6 +22,7 @@ MODEL_PARAMS:
     SwinSegmenter:
         cfg:
             backbone:
+                type: 'SwinTransformer'
                 img_size: 512
                 in_chans: 4
                 embed_dim: 96
@@ -39,6 +40,7 @@ MODEL_PARAMS:
                 out_indices: [0, 1, 2, 3]
                 use_checkpoint: False
             decode_head:
+                type: 'UPerHead'
                 in_channels: [96, 192, 384, 768]
                 in_index: [0, 1, 2, 3]
                 pool_scales: [1, 2, 3, 6]
@@ -50,6 +52,7 @@ MODEL_PARAMS:
                     requires_grad: True
                 align_corners: False
             auxiliary_head:
+                type: 'FCNHead'
                 in_channels: 384
                 in_index: 2
                 channels: 256
@@ -58,6 +61,40 @@ MODEL_PARAMS:
                 dropout_ratio: 0.1
                 num_classes: 512
                 norm_cfg:  
+                    type: 'BN2d'
+                    requires_grad: True
+                align_corners: False
+    SeMask:
+        cfg:
+            backbone:
+                type: 'SeMaskSwinTransformer'
+                embed_dim: 96
+                depths: [2, 2, 18, 2]
+                num_heads: [3, 6, 12, 24]
+                window_size: 7
+                num_cls: 150
+                sem_window_size: 7
+                num_sem_blocks: [1, 1, 1, 1]
+                mlp_ratio: 4.
+                qkv_bias: True
+                qk_scale: None
+                drop_rate: 0.
+                attn_drop_rate: 0.
+                drop_path_rate: 0.3
+                ape: False
+                patch_norm: True
+                out_indices: [0, 1, 2, 3]
+                use_checkpoint: False
+            decode_head:
+                type: 'BranchFPNHead'
+                in_channels: [96, 192, 384, 768]
+                in_index: [0, 1, 2, 3]
+                feature_strides: [4, 8, 16, 32]
+                channels: 256
+                dropout_ratio: 0.1
+                cate_w: 0.4
+                num_classes: 512
+                norm_cfg: 
                     type: 'BN2d'
                     requires_grad: True
                 align_corners: False
