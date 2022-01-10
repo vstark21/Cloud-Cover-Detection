@@ -679,7 +679,7 @@ class SeMaskSwinTransformer(nn.Module):
           https://arxiv.org/pdf/2103.14030
 
     Args:
-        pretrain_img_size (int): Input image size for training the pretrained model,
+        img_size (int): Input image size for training the pretrained model,
             used in absolute postion embedding. Default 224.
         patch_size (int | tuple(int)): Patch size. Default: 4.
         in_chans (int): Number of input image channels. Default: 3.
@@ -703,7 +703,7 @@ class SeMaskSwinTransformer(nn.Module):
     """
 
     def __init__(self,
-                 pretrain_img_size=224,
+                 img_size=224,
                  patch_size=4,
                  num_cls=150,
                  sem_window_size=7,
@@ -727,7 +727,7 @@ class SeMaskSwinTransformer(nn.Module):
                  use_checkpoint=False):
         super().__init__()
 
-        self.pretrain_img_size = pretrain_img_size
+        self.img_size = img_size
         self.num_layers = len(depths)
         self.embed_dim = embed_dim
         self.ape = ape
@@ -748,9 +748,9 @@ class SeMaskSwinTransformer(nn.Module):
 
         # absolute position embedding
         if self.ape:
-            pretrain_img_size = to_2tuple(pretrain_img_size)
+            img_size = to_2tuple(img_size)
             patch_size = to_2tuple(patch_size)
-            patches_resolution = [pretrain_img_size[0] // patch_size[0], pretrain_img_size[1] // patch_size[1]]
+            patches_resolution = [img_size[0] // patch_size[0], img_size[1] // patch_size[1]]
 
             self.absolute_pos_embed = nn.Parameter(torch.zeros(1, embed_dim, patches_resolution[0], patches_resolution[1]))
             trunc_normal_(self.absolute_pos_embed, std=.02)
