@@ -74,7 +74,7 @@ MODEL_PARAMS:
                 depths: [2, 2, 18, 2]
                 num_heads: [3, 6, 12, 24]
                 window_size: 7
-                num_cls: 150
+                num_cls: 512
                 sem_window_size: 7
                 num_sem_blocks: [1, 1, 1, 1]
                 mlp_ratio: 4.
