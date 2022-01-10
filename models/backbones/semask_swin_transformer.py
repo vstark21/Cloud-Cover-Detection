@@ -845,7 +845,6 @@ class SeMaskSwinTransformer(nn.Module):
         x = self.pos_drop(x)
 
         outs = []
-        cls_outs = []
         for i in range(self.num_layers):
             layer = self.layers[i]
             x_out, cls_out, H, W, x, Wh, Ww = layer(x, Wh, Ww)
@@ -857,10 +856,7 @@ class SeMaskSwinTransformer(nn.Module):
                 out = x_out.view(-1, H, W, self.num_features[i]).permute(0, 3, 1, 2).contiguous()
                 outs.append(out)
 
-                cls_out = cls_out.view(-1, H, W, self.n_cls).permute(0, 3, 1, 2).contiguous()
-                cls_outs.append(cls_out)
-
-        return tuple(outs), cls_outs
+        return tuple(outs)
 
     def train(self, mode=True):
         """Convert the model into training mode while keep layers freezed."""
