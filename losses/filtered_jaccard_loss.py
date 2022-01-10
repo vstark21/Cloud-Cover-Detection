@@ -6,11 +6,12 @@ def low_and_high_pass(
     y: torch.Tensor,
     cutoff: float,
     steepness: float,
+    eps: float
 ):
     S = y.mean()
 
-    lp = torch.sigmoid(-steepness * (S - cutoff))
-    hp = torch.sigmoid(-steepness * (-S + cutoff))
+    lp = torch.sigmoid(-steepness * (S - cutoff)) + eps
+    hp = torch.sigmoid(-steepness * (-S + cutoff)) + eps
     
     return lp, hp
 
@@ -21,7 +22,7 @@ class FilteredJaccardLoss(nn.Module):
         self,
         from_logits=True,
         eps=1e-7,
-        m=1000,
+        m=10,
         pc=0.5,
         kg=1,
         kj=1,
@@ -36,7 +37,7 @@ class FilteredJaccardLoss(nn.Module):
         self.kj = kj
         self.mode = mode
 
-        self.jl = JaccardLoss(from_logits=False)
+        self.jl = JaccardLoss(from_logits=False, eps=eps)
     
     def __call__(self, y, t):
         if self.from_logits:
@@ -45,7 +46,7 @@ class FilteredJaccardLoss(nn.Module):
         y = y.view(batch_size, -1)
         t = t.view(batch_size, -1)
 
-        lp, hp = low_and_high_pass(y, self.pc, self.m)
+        lp, hp = low_and_high_pass(y, self.pc, self.m, self.eps)
         jl = self.jl(y, t)
         gl = 0
         if self.mode == 'inv':
