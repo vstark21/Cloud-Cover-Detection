@@ -79,7 +79,7 @@ MODEL_PARAMS:
                 num_sem_blocks: [1, 1, 1, 1]
                 mlp_ratio: 4.
                 qkv_bias: True
-                qk_scale: None
+                qk_scale: null
                 drop_rate: 0.
                 attn_drop_rate: 0.
                 drop_path_rate: 0.3
