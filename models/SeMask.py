@@ -22,5 +22,10 @@ class SeMask(nn.Module):
         x_1 = self.decode_head(x)
         # x_1 = self.decode_up(x_1)
         # out_1 = self.decode_conv(x_1)
-        print(x.shape, x_1.shape)
+        for el in x[0]:
+            print(el.shape)
+        for el in x[1]:
+            print(el.shape)
+        for el in x_1:
+            print(el.shape)
         return dict(out=x_1)
