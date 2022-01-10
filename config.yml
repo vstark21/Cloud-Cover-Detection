@@ -94,7 +94,6 @@ MODEL_PARAMS:
                 feature_strides: [4, 8, 16, 32]
                 channels: 256
                 dropout_ratio: 0.1
-                cate_w: 0.4
                 num_classes: 512
                 norm_cfg: 
                     type: 'BN2d'
