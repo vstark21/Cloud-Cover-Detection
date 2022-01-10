@@ -25,7 +25,6 @@ class BranchFPNHead(nn.Module):
         *,
         num_classes,
         dropout_ratio=0.1,
-        cate_w=0.4,
         conv_cfg=None,
         norm_cfg=None,
         act_cfg=dict(type='ReLU'),
@@ -50,7 +49,6 @@ class BranchFPNHead(nn.Module):
         self.in_index = in_index
         self.ignore_index = ignore_index
         self.align_corners = align_corners
-        self.cate_w = cate_w
 
         self.conv_seg = nn.Conv2d(channels, num_classes, kernel_size=1)
         if dropout_ratio > 0:
