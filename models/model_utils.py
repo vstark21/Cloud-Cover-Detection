@@ -5,8 +5,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.modules.instancenorm import _InstanceNorm
 from torch.nn.modules.batchnorm import _BatchNorm
-import backbones
-import heads
 
 PADDING_LAYERS = dict(
     zero=nn.ZeroPad2d,
@@ -33,28 +31,6 @@ NORM_LAYERS = dict(
     IN2d=nn.InstanceNorm2d,
     IN3d=nn.InstanceNorm3d,
 )
-
-def build_backbone(cfg):
-    """Build backbone.
-    Args:
-        cfg (dict): The backbone config.
-    Returns:
-        nn.Module: The built backbone.
-    """
-    assert isinstance(cfg, dict)
-    assert 'type' in cfg
-    return getattr(backbones, cfg.pop('type'))(**cfg)
-
-def build_head(cfg):
-    """Build a head from config.
-    Args:
-        cfg (dict): The head config, which
-    Returns:
-        nn.Module: The built head.
-    """
-    assert isinstance(cfg, dict)
-    assert 'type' in cfg
-    return getattr(heads, cfg.pop('type'))(**cfg)
 
 def resize(input,
            size=None,

@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from model_utils import build_backbone, build_head
+from models import build_backbone, build_head
 from layers import UpBlock
 
 class SeMask(nn.Module):
