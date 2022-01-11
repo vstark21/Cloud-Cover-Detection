@@ -70,7 +70,6 @@ if __name__ == "__main__":
                     num_workers=config.NUM_WORKERS)
 
     train_generator = train_dataloader.__iter__()
-    val_generator = val_dataloader.__iter__()
     loss_fn = CloudLoss(
         config.LOSS_CFG
     )
@@ -143,16 +142,11 @@ if __name__ == "__main__":
         # Validation
         with torch.no_grad():
             model.eval()
-            bar = tqdm(range(config.VAL_ITERS), total=config.VAL_ITERS)
+            bar = tqdm(val_dataloader, total=len(val_dataloader))
             val_metrics = defaultdict(lambda: 0)
             dataset_len = 0
 
-            for i in bar:
-                try:
-                    batch_data = next(val_generator)
-                except StopIteration:
-                    val_generator = val_dataloader.__iter__()
-                    batch_data = next(val_generator)
+            for batch_data in bar:
 
                 images = batch_data['inputs'].to(config.DEVICE)
                 labels = batch_data['labels'].to(config.DEVICE)
