@@ -144,7 +144,7 @@ SCHEDULER_PARAMS:
 VAL_BATCH_SIZE: 2
 
 # Wandb 
-USE_WANDB: False
+USE_WANDB: True
 
 # Outputs
 OUTPUT_PATH: 'outputs/'
