@@ -231,18 +231,15 @@ class ResBlock(nn.Module):
         padding=0, 
         bias=True,
         activation='SiLU',
-        dropout=0.2
     ):
         super(ResBlock, self).__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_channels, in_channels, kernel_size, stride, padding, bias=bias),
             nn.BatchNorm2d(in_channels),
-            nn.Dropout(dropout)
         )
         self.conv2 = nn.Sequential(
             nn.Conv2d(in_channels, in_channels, kernel_size, stride, padding, bias=bias),
             nn.BatchNorm2d(in_channels),
-            nn.Dropout(dropout)
         )
         self.intermediate_conv = Conv(
             in_channels, out_channels, kernel_size, stride, padding, bias=bias, activation=activation
@@ -250,7 +247,6 @@ class ResBlock(nn.Module):
         self.conv3 = nn.Sequential(
             nn.Conv2d(out_channels, out_channels, kernel_size, stride, padding, bias=bias),
             nn.BatchNorm2d(out_channels),
-            nn.Dropout(dropout)
         )
         self.conv4 = nn.Sequential(
             nn.Conv2d(out_channels, out_channels, kernel_size, stride, padding, bias=bias),
