@@ -8,11 +8,11 @@ class ContractionBlock(nn.Module):
         super(ContractionBlock, self).__init__()
 
         if residual:
-            self.conv1 = ResBlock(ni, kernel_size=3, stride=1, padding=1)
-            self.conv2 = Conv(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
+            self.conv1 = ResBlock(ni, ni, kernel_size=3, stride=1, padding=1)
+            self.conv2 = ResBlock(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
             self.conv3 = ResBlock(2 * ni, kernel_size=3, stride=1, padding=1)
 
-            self.conv4 = Conv(ni, ni, kernel_size=1, stride=1, padding=0)
+            self.conv4 = ResBlock(ni, ni, kernel_size=1, stride=1, padding=0)
 
         else:
             self.conv1 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
@@ -47,7 +47,7 @@ class FeedForwardBlock(nn.Module):
             self.poolings.append(layer)
         
         if residual:
-            self.conv = ResBlock(ni, kernel_size=3, stride=1, padding=1)
+            self.conv = ResBlock(ni, ni, kernel_size=3, stride=1, padding=1)
         else:
             self.conv = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
 
@@ -72,11 +72,12 @@ class ExpandingBlock(nn.Module):
 
         self.conv_t = nn.ConvTranspose2d(2 * ni, ni, kernel_size=3, stride=2, padding=1, output_padding=1)
 
-        self.conv1 = Conv(2 * ni, ni, kernel_size=3, stride=1, padding=1)
         if residual:
+            self.conv = ResBlock(2 * ni, ni, kernel_size=3, stride=1, padding=1)
             self.conv2 = ResBlock(ni, kernel_size=3, stride=1, padding=1)
             self.conv3 = ResBlock(ni, kernel_size=3, stride=1, padding=1)
         else:
+            self.conv1 = Conv(2 * ni, ni, kernel_size=3, stride=1, padding=1)
             self.conv2 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
             self.conv3 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
 
@@ -99,11 +100,14 @@ class ExpandingBlock(nn.Module):
         return x
 
 class UpSamplingBlock(nn.Module):
-    def __init__(self, ni, nout, n):
+    def __init__(self, ni, nout, n, residual=False):
         super(UpSamplingBlock, self).__init__()
         # TODO: Try to use ConvTranspose2d here instead of Upsample.
         self.up = nn.Upsample(scale_factor=(2 ** (n + 2), 2 ** (n + 2)))
-        self.conv = Conv(ni, nout, kernel_size=1, stride=1, padding=0)
+        if residual:
+            self.conv = ResBlock(ni, nout, kernel_size=1, stride=1, padding=0)
+        else:
+            self.conv = Conv(ni, nout, kernel_size=1, stride=1, padding=0)
 
     def forward(self, x: torch.Tensor):
         x = self.up(x)
@@ -148,9 +152,9 @@ class CloudNetp(nn.Module):
             self.e_blocks.append(e_block)
 
         for i in range(0, inception_depth - 1):
-            u_block = UpSamplingBlock(n_channels * 2 * (2 ** (i + 1)), n_classes, i)
+            u_block = UpSamplingBlock(n_channels * 2 * (2 ** (i + 1)), n_classes, i, residual)
             self.u_blocks.append(u_block)
-        u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2)
+        u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2, residual)
         self.u_blocks.append(u_block)
          
         self.out_conv = nn.Conv2d(n_classes, n_classes, kernel_size=3, stride=1, padding=1)

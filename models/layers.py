@@ -207,15 +207,12 @@ class Conv(nn.Module):
         stride=1, 
         padding=0, 
         bias=True,
-        activation='silu'
+        activation='SiLU'
     ):
         super(Conv, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias)
         self.bn = nn.BatchNorm2d(out_channels)
-        if activation == 'relu':
-            self.act = nn.ReLU(inplace=True)
-        elif activation == 'silu':
-            self.act = nn.SiLU(inplace=True)
+        self.act = getattr(nn, activation)(inplace=True)
 
     def forward(self, x):
         x = self.conv(x)
@@ -227,37 +224,57 @@ class Conv(nn.Module):
 class ResBlock(nn.Module):
     def __init__(
         self, 
-        channels,
+        in_channels,
+        out_channels,
         kernel_size=3, 
         stride=1, 
         padding=0, 
         bias=True,
-        activation='silu'
+        activation='SiLU',
+        dropout=0.2
     ):
         super(ResBlock, self).__init__()
-        self.conv1 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
-        self.bn1 = nn.BatchNorm2d(channels)
-        self.conv2 = nn.Conv2d(channels, channels, kernel_size, stride, padding, bias=bias)
-        self.bn2 = nn.BatchNorm2d(channels)
-        if activation == 'relu':
-            self.act1 = nn.ReLU(inplace=True)
-            self.act2 = nn.ReLU(inplace=True)
-        elif activation == 'silu':
-            self.act1 = nn.SiLU(inplace=True)
-            self.act2 = nn.SiLU(inplace=True)
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(in_channels, in_channels, kernel_size, stride, padding, bias=bias),
+            nn.BatchNorm2d(in_channels),
+            nn.Dropout(dropout)
+        )
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(in_channels, in_channels, kernel_size, stride, padding, bias=bias),
+            nn.BatchNorm2d(in_channels),
+            nn.Dropout(dropout)
+        )
+        self.intermediate_conv = Conv(
+            in_channels, out_channels, kernel_size, stride, padding, bias=bias, activation=activation
+        )
+        self.conv3 = nn.Sequential(
+            nn.Conv2d(out_channels, out_channels, kernel_size, stride, padding, bias=bias),
+            nn.BatchNorm2d(out_channels),
+            nn.Dropout(dropout)
+        )
+        self.conv4 = nn.Sequential(
+            nn.Conv2d(out_channels, out_channels, kernel_size, stride, padding, bias=bias),
+            nn.BatchNorm2d(out_channels),
+        )
+        self.act = getattr(nn, activation)(inplace=True)
     
     def forward(self, x):
         identity = x
+        x = self.conv1(x)
+        x = self.act(x)
+        x = self.conv2(x)
+        x += identity
+        x = self.act(x)
 
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.act1(out)
-        out = self.conv2(out)
-        out = self.bn2(out)
+        x = self.intermediate_conv(x)
 
-        out += identity
-        out = self.act2(out)
-        return out
+        identity = x
+        x = self.conv3(x)
+        x = self.act(x)
+        x = self.conv4(x)
+        x += identity
+        x = self.act(x)
+        return x
 
 
 class DoubleConv(nn.Module):
