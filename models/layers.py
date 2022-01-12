@@ -247,6 +247,15 @@ class ResBlock(nn.Module):
         self.intermediate_conv = Conv(
             in_channels, out_channels, kernel_size, stride, padding, bias=bias, activation=activation
         )
+        self.conv3 = nn.Sequential(
+            nn.Conv2d(out_channels, out_channels, kernel_size, stride, padding, bias=bias),
+            nn.BatchNorm2d(out_channels),
+            nn.Dropout(dropout)
+        )
+        self.conv4 = nn.Sequential(
+            nn.Conv2d(out_channels, out_channels, kernel_size, stride, padding, bias=bias),
+            nn.BatchNorm2d(out_channels),
+        )
         self.act = getattr(nn, activation)(inplace=True)
     
     def forward(self, x):
@@ -258,6 +267,12 @@ class ResBlock(nn.Module):
         x = self.act(x)
 
         x = self.intermediate_conv(x)
+
+        identity = x
+        x = self.conv3(x)
+        x = self.act(x)
+        x = self.conv4(x)
+        x += identity
         x = self.act(x)
         return x
 

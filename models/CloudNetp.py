@@ -100,14 +100,11 @@ class ExpandingBlock(nn.Module):
         return x
 
 class UpSamplingBlock(nn.Module):
-    def __init__(self, ni, nout, n, residual=False):
+    def __init__(self, ni, nout, n):
         super(UpSamplingBlock, self).__init__()
         # TODO: Try to use ConvTranspose2d here instead of Upsample.
         self.up = nn.Upsample(scale_factor=(2 ** (n + 2), 2 ** (n + 2)))
-        if residual:
-            self.conv = ResBlock(ni, nout, kernel_size=1, stride=1, padding=0)
-        else:
-            self.conv = Conv(ni, nout, kernel_size=1, stride=1, padding=0)
+        self.conv = Conv(ni, nout, kernel_size=1, stride=1, padding=0)
 
     def forward(self, x: torch.Tensor):
         x = self.up(x)
@@ -152,9 +149,9 @@ class CloudNetp(nn.Module):
             self.e_blocks.append(e_block)
 
         for i in range(0, inception_depth - 1):
-            u_block = UpSamplingBlock(n_channels * 2 * (2 ** (i + 1)), n_classes, i, residual)
+            u_block = UpSamplingBlock(n_channels * 2 * (2 ** (i + 1)), n_classes, i)
             self.u_blocks.append(u_block)
-        u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2, residual)
+        u_block = UpSamplingBlock(n_channels * (2 ** inception_depth), n_classes, inception_depth - 2)
         self.u_blocks.append(u_block)
          
         self.out_conv = nn.Conv2d(n_classes, n_classes, kernel_size=3, stride=1, padding=1)
