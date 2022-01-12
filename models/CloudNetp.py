@@ -73,7 +73,7 @@ class ExpandingBlock(nn.Module):
         self.conv_t = nn.ConvTranspose2d(2 * ni, ni, kernel_size=3, stride=2, padding=1, output_padding=1)
 
         if residual:
-            self.conv = ResBlock(2 * ni, ni, kernel_size=3, stride=1, padding=1)
+            self.conv1 = ResBlock(2 * ni, ni, kernel_size=3, stride=1, padding=1)
             self.conv2 = ResBlock(ni, ni, kernel_size=3, stride=1, padding=1)
             self.conv3 = ResBlock(ni, ni, kernel_size=3, stride=1, padding=1)
         else:
