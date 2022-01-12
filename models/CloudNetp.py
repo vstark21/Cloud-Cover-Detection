@@ -10,7 +10,7 @@ class ContractionBlock(nn.Module):
         if residual:
             self.conv1 = ResBlock(ni, ni, kernel_size=3, stride=1, padding=1)
             self.conv2 = ResBlock(ni, 2 * ni, kernel_size=1, stride=1, padding=0)
-            self.conv3 = ResBlock(2 * ni, kernel_size=3, stride=1, padding=1)
+            self.conv3 = ResBlock(2 * ni, 2 * ni, kernel_size=3, stride=1, padding=1)
 
             self.conv4 = ResBlock(ni, ni, kernel_size=1, stride=1, padding=0)
 
@@ -74,8 +74,8 @@ class ExpandingBlock(nn.Module):
 
         if residual:
             self.conv = ResBlock(2 * ni, ni, kernel_size=3, stride=1, padding=1)
-            self.conv2 = ResBlock(ni, kernel_size=3, stride=1, padding=1)
-            self.conv3 = ResBlock(ni, kernel_size=3, stride=1, padding=1)
+            self.conv2 = ResBlock(ni, ni, kernel_size=3, stride=1, padding=1)
+            self.conv3 = ResBlock(ni, ni, kernel_size=3, stride=1, padding=1)
         else:
             self.conv1 = Conv(2 * ni, ni, kernel_size=3, stride=1, padding=1)
             self.conv2 = Conv(ni, ni, kernel_size=3, stride=1, padding=1)
