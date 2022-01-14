@@ -69,7 +69,6 @@ if __name__ == "__main__":
                     shuffle=False,
                     num_workers=config.NUM_WORKERS)
 
-    train_generator = train_dataloader.__iter__()
     loss_fn = CloudLoss(
         config.LOSS_CFG
     )
@@ -93,16 +92,11 @@ if __name__ == "__main__":
         # Training
         model.train()
         model.zero_grad()
-        bar = tqdm(range(config.TRAIN_ITERS), total=config.TRAIN_ITERS)
+        bar = tqdm(enumerate(train_dataloader), total=len(train_dataloader))
         train_metrics = defaultdict(lambda: 0)
         dataset_len = 0
 
-        for step in bar:
-            try:
-                batch_data = next(train_generator)
-            except StopIteration:
-                train_generator = train_dataloader.__iter__()
-                batch_data = next(train_generator)
+        for step, batch_data in bar:
 
             images = batch_data['inputs'].to(config.DEVICE)
             labels = batch_data['labels'].to(config.DEVICE)
@@ -125,7 +119,8 @@ if __name__ == "__main__":
                 grad_scaler.step(optimizer)
                 grad_scaler.update()
                 optimizer.zero_grad()
-
+                scheduler.step()
+            
             dataset_len += 1
 
             bar.set_postfix(
@@ -137,7 +132,6 @@ if __name__ == "__main__":
         train_metrics = {
             name: value / dataset_len for name, value in train_metrics.items()
         }
-        scheduler.step(train_metrics['loss'])
 
         # Validation
         with torch.no_grad():
