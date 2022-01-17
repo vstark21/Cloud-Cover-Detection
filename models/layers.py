@@ -241,7 +241,7 @@ class ResBlock(nn.Module):
             nn.Conv2d(in_channels, in_channels, kernel_size, stride, padding, bias=bias),
             nn.BatchNorm2d(in_channels),
         )
-        self.out_conv = Conv(
+        self.intermediate_conv = Conv(
             in_channels, out_channels, kernel_size, stride, padding, bias=bias, activation=activation
         )
         self.act = getattr(nn, activation)(inplace=True)
@@ -254,7 +254,7 @@ class ResBlock(nn.Module):
         x += identity
         x = self.act(x)
 
-        x = self.out_conv(x)
+        x = self.intermediate_conv(x)
         return x
 
 

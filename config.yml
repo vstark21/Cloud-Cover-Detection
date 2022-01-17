@@ -5,7 +5,7 @@ DEBUG: False
 
 NAME: 'CCD'
 
-MODEL: 'SeMask' # 'CloudNetp', 'Unet', 'SwinSegmenter' or 'SeMask'
+MODEL: 'CloudNetp' # 'CloudNetp', 'Unet', 'SwinSegmenter' or 'SeMask'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     Unet:
@@ -115,7 +115,7 @@ LOSS_CFG:
         fjacc_loss: "FilteredJaccardLoss"
     loss_weights: 
         bce_loss: 0.
-        dice_loss: 0.
+        dice_loss: 1.
         jacc_loss: 1.
         fjacc_loss: 1.
     out_weights:
@@ -125,18 +125,20 @@ LOSS_CFG:
 # Training
 OPTIMIZER_CFG: 
     type: 'AdamW' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
-    lr: 1.0e-3
+    lr: 5.0e-4
     betas: [0.9, 0.999]
     weight_decay: 0.01
 TRAIN_BATCH_SIZE: 2
-EPOCHS: 32
+EPOCHS: 128
 AMP: True
-N_ACCUMULATE: 64
-MIN_LEARNING_RATE: 5.0e-6
-SCHEDULER: "CosineAnnealingLR" # Should be one of the scheduler in https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+TRAIN_ITERS: 1024
+N_ACCUMULATE: 32
+MIN_LEARNING_RATE: 1.0e-5
+SCHEDULER: "ReduceLROnPlateau" # Should be one of the scheduler in https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
 SCHEDULER_PARAMS:
-    eta_min: 5.0e-6
-    T_max: 100
+    mode: "min"
+    patience: 2
+    factor: 0.5
 
 # Validating
 VAL_BATCH_SIZE: 2
