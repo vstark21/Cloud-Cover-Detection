@@ -128,11 +128,11 @@ OPTIMIZER_CFG:
     lr: 5.0e-4
     betas: [0.9, 0.999]
     weight_decay: 0.01
-TRAIN_BATCH_SIZE: 2
+TRAIN_BATCH_SIZE: 4
 EPOCHS: 128
 AMP: True
 TRAIN_ITERS: 1024
-N_ACCUMULATE: 32
+N_ACCUMULATE: 16
 MIN_LEARNING_RATE: 1.0e-5
 SCHEDULER: "ReduceLROnPlateau" # Should be one of the scheduler in https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
 SCHEDULER_PARAMS:
@@ -141,7 +141,7 @@ SCHEDULER_PARAMS:
     factor: 0.5
 
 # Validating
-VAL_BATCH_SIZE: 2
+VAL_BATCH_SIZE: 4
 
 # Wandb 
 USE_WANDB: True
