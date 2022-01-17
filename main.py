@@ -11,6 +11,7 @@ import warnings
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
+import albumentations as A
 from sklearn.model_selection import train_test_split
 
 import torch
@@ -54,9 +55,17 @@ if __name__ == "__main__":
     train_files, val_files = train_test_split(files, test_size=0.2, 
                                             random_state=config.SEED)
 
-    train_dataset = CloudDataset(train_files, config.DATA_MEAN, config.DATA_STD)
-    val_dataset = CloudDataset(val_files, config.DATA_MEAN, config.DATA_STD)
-
+    train_transform = A.Compose(
+        [
+            A.ShiftScaleRotate(shift_limit=0.2, scale_limit=0.2, rotate_limit=30, p=0.3),
+            A.Flip(p=0.5),            
+        ]
+    )
+    train_dataset = CloudDataset(
+        train_files, config.DATA_MEAN, config.DATA_STD, transforms=train_transform)
+    val_dataset = CloudDataset(
+        val_files, config.DATA_MEAN, config.DATA_STD)
+    
     train_dataloader = DataLoader(
                         train_dataset,
                         batch_size=config.TRAIN_BATCH_SIZE,

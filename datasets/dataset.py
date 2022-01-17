@@ -2,16 +2,19 @@ from torch.utils.data import Dataset
 import numpy as np
 
 class CloudDataset(Dataset):
-    def __init__(self, paths, mean, std):
+    def __init__(self, paths, mean, std, transforms=None):
         self.files = paths
         self.mean = np.array(mean)[np.newaxis, np.newaxis, :]
         self.std = np.array(std)[np.newaxis, np.newaxis, :]
+        self.transforms = transforms
             
     def __len__(self):
         return len(self.files)
     
     def __getitem__(self, idx):
         data = np.load(self.files[idx])["data"]
+        if self.transforms:
+            data = self.transforms(image=data)["image"]
         
         inputs = data[:, :, :4]
         inputs = (inputs - self.mean) / self.std
