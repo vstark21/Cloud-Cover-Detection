@@ -6,7 +6,7 @@ SAMPLE_SIZE: 1.0 # Amount of data to train on
 
 NAME: 'CCD'
 
-MODEL: 'SegNet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
+MODEL: 'Unet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     CloudNetp:
