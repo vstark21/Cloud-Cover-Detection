@@ -21,11 +21,13 @@ class ResNet(nn.Module):
         n_channels: int,
     ):
         super(ResNet, self).__init__()
-        self.backbone = torch.hub.load("pytorch/vision:v0.10.0", variant, pretrained=False)
-        self.backbone.conv1 = nn.Conv2d(
-            n_channels, self.backbone.inplanes, kernel_size=7, stride=2, padding=3, bias=False
-        )
+        self.backbone = torch.hub.load("pytorch/vision", variant, pretrained=False)
         self.out_channels = BACKBONE_CHANNELS[variant]
+        inplanes = self.out_channels[-1]
+        self.backbone.conv1 = nn.Conv2d(
+            n_channels, inplanes, kernel_size=7, stride=2, padding=3, bias=False
+        )
+        
         del self.backbone.fc
 
     def forward(self, x):
