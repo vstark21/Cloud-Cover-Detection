@@ -162,4 +162,4 @@ class SegNet(nn.Module):
 		x = F.relu(self.BNDe12(self.ConvDe12(x)))
 		x = self.ConvDe11(x)
 
-		return x
+		return dict(out=x)
