@@ -44,7 +44,7 @@ if config.USE_WANDB:
         entity="vstark21", 
         config = config
     )
-torch.autograd.set_detect_anomaly(True)
+torch.autograd.set_detect_anomaly(config.DEBUG)
 
 if __name__ == "__main__":
     files = []

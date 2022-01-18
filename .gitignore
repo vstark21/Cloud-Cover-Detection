@@ -132,4 +132,5 @@ data/
 wandb/
 submission/
 outputs/
-.sh.*
+*.sh.*
+temp*
