@@ -125,10 +125,10 @@ LOSS_CFG:
         jacc_loss: "JaccardLoss"
         fjacc_loss: "FilteredJaccardLoss"
     loss_weights: 
-        bce_loss: 0.
+        bce_loss: 1.
         dice_loss: 1.
-        jacc_loss: 1.
-        fjacc_loss: 1.
+        jacc_loss: 0.
+        fjacc_loss: 0.
     out_weights:
         out: 1.
         aux_out: 0.4
