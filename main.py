@@ -52,7 +52,7 @@ if __name__ == "__main__":
         _files = [os.path.join(name, el) for el in os.listdir(name)]
         files.extend(_files)
     sample_size = int(len(files) * config.SAMPLE_SIZE)
-    files = random.sample(files, sample_size, seed=config.SEED)
+    files = random.sample(files, sample_size)
     train_files, val_files = train_test_split(files, test_size=0.2, 
                                             random_state=config.SEED)
 
