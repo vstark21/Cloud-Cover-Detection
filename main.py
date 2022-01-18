@@ -57,8 +57,8 @@ if __name__ == "__main__":
                                             random_state=config.SEED)
 
     train_transform = A.Compose([
-        A.ShiftScaleRotate(shift_limit=0.2, scale_limit=0.2, rotate_limit=30, p=0.3),
-        A.Flip(p=0.5),            
+        A.Flip(p=0.5),
+        A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.2, rotate_limit=10, p=0.5),
     ])
     train_dataset = CloudDataset(
         train_files, config.DATA_MEAN, config.DATA_STD, transforms=train_transform)

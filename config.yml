@@ -1,7 +1,7 @@
 ---
 SEED: 42
 VERBOSE: 1
-DEBUG: False
+DEBUG: True
 SAMPLE_SIZE: 1.0 # Amount of data to train on
 
 NAME: 'CCD'
@@ -9,11 +9,6 @@ NAME: 'CCD'
 MODEL: 'SegNet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
 NUM_WORKERS: 2
 MODEL_PARAMS:
-    Unet:
-        n_channels: 4
-        n_classes: 1
-        model_size: 'small'
-        bilinear: False
     CloudNetp:
         n_channels: 4
         n_classes: 1
@@ -104,6 +99,16 @@ MODEL_PARAMS:
         in_channels: 4
         out_channels: 1
         bn_momentum: 0.5
+    Unet:
+        backbone:
+            type: 'ResNet'
+            variant: 'resnet34'
+            n_channels: 4
+        head:
+            type: 'UnetDecodeHead'
+            n_classes: 1
+            dropout: 0.2
+            out_channels: [256, 128, 64, 32, 16]
 
 # Data
 DATA_PATHS:

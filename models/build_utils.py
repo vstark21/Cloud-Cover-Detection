@@ -1,7 +1,7 @@
 import backbones
 import heads
 
-def build_backbone(cfg):
+def build_backbone(cfg, **kwargs):
     """Build backbone.
     Args:
         cfg (dict): The backbone config.
@@ -10,9 +10,9 @@ def build_backbone(cfg):
     """
     assert isinstance(cfg, dict)
     assert 'type' in cfg
-    return getattr(backbones, cfg.pop('type'))(**cfg)
+    return getattr(backbones, cfg.pop('type'))(**cfg, **kwargs)
 
-def build_head(cfg):
+def build_head(cfg, **kwargs):
     """Build a head from config.
     Args:
         cfg (dict): The head config, which
@@ -21,4 +21,4 @@ def build_head(cfg):
     """
     assert isinstance(cfg, dict)
     assert 'type' in cfg
-    return getattr(heads, cfg.pop('type'))(**cfg)
+    return getattr(heads, cfg.pop('type'))(**cfg, **kwargs)
