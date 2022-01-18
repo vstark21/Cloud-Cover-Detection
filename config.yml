@@ -129,7 +129,7 @@ OPTIMIZER_CFG:
     lr: 5.0e-4
     betas: [0.9, 0.999]
     weight_decay: 0.01
-TRAIN_BATCH_SIZE: 4
+TRAIN_BATCH_SIZE: 2
 EPOCHS: 10
 AMP: True
 TRAIN_ITERS: 1024
@@ -142,7 +142,7 @@ SCHEDULER_PARAMS:
     factor: 0.5
 
 # Validating
-VAL_BATCH_SIZE: 4
+VAL_BATCH_SIZE: 2
 
 # Wandb 
 USE_WANDB: True
