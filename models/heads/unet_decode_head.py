@@ -83,5 +83,6 @@ class UnetDecodeHead(nn.Module):
         decodes = self.layer5([decodes, None])
 
         decodes4 = F.interpolate(decodes, x.size()[2:], mode='bilinear')
+        print(decodes4.shape)
         outputs = self.final(decodes4)
         return outputs
