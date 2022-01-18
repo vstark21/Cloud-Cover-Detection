@@ -127,7 +127,7 @@ LOSS_CFG:
     loss_weights: 
         bce_loss: 1.
         dice_loss: 1.
-        jacc_loss: 0.
+        jacc_loss: 1.
         fjacc_loss: 0.
     out_weights:
         out: 1.
