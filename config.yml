@@ -6,7 +6,7 @@ SAMPLE_SIZE: 0.25 # Amount of data to train on
 
 NAME: 'CCD'
 
-MODEL: 'SwinSegmenter' # 'CloudNetp', 'Unet', 'SwinSegmenter' or 'SeMask'
+MODEL: 'SegNet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     Unet:
@@ -100,6 +100,10 @@ MODEL_PARAMS:
                     type: 'BN2d'
                     requires_grad: True
                 align_corners: False
+    SegNet:
+        in_channels: 4
+        out_channels: 1
+        bn_momentum: 0.5
 
 # Data
 DATA_PATHS:
