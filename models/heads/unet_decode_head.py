@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class Conv3x3GNReLU(nn.Module):
     def __init__(self, in_channels, out_channels):
-        super().__init__()
+        super(Conv3x3GNReLU, self).__init__()
         num_groups = 32
         if out_channels % num_groups != 0 or out_channels == num_groups:
             num_groups = out_channels // 2
@@ -22,7 +22,7 @@ class Conv3x3GNReLU(nn.Module):
 
 class DecoderBlock(nn.Module):
     def __init__(self, in_channels, out_channels, up_sample=True, **_):
-        super(DecoderBlock).__init__()
+        super(DecoderBlock, self).__init__()
         self.up_sample = up_sample
 
         self.block = nn.Sequential(
@@ -52,7 +52,7 @@ class UnetDecodeHead(nn.Module):
         dropout=0.2,
         out_channels=[256, 128, 64, 32, 16],
     ):
-        super().__init__()
+        super(UnetDecodeHead, self).__init__()
         in_channels = encoder_channels
         self.out_channels = out_channels
         self.in_channels = in_channels
