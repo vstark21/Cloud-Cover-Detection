@@ -51,16 +51,15 @@ if __name__ == "__main__":
     for name in config.DATA_PATHS:
         _files = [os.path.join(name, el) for el in os.listdir(name)]
         files.extend(_files)
-
+    sample_size = int(len(files) * config.SAMPLE_SIZE)
+    files = random.sample(files, sample_size, seed=config.SEED)
     train_files, val_files = train_test_split(files, test_size=0.2, 
                                             random_state=config.SEED)
 
-    train_transform = A.Compose(
-        [
-            A.ShiftScaleRotate(shift_limit=0.2, scale_limit=0.2, rotate_limit=30, p=0.3),
-            A.Flip(p=0.5),            
-        ]
-    )
+    train_transform = A.Compose([
+        A.ShiftScaleRotate(shift_limit=0.2, scale_limit=0.2, rotate_limit=30, p=0.3),
+        A.Flip(p=0.5),            
+    ])
     train_dataset = CloudDataset(
         train_files, config.DATA_MEAN, config.DATA_STD, transforms=train_transform)
     val_dataset = CloudDataset(

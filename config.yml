@@ -2,6 +2,7 @@
 SEED: 42
 VERBOSE: 1
 DEBUG: False
+SAMPLE_SIZE: 0.25 # Amount of data to train on
 
 NAME: 'CCD'
 
@@ -129,7 +130,7 @@ OPTIMIZER_CFG:
     betas: [0.9, 0.999]
     weight_decay: 0.01
 TRAIN_BATCH_SIZE: 4
-EPOCHS: 128
+EPOCHS: 10
 AMP: True
 TRAIN_ITERS: 1024
 N_ACCUMULATE: 16
