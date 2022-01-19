@@ -1,7 +1,7 @@
 ---
 SEED: 42
 VERBOSE: 1
-DEBUG: False
+DEBUG: True
 SAMPLE_SIZE: 1.0 # Amount of data to train on
 
 NAME: 'CCD'
