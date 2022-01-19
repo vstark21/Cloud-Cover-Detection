@@ -9,13 +9,17 @@ class AttrDict(dict):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
-def seed_everything(seed):
+def seed_everything(
+    seed: None or int = 42,
+):
     """
     Seeds basic parameters for reproductibility of results.
 
     Args:
-        seed (int): Number of the seed.
+        seed (None or int): Number of the seed.
     """
+    if not seed:
+        return
     random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
     np.random.seed(seed)
