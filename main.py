@@ -3,6 +3,7 @@ from collections import defaultdict
 import os
 import cv2
 import time
+import glob
 import json
 import yaml
 import scipy
@@ -51,8 +52,8 @@ if __name__ == "__main__":
     files = []
     meta_data = pd.read_csv(os.path.join(config.DATA_PATH, "train_metadata.csv"))
     locations = config.LOCATIONS
-    for name in os.listdir(config.DATA_PATH):
-        chip_id = name[:-4]
+    for name in glob.glob(os.path.join(config.DATA_PATH, "*.npz")):
+        chip_id = name[-8:-4]
         cur_loc = meta_data.loc[meta_data['chip_id'] == chip_id, 'location'].values[0]
         cur_dt = meta_data.loc[meta_data['chip_id'] == chip_id, 'datetime'].values[0]
         cur_dt = datetime.datetime.strptime(cur_dt, "%Y-%m-%dT%H:%M:%SZ")
