@@ -1,7 +1,9 @@
+from curses import meta
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from layers import Conv, ResBlock
+from build_utils import build_backbone
 
 class ContractionBlock(nn.Module):
     def __init__(self, ni, residual=False):
@@ -114,27 +116,19 @@ class UpSamplingBlock(nn.Module):
 class CloudNetp(nn.Module):
     def __init__(
         self,
+        meta_enc_cfg: dict,
         n_channels=4,
         n_classes=1,
         inception_depth=6,
-        model_size='small',
-        residual=False
+        residual=False,
     ):
         super(CloudNetp, self).__init__()
-        if not model_size in ["small", "large"]:
-            raise ValueError("model_size must be `small` or `large`")
+        self.meta_encoder = build_backbone(meta_enc_cfg)
 
         self.c_blocks = []
         self.f_blocks = []
         self.e_blocks = []
         self.u_blocks = []
-        self.use_conv_init = False
-
-        if model_size == 'large':
-            self.use_conv_init = True
-            self.conv_init = Conv(n_channels, n_channels * 2, kernel_size=3, stride=1, padding=1)
-            n_channels *= 2
-
 
         for i in range(0, inception_depth):
             c_block = ContractionBlock(n_channels * (2 ** i), residual)
@@ -161,9 +155,9 @@ class CloudNetp(nn.Module):
         self.e_blocks = nn.ModuleList(self.e_blocks)
         self.u_blocks = nn.ModuleList(self.u_blocks)
         
-    def forward(self, x: torch.Tensor):
-        if self.use_conv_init:
-            x = self.conv_init(x)
+    def forward(self, x: torch.Tensor, meta: torch.Tensor):
+        meta = self.meta_encoder(meta)
+        x = torch.cat([x, meta], dim=1)
 
         c_outs = []
         for i in range(len(self.c_blocks)):
