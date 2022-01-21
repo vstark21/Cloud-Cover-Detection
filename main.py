@@ -62,7 +62,7 @@ if __name__ == "__main__":
         meta[len(locations) + cur_dt.month - 1] = 1        
         files.append({
             "chip_id": chip_id,
-            "path": os.path.join(config.DATA_PATH, name),
+            "path": name,
             "meta": meta
         })
     sample_size = int(len(files) * config.SAMPLE_SIZE)
