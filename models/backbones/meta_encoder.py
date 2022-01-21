@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-from layers import UpBlock
 
 class MetaEncoder(nn.Module):
     def __init__(self, input_size):
