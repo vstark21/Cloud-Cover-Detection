@@ -36,7 +36,7 @@ if config.DEBUG:
 config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 if not os.path.exists(config.OUTPUT_PATH):
     os.makedirs(config.OUTPUT_PATH)
-logger.add(config.LOG_FILE)
+# logger.add(config.LOG_FILE)
 logger.info(f"Using device: {config.DEVICE}")
 seed_everything(config.SEED)
 if config.USE_WANDB:
