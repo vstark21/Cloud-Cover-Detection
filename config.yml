@@ -1,7 +1,7 @@
 ---
 SEED: 25
 VERBOSE: 1
-DEBUG: False
+DEBUG: True
 SAMPLE_SIZE: 1.0 # Amount of data to train on
 
 NAME: 'CCD'
@@ -131,7 +131,7 @@ LOSS_CFG:
         bce_loss: 0.
         dice_loss: 0.
         jacc_loss: 1.
-        fjacc_loss: 1.
+        fjacc_loss: 0.
     out_weights:
         out: 1.
         aux_out: 0.4
