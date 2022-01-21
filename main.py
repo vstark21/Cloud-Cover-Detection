@@ -8,6 +8,7 @@ import yaml
 import scipy
 import random
 import warnings
+import datetime
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -48,9 +49,21 @@ torch.autograd.set_detect_anomaly(config.DEBUG)
 
 if __name__ == "__main__":
     files = []
-    for name in config.DATA_PATHS:
-        _files = [os.path.join(name, el) for el in os.listdir(name)]
-        files.extend(_files)
+    meta_data = pd.read_csv(os.path.join(config.DATA_PATH, "train_metadata.csv"))
+    locations = config.LOCATIONS
+    for name in os.listdir(config.DATA_PATH):
+        chip_id = name[:-4]
+        cur_loc = meta_data.loc[meta_data['chip_id'] == chip_id, 'location'].values[0]
+        cur_dt = meta_data.loc[meta_data['chip_id'] == chip_id, 'datetime'].values[0]
+        cur_dt = datetime.datetime.strptime(cur_dt, "%Y-%m-%dT%H:%M:%SZ")
+        meta = np.zeros(len(locations) + 12)
+        meta[locations.index(cur_loc)] = 1
+        meta[len(locations) + cur_dt.month - 1] = 1        
+        files.append({
+            "chip_id": chip_id,
+            "path": os.path.join(config.DATA_PATH, name),
+            "meta": meta
+        })
     sample_size = int(len(files) * config.SAMPLE_SIZE)
     files = random.sample(files, sample_size)
     train_files, val_files = train_test_split(files, test_size=0.2, 
@@ -113,10 +126,11 @@ if __name__ == "__main__":
                 batch_data = next(train_generator)
 
             images = batch_data['inputs'].to(config.DEVICE)
+            meta = batch_data['meta'].to(config.DEVICE)
             labels = batch_data['labels'].to(config.DEVICE)
             
             with torch.cuda.amp.autocast(enabled=config.AMP):
-                preds_dict = model(images)
+                preds_dict = model(images, meta)
                 loss_dict = loss_fn(preds_dict, labels)
                 loss = loss_dict['loss']
 
@@ -157,9 +171,10 @@ if __name__ == "__main__":
             for batch_data in bar:
 
                 images = batch_data['inputs'].to(config.DEVICE)
+                meta = batch_data['meta'].to(config.DEVICE)
                 labels = batch_data['labels'].to(config.DEVICE)
 
-                preds_dict = model(images)
+                preds_dict = model(images, meta)
                 loss_dict = loss_fn(preds_dict, labels)
                 loss = loss_dict['loss']
 
