@@ -3,10 +3,10 @@ import torch.nn as nn
 from layers import UpBlock
 
 class MetaEncoder(nn.Module):
-    def __init__(self, cfg):
+    def __init__(self, input_size):
         super(MetaEncoder, self).__init__()
         self.layer1 = nn.Sequential(
-            nn.Linear(cfg['input_size'], 1024),
+            nn.Linear(input_size, 1024),
             nn.ReLU()
         )
         self.layer2 = nn.Sequential(
