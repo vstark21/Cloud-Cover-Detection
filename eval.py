@@ -40,6 +40,8 @@ if __name__ == "__main__":
     locations = config.LOCATIONS
     for name in glob.glob(os.path.join(config.DATA_PATH, "*.npz")):
         chip_id = name[-8:-4]
+        if chip_id in bad_chips:
+            continue
         cur_loc = meta_data.loc[meta_data['chip_id'] == chip_id, 'location'].values[0]
         cur_dt = meta_data.loc[meta_data['chip_id'] == chip_id, 'datetime'].values[0]
         cur_dt = datetime.datetime.strptime(cur_dt, "%Y-%m-%dT%H:%M:%SZ")
