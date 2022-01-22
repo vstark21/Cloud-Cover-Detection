@@ -61,8 +61,9 @@ if __name__ == "__main__":
 
     model = getattr(models, config.MODEL)(
         **config.MODEL_PARAMS[config.MODEL]
-    ).to(config.DEVICE)
+    )
     model = load_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
+    model = model.to(config.DEVICE)
 
     logger.info(f"Model has {count_parameters(model)} parameters")
 
