@@ -1,12 +1,11 @@
 ---
-SEED: 25
+SEED: 2022
 VERBOSE: 1
 DEBUG: False
-SAMPLE_SIZE: 1.0 # Amount of data to train on
 
 NAME: 'CCD'
 
-MODEL: 'CloudNetp' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
+MODEL: 'Unet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     CloudNetp:
@@ -118,6 +117,8 @@ MODEL_PARAMS:
 
 # Data
 DATA_PATH: "data/"
+BAD_CHIPS_FILE: "bad_chips.json"
+META_DATA_FILE: "train_metadata.csv"
 DATA_MEAN: [2848.06411202, 2839.08714853, 2741.28910764, 3657.90921129]
 DATA_STD: [3156.92684648, 2899.28014451, 2789.96160889, 2424.18942846]
 LOCATIONS: ["Addis Ababa", "Adelaide", "Adi Ramets", "Alexander Bay", "Alto Hama", "Angkor Wat", "Angola", "Asmara nort", "Australia - Central", "Australia - Central West", "Australia - North West", "Bahir Dar", "Bambesa", "Bechar", "Beira", "Bor", "Bunbury", "Cabo Verdo", "Canary Islands", "Chibemba", "Chifunfu", "Chingola", "Cordoba", "DRC", "Ecuador", "Eritrea", "Eswatini", "Ethiopia", "Gabon", "Georgetown", "Ghana", "Harare", "Isiro", "Jimma", "Juba", "Kalamie", "Kenya", "Kimberley", "Kolwezi", "Launceston", "Lodwar", "Lusaka", "Macapa", "Madagascar", "Mahajanga", "Malabo", "Malawi", "Malemba Nkulu", "Manaus", "Matadi", "Monongue", "Morocco", "Nairobi", "Paijan", "Para", "Paraguay", "Pibor", "Port Augusta", "Port Gentil", "Porto Velho", "Rio Branco", "Riobamba", "Rustenburg", "San Lorenzo", "San Sabastian de La Gomera", "Santa Cruz de la Sierra", "Santa Cruz do Sul", "Santa Fe", "Senanga", "Sfax", "Sierra Leone", "South Africa", "South America - Argentina", "South America - Brazil", "South America - Peru", "South America - Suriname", "Sudan", "Timbuktu", "Tunis", "Uganda", "Vitoria"]

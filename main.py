@@ -50,10 +50,17 @@ torch.autograd.set_detect_anomaly(config.DEBUG)
 
 if __name__ == "__main__":
     files = []
-    meta_data = pd.read_csv(os.path.join(config.DATA_PATH, "train_metadata.csv"))
+    bad_chips = json.load(
+        open(os.path.join(config.DATA_PATH, config.BAD_CHIPS_FILE), "r")
+    )
+    meta_data = pd.read_csv(
+        os.path.join(config.DATA_PATH, config.META_DATA_FILE)
+    )
     locations = config.LOCATIONS
     for name in glob.glob(os.path.join(config.DATA_PATH, "*.npz")):
         chip_id = name[-8:-4]
+        if chip_id in bad_chips:
+            continue
         cur_loc = meta_data.loc[meta_data['chip_id'] == chip_id, 'location'].values[0]
         cur_dt = meta_data.loc[meta_data['chip_id'] == chip_id, 'datetime'].values[0]
         cur_dt = datetime.datetime.strptime(cur_dt, "%Y-%m-%dT%H:%M:%SZ")
@@ -65,8 +72,6 @@ if __name__ == "__main__":
             "path": name,
             "meta": meta
         })
-    sample_size = int(len(files) * config.SAMPLE_SIZE)
-    files = random.sample(files, sample_size)
     train_files, val_files = train_test_split(files, test_size=0.2, 
                                             random_state=config.SEED)
 
