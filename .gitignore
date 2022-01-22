@@ -130,7 +130,9 @@ dmypy.json
 # Custom
 data/
 wandb/
-submission/
 outputs/
 *.sh.*
 temp*
+*.pt
+*.pth
+*.zip
