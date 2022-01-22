@@ -1,0 +1,6 @@
+chip_id,location,datetime,cloudpath
+adwp,Chifunfu,2020-04-29T08:20:47Z,az://./train_features/adwp
+adwu,Chifunfu,2020-04-29T08:20:47Z,az://./train_features/adwu
+adwz,Chifunfu,2020-04-29T08:20:47Z,az://./train_features/adwz
+adxp,Chifunfu,2020-04-29T08:20:47Z,az://./train_features/adxp
+akny,Addis Ababa,2020-09-10T07:57:42Z,az://./train_features/akny
