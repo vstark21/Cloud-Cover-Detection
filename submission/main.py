@@ -27,7 +27,7 @@ ROOT_DIRECTORY = "/codeexecution"
 if not os.path.exists(ROOT_DIRECTORY):
     ROOT_DIRECTORY = "testexecution"
 PREDICTIONS_DIRECTORY = os.path.join(ROOT_DIRECTORY, "predictions")
-META_FILE_PATH = os.path.join(ROOT_DIRECTORY, "data" "test_metadata.csv")
+META_FILE_PATH = os.path.join(ROOT_DIRECTORY, "data")
 feature_directory = os.path.join(ROOT_DIRECTORY, "data", "test_features")
 
 chips = os.listdir(feature_directory)
@@ -42,7 +42,7 @@ model = model.to(config.DEVICE)
 model.load_state_dict(torch.load(F"{config.NAME}.pt", map_location=config.DEVICE))
 model.eval()
 
-meta_data = pd.read_csv(META_FILE_PATH)
+meta_data = pd.read_csv(os.path.join(META_FILE_PATH, "test_metadata.csv"))
 locations = config.LOCATIONS
 chip_mapper = {
     chip_id: [cur_loc, datetime.datetime.strptime(cur_dt, "%Y-%m-%dT%H:%M:%SZ")]
