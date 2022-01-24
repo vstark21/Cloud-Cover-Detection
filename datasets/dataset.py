@@ -25,18 +25,17 @@ class CloudDataset(Dataset):
         label_path = self.files[idx]['label_path']
 
         _feat = np.load(feat_path)
-        feat = []
-        for key in self.use_bands:
+        data = np.zeros((512, 512, len(self.use_bands) + 1), dtype=np.float32)
+        for i, key in enumerate(self.use_bands):
             _band = cv2.resize(_feat[key], (512, 512))
             _band = (_band - self.mean[key]) / self.std[key]
-            feat.append(_band)
-        feat = np.stack(feat, axis=0)
-        label = np.load(label_path)['label']
+            data[i] = _band
+        data[-1] = np.load(label_path)['label']
         if self.transforms:
-            data = self.transforms(feat=feat, label=label)
-            feat = data['feat']
-            label = data['label']
-        feat = np.expand_dims(feat, axis=0)
+            data = self.transforms(image=data)['image']
+        feat = data[:, :, :-1]
+        label = data[:, :, -1]
+        feat = np.expand_dims(feat.transpose(2, 0, 1), axis=0)
         label = np.expand_dims(label, axis=0)
         return {
             'inputs': feat.astype(np.float32),
