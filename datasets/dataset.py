@@ -1,33 +1,44 @@
+import cv2
 from torch.utils.data import Dataset
 import numpy as np
 
 class CloudDataset(Dataset):
-    def __init__(self, files, mean, std, transforms=None):
+    def __init__(
+        self,
+        files: list,
+        mean: dict,
+        std: dict,
+        use_bands: list,
+        transforms=None
+    ):
         self.files = files
-        self.mean = np.array(mean)[np.newaxis, np.newaxis, :]
-        self.std = np.array(std)[np.newaxis, np.newaxis, :]
+        self.mean = mean
+        self.std = std
+        self.use_bands = use_bands
         self.transforms = transforms
             
     def __len__(self):
         return len(self.files)
     
     def __getitem__(self, idx):
-        path = self.files[idx]['path']
-        meta = self.files[idx]['meta']
+        feat_path = self.files[idx]['feat_path']
+        label_path = self.files[idx]['label_path']
 
-        data = np.load(path)["data"]
+        _feat = np.load(feat_path)
+        feat = []
+        for key in self.use_bands:
+            _band = cv2.resize(_feat[key], (512, 512))
+            _band = (_band - self.mean[key]) / self.std[key]
+            feat.append(_band)
+        feat = np.stack(feat, axis=0)
+        label = np.load(label_path)['label']
         if self.transforms:
-            data = self.transforms(image=data)["image"]
-        
-        inputs = data[:, :, :4]
-        inputs = (inputs - self.mean) / self.std
-        inputs = np.transpose(inputs, (2, 0, 1))
-
-        labels = data[:, :, 4]
-        labels = labels[np.newaxis, :, :]
-
+            data = self.transforms(feat=feat, label=label)
+            feat = data['feat']
+            label = data['label']
+        feat = np.expand_dims(feat, axis=0)
+        label = np.expand_dims(label, axis=0)
         return {
-            'inputs': inputs.astype(np.float32),
-            'meta': meta.astype(np.float32),
-            'labels': labels.astype(np.float32)
+            'inputs': feat.astype(np.float32),
+            'labels': label.astype(np.float32)
         }
