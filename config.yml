@@ -9,9 +9,6 @@ MODEL: 'Unet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     CloudNetp:
-        meta_enc_cfg:
-            type: 'MetaEncoder'
-            input_size: 93
         n_channels: 5
         n_classes: 1
         inception_depth: 6
@@ -102,9 +99,6 @@ MODEL_PARAMS:
         bn_momentum: 0.5
     Unet:
         cfg:
-            meta_encoder:
-                type: 'MetaEncoder'
-                input_size: 93
             backbone:
                 type: 'ResNet'
                 variant: 'resnet50'
@@ -118,7 +112,6 @@ MODEL_PARAMS:
 # Data
 DATA_PATH: "data/"
 BAD_CHIPS_FILE: "bad_chips.json"
-META_DATA_FILE: "train_metadata.csv"
 DATA_MEAN:
     AOT: 180.1299
     B01: 2960.6534
@@ -151,8 +144,7 @@ DATA_STD:
     B8A: 2352.8046
     SCL: 2.2471
     WVP: 1145.1936
-LOCATIONS: ["Addis Ababa", "Adelaide", "Adi Ramets", "Alexander Bay", "Alto Hama", "Angkor Wat", "Angola", "Asmara nort", "Australia - Central", "Australia - Central West", "Australia - North West", "Bahir Dar", "Bambesa", "Bechar", "Beira", "Bor", "Bunbury", "Cabo Verdo", "Canary Islands", "Chibemba", "Chifunfu", "Chingola", "Cordoba", "DRC", "Ecuador", "Eritrea", "Eswatini", "Ethiopia", "Gabon", "Georgetown", "Ghana", "Harare", "Isiro", "Jimma", "Juba", "Kalamie", "Kenya", "Kimberley", "Kolwezi", "Launceston", "Lodwar", "Lusaka", "Macapa", "Madagascar", "Mahajanga", "Malabo", "Malawi", "Malemba Nkulu", "Manaus", "Matadi", "Monongue", "Morocco", "Nairobi", "Paijan", "Para", "Paraguay", "Pibor", "Port Augusta", "Port Gentil", "Porto Velho", "Rio Branco", "Riobamba", "Rustenburg", "San Lorenzo", "San Sabastian de La Gomera", "Santa Cruz de la Sierra", "Santa Cruz do Sul", "Santa Fe", "Senanga", "Sfax", "Sierra Leone", "South Africa", "South America - Argentina", "South America - Brazil", "South America - Peru", "South America - Suriname", "Sudan", "Timbuktu", "Tunis", "Uganda", "Vitoria"]
-
+    
 # Loss
 LOSS_CFG:
     losses:

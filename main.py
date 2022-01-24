@@ -132,11 +132,10 @@ if __name__ == "__main__":
                 batch_data = next(train_generator)
 
             images = batch_data['inputs'].to(config.DEVICE)
-            meta = batch_data['meta'].to(config.DEVICE)
             labels = batch_data['labels'].to(config.DEVICE)
             
             with torch.cuda.amp.autocast(enabled=config.AMP):
-                preds_dict = model(images, meta)
+                preds_dict = model(images)
                 loss_dict = loss_fn(preds_dict, labels)
                 loss = loss_dict['loss']
 
@@ -177,10 +176,9 @@ if __name__ == "__main__":
             for batch_data in bar:
 
                 images = batch_data['inputs'].to(config.DEVICE)
-                meta = batch_data['meta'].to(config.DEVICE)
                 labels = batch_data['labels'].to(config.DEVICE)
 
-                preds_dict = model(images, meta)
+                preds_dict = model(images)
                 loss_dict = loss_fn(preds_dict, labels)
                 loss = loss_dict['loss']
 

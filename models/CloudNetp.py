@@ -122,7 +122,6 @@ class CloudNetp(nn.Module):
         residual=False,
     ):
         super(CloudNetp, self).__init__()
-        self.meta_encoder = build_backbone(meta_enc_cfg)
 
         self.c_blocks = []
         self.f_blocks = []
@@ -154,9 +153,7 @@ class CloudNetp(nn.Module):
         self.e_blocks = nn.ModuleList(self.e_blocks)
         self.u_blocks = nn.ModuleList(self.u_blocks)
         
-    def forward(self, x: torch.Tensor, meta: torch.Tensor):
-        meta = self.meta_encoder(meta)
-        x = torch.cat([x, meta], dim=1)
+    def forward(self, x: torch.Tensor):
 
         c_outs = []
         for i in range(len(self.c_blocks)):
