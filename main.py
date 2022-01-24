@@ -66,7 +66,7 @@ if __name__ == "__main__":
         })
     train_files, val_files = train_test_split(files, test_size=0.2, 
                                             random_state=config.SEED)
-    print("Training with {} chips and Validating with {} chips".format(
+    logger.info("Training with {} chips and Validating with {} chips".format(
         len(train_files), len(val_files)
     ))
     train_transform = A.Compose([
