@@ -28,8 +28,9 @@ class CloudDataset(Dataset):
         data = np.zeros((512, 512, len(self.use_bands) + 1), dtype=np.float32)
         for i, key in enumerate(self.use_bands):
             _band = cv2.resize(_feat[key], (512, 512))
+            print(_band.dtype)
             _band = (_band - self.mean[key]) / self.std[key]
-            data[i] = _band
+            data[:, :, i] = _band
         data[-1] = np.load(label_path)['label']
         if self.transforms:
             data = self.transforms(image=data)['image']
