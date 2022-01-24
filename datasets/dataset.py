@@ -34,7 +34,7 @@ class CloudDataset(Dataset):
             data = self.transforms(image=data)['image']
         feat = data[:, :, :-1]
         label = data[:, :, -1]
-        feat = np.expand_dims(feat.transpose(2, 0, 1), axis=0)
+        feat = feat.transpose(2, 0, 1)
         label = np.expand_dims(label, axis=0)
         return {
             'inputs': feat.astype(np.float32),
