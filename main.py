@@ -56,8 +56,8 @@ if __name__ == "__main__":
     for name in glob.glob(
         os.path.join(config.DATA_PATH, "*.npz")
     ):
-        chip_id = name[-8:-4]
-        if chip_id in bad_chips:
+        chip_id = os.path.split(name)[-1].split(".")[0]
+        if chip_id in bad_chips or 'label' in chip_id:
             continue    
         files.append({
             "chip_id": chip_id,

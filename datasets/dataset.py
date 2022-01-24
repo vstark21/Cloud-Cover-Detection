@@ -21,18 +21,13 @@ class CloudDataset(Dataset):
         return len(self.files)
     
     def __getitem__(self, idx):
-        chip_id = self.files[idx]['chip_id']
         feat_path = self.files[idx]['feat_path']
         label_path = self.files[idx]['label_path']
 
         _feat = np.load(feat_path)
         feat = []
         for key in self.use_bands:
-            try:
-                _band = cv2.resize(_feat[key], (512, 512))
-            except Exception as e:
-                print(f"Following error raised due to {chip_id}: {e}")
-
+            _band = cv2.resize(_feat[key], (512, 512))
             _band = (_band - self.mean[key]) / self.std[key]
             feat.append(_band)
         feat = np.stack(feat, axis=0)
