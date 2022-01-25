@@ -1,14 +1,11 @@
 ---
-NAME: 'CCD_19'
+NAME: 'CCD_20'
 
 MODEL: 'Unet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     CloudNetp:
-        meta_enc_cfg:
-            type: 'MetaEncoder'
-            input_size: 93
-        n_channels: 5
+        n_channels: 4
         n_classes: 1
         inception_depth: 6
         residual: True
@@ -98,13 +95,10 @@ MODEL_PARAMS:
         bn_momentum: 0.5
     Unet:
         cfg:
-            meta_encoder:
-                type: 'MetaEncoder'
-                input_size: 93
             backbone:
                 type: 'ResNet'
                 variant: 'resnet50'
-                n_channels: 5
+                n_channels: 4
             head:
                 type: 'UnetDecodeHead'
                 n_classes: 1
@@ -112,9 +106,36 @@ MODEL_PARAMS:
                 out_channels: [256, 128, 64, 32, 16]
 
 # Data
-META_DATA_FILE: "test_metadata.csv"
-DATA_MEAN: [2848.06411202, 2839.08714853, 2741.28910764, 3657.90921129]
-DATA_STD: [3156.92684648, 2899.28014451, 2789.96160889, 2424.18942846]
-LOCATIONS: ["Addis Ababa", "Adelaide", "Adi Ramets", "Alexander Bay", "Alto Hama", "Angkor Wat", "Angola", "Asmara nort", "Australia - Central", "Australia - Central West", "Australia - North West", "Bahir Dar", "Bambesa", "Bechar", "Beira", "Bor", "Bunbury", "Cabo Verdo", "Canary Islands", "Chibemba", "Chifunfu", "Chingola", "Cordoba", "DRC", "Ecuador", "Eritrea", "Eswatini", "Ethiopia", "Gabon", "Georgetown", "Ghana", "Harare", "Isiro", "Jimma", "Juba", "Kalamie", "Kenya", "Kimberley", "Kolwezi", "Launceston", "Lodwar", "Lusaka", "Macapa", "Madagascar", "Mahajanga", "Malabo", "Malawi", "Malemba Nkulu", "Manaus", "Matadi", "Monongue", "Morocco", "Nairobi", "Paijan", "Para", "Paraguay", "Pibor", "Port Augusta", "Port Gentil", "Porto Velho", "Rio Branco", "Riobamba", "Rustenburg", "San Lorenzo", "San Sabastian de La Gomera", "Santa Cruz de la Sierra", "Santa Cruz do Sul", "Santa Fe", "Senanga", "Sfax", "Sierra Leone", "South Africa", "South America - Argentina", "South America - Brazil", "South America - Peru", "South America - Suriname", "Sudan", "Timbuktu", "Tunis", "Uganda", "Vitoria"]
-
-BATCH_SIZE: 2
+USE_BANDS: ['B02', 'B03', 'B04', 'B08'] # ['AOT', 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B09', 'B11', 'B12', 'B8A', 'SCL', 'WVP']
+DATA_MEAN: 
+    AOT: 180.1299
+    B01: 2960.6534
+    B02: 2848.0641
+    B03: 2839.0871
+    B04: 2741.2891
+    B05: 3092.1515
+    B06: 3498.3167
+    B07: 3667.7743
+    B08: 3657.9092
+    B09: 5407.6344
+    B11: 2897.9083
+    B12: 2251.9176
+    B8A: 3763.3122
+    SCL: 6.7838
+    WVP: 2499.6553
+DATA_STD:
+    AOT: 83.1507
+    B01: 3361.4101
+    B02: 3156.9267
+    B03: 2899.28
+    B04: 2789.9614
+    B05: 2818.9582
+    B06: 2511.3989
+    B07: 2420.1918
+    B08: 2424.1892
+    B09: 4388.4378
+    B11: 1761.3575
+    B12: 1567.6521
+    B8A: 2352.8046
+    SCL: 2.2471
+    WVP: 1145.1936
