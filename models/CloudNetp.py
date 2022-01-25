@@ -115,7 +115,6 @@ class UpSamplingBlock(nn.Module):
 class CloudNetp(nn.Module):
     def __init__(
         self,
-        meta_enc_cfg: dict,
         n_channels=4,
         n_classes=1,
         inception_depth=6,
