@@ -8,7 +8,7 @@ source activate virenv
 
 cd Cloud-Cover-Detection
 
-python eval.py
+python finetune.py
 
 conda deactivate
 module unload anaconda/3
