@@ -183,6 +183,14 @@ SCHEDULER_PARAMS:
 # Validating
 VAL_BATCH_SIZE: 4
 
+# Finetuning
+FT_OPTIMIZER_CFG: 
+    type: 'AdamW' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
+    lr: 5.0e-6
+    betas: [0.9, 0.999]
+    weight_decay: 0.01
+FT_EPOCHS: 2
+
 # Wandb 
 USE_WANDB: True
 

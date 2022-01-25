@@ -34,27 +34,19 @@ if __name__ == "__main__":
     bad_chips = json.load(
         open(os.path.join(config.DATA_PATH, config.BAD_CHIPS_FILE), "r")
     )
-    meta_data = pd.read_csv(
-        os.path.join(config.DATA_PATH, config.META_DATA_FILE)
-    )
-    locations = config.LOCATIONS
-    for name in glob.glob(os.path.join(config.DATA_PATH, "*.npz")):
-        chip_id = name[-8:-4]
-        if chip_id in bad_chips:
-            continue
-        cur_loc = meta_data.loc[meta_data['chip_id'] == chip_id, 'location'].values[0]
-        cur_dt = meta_data.loc[meta_data['chip_id'] == chip_id, 'datetime'].values[0]
-        cur_dt = datetime.datetime.strptime(cur_dt, "%Y-%m-%dT%H:%M:%SZ")
-        meta = np.zeros(len(locations) + 12)
-        meta[locations.index(cur_loc)] = 1
-        meta[len(locations) + cur_dt.month - 1] = 1        
+    for name in glob.glob(
+        os.path.join(config.DATA_PATH, "*.npz")
+    ):
+        chip_id = os.path.split(name)[-1].split(".")[0]
+        if chip_id in bad_chips or 'label' in chip_id:
+            continue    
         files.append({
             "chip_id": chip_id,
-            "path": name,
-            "meta": meta
+            "feat_path": name,
+            "label_path": name.replace(".npz", "_label.npz")
         })
     val_dataset = CloudDataset(
-        files, config.DATA_MEAN, config.DATA_STD)
+        files, config.DATA_MEAN, config.DATA_STD, use_bands=config.USE_BANDS)
     dataloader = DataLoader(
                     val_dataset,
                     batch_size=config.VAL_BATCH_SIZE,
@@ -78,10 +70,9 @@ if __name__ == "__main__":
         for batch_data in bar:
 
             images = batch_data['inputs'].to(config.DEVICE)
-            meta = batch_data['meta'].to(config.DEVICE)
             labels = batch_data['labels'].to(config.DEVICE)
 
-            preds_dict = model(images, meta)
+            preds_dict = model(images)
             cur_jac = jaccard_score(preds_dict['out'], labels).item()
             jac_score += cur_jac
             dataset_len += 1
