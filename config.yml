@@ -1,7 +1,7 @@
 ---
 SEED: 2022
 VERBOSE: 1
-DEBUG: True
+DEBUG: False
 
 NAME: 'CCD'
 
