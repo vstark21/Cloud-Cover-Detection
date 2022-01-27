@@ -74,7 +74,6 @@ if __name__ == "__main__":
                         num_workers=config.NUM_WORKERS,
                         worker_init_fn=worker_init_fn)
 
-    generator = dataloader.__iter__()
     loss_fn = CloudLoss(
         config.LOSS_CFG
     )
@@ -95,7 +94,7 @@ if __name__ == "__main__":
         # Finetuning
         model.train()
         model.zero_grad()
-        bar = tqdm(enumerate(generator), total=len(generator))
+        bar = tqdm(enumerate(dataloader), total=len(dataloader))
         metrics = defaultdict(lambda: 0)
         dataset_len = 0
 
