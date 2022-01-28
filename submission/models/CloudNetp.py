@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from layers import Conv, ResBlock
-from build_utils import build_backbone
 
 class ContractionBlock(nn.Module):
     def __init__(self, ni, residual=False):

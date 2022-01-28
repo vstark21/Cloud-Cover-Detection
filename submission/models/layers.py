@@ -255,6 +255,7 @@ class ResBlock(nn.Module):
         x = self.act(x)
 
         x = self.out_conv(x)
+        x = self.act(x)
         return x
 
 
