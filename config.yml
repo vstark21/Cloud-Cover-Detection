@@ -199,4 +199,3 @@ USE_WANDB: True
 
 # Outputs
 OUTPUT_PATH: 'outputs/'
-LOG_FILE: 'outputs/logs.log'

@@ -1,5 +1,6 @@
 import os
 import torch
+import torch.nn as nn
 import random
 import numpy as np
 from loguru import logger
@@ -56,22 +57,38 @@ def worker_init_fn(worker_id):
     np.random.seed(np.random.get_state()[1][0] + worker_id)
     
 
-def save_model_weights(model, filename, verbose=1, folder=""):
+def save_checkpoint(
+    filename,
+    model: nn.Module, 
+    optimizer: torch.optim.Optimizer,
+    scheduler: torch.optim.lr_scheduler._LRScheduler,
+    epoch: int,
+):
     """
     Saves the weights of a PyTorch model.
 
     Args:
         model (torch model): Model to save the weights of.
         filename (str): Name of the checkpoint.
-        verbose (int, optional): Whether to display infos. Defaults to 1.
-        folder (str, optional): Folder to save to. Defaults to "".
     """
-    if verbose:
-        logger.info(f"Saving weights to {os.path.join(folder, filename)}")
-    torch.save(model.state_dict(), os.path.join(folder, filename))
+    logger.info(f"Saving state to {filename}")
+    checkpoint = {}
+    checkpoint['model'] = model.state_dict()
+    if optimizer is not None:
+        checkpoint['optimizer'] = optimizer.state_dict()
+    if scheduler is not None:
+        checkpoint['scheduler'] = scheduler.state_dict()
+    if epoch is not None:
+        checkpoint['epoch'] = epoch
+    torch.save(checkpoint, filename)
 
 
-def load_model_weights(model, filename, verbose=1, folder=""):
+def load_checkpoint(
+    filename,
+    model: nn.Module, 
+    optimizer: torch.optim.Optimizer,
+    scheduler: torch.optim.lr_scheduler._LRScheduler,
+):
     """
     Loads the weights of a PyTorch model.
 
@@ -83,12 +100,16 @@ def load_model_weights(model, filename, verbose=1, folder=""):
     Returns:
         model (torch model): model with weights loaded
     """
-    if verbose:
-        logger.info(f"Loading weights from {os.path.join(folder, filename)}")
-    if not os.path.exists(os.path.join(folder, filename)):
-        raise ValueError(f"{filename} doesn't exist at {os.path.join(folder, filename)}")
-    model.load_state_dict(torch.load(os.path.join(folder, filename)))
-    return model
+    logger.info(f"Loading weights from {filename}")
+    if not os.path.exists(filename):
+        raise ValueError(f"{filename} doesn't exist at {filename}")
+    
+    checkpoint = torch.load(filename)
+    model.load_state_dict(checkpoint['model'])
+    optimizer.load_state_dict(checkpoint['optimizer'])
+    scheduler.load_state_dict(checkpoint['scheduler'])
+    epoch = checkpoint['epoch']
+    return model, optimizer, scheduler, epoch
 
 
 def format_time(seconds):

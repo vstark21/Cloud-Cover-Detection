@@ -10,6 +10,7 @@ import scipy
 import random
 import warnings
 import datetime
+import argparse
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -25,8 +26,14 @@ from losses import CloudLoss
 from utils import *
 from loguru import logger
 
+# Arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--config', dest='config', type=str, help='Path to the config file', default='config.yaml')
+parser.add_argument('--resume', dest='resume', type=bool, help='Resume training', default=False)
+args = parser.parse_args()
+
 # config
-with open("config.yml", "r") as f:
+with open(args.config, "r") as f:
     config = AttrDict(yaml.safe_load(f))
 if config.DEBUG:
     config.USE_WANDB = False
@@ -36,16 +43,8 @@ if config.DEBUG:
 config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 if not os.path.exists(config.OUTPUT_PATH):
     os.makedirs(config.OUTPUT_PATH)
-logger.add(config.LOG_FILE)
 logger.info(f"Using device: {config.DEVICE}")
 seed_everything(config.SEED)
-if config.USE_WANDB:
-    import wandb
-    wandb.init(
-        project=config.NAME, 
-        entity="vstark21", 
-        config=config
-    )
 torch.autograd.set_detect_anomaly(config.DEBUG)
 
 if __name__ == "__main__":
@@ -104,11 +103,27 @@ if __name__ == "__main__":
         optimizer, **config.SCHEDULER_PARAMS
     )
     grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
+    init_epoch = 0
+    if config.USE_WANDB:
+        import wandb
+        wandb.init(
+            project=config.NAME, 
+            entity="vstark21", 
+            config=config,
+            resume=args.resume
+        )
+        if args.resume:
+            checkpoint_path = os.path.join(config.OUTPUT_PATH, config.NAME + '.pt')
+            wandb.restore(checkpoint_path)
+            model, optimizer, scheduler, init_epoch = load_checkpoint(
+                wandb.restore(checkpoint_path),
+                model, optimizer, scheduler
+            )
 
     logger.info(f"Model has {count_parameters(model)} parameters")
     best_val_js = 0
 
-    for epoch in range(config.EPOCHS):
+    for epoch in range(init_epoch + 1, config.EPOCHS + 1):
         tic = time.time()
 
         # Training
@@ -204,19 +219,22 @@ if __name__ == "__main__":
             for name, value in val_metrics.items():
                 log_dict[f"val_{name}"] = value
             log_dict['lr'] = optimizer.param_groups[0]['lr']
-            wandb.log(log_dict)
+            wandb.log(log_dict, step=epoch)
 
         if best_val_js < val_metrics['jaccard']:
             best_val_js = val_metrics['jaccard']
-            save_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
+            save_checkpoint(
+                filename=os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'),
+                model=model, 
+                optimizer=optimizer,
+                scheduler=scheduler,
+                epoch=epoch
+            )
             if config.USE_WANDB:
                 wandb.save(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
         logger.info(f"Epoch {epoch} ended, time taken {format_time(time.time()-tic)}\n")
         if optimizer.param_groups[0]['lr'] <= config.MIN_LEARNING_RATE:
-            logger.info(f"Learning rate has reached its minimum value, stopping training at {epoch + 1}")
+            logger.info(f"Learning rate has reached its minimum value, stopping training at {epoch}")
             break
-
-    if config.USE_WANDB:
-        wandb.save(config.LOG_FILE)
 
     torch.cuda.empty_cache()

@@ -3,7 +3,6 @@ scipy
 pandas
 numpy
 tqdm
-yaml
 scikit-learn
 matplotlib
 loguru
