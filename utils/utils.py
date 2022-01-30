@@ -133,6 +133,7 @@ def format_time(seconds):
     result += (_s + ' sec')
     return result
 
+@torch.no_grad()
 def jaccard_score(pred, true, eps=1e-7):
     pred = torch.sigmoid(pred)
     pred = torch.round(pred)
