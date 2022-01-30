@@ -50,7 +50,7 @@ torch.autograd.set_detect_anomaly(config.DEBUG)
 if __name__ == "__main__":
     files = []
     bad_chips = json.load(
-        open(os.path.join(config.DATA_PATH, config.BAD_CHIPS_FILE), "r")
+        open(config.BAD_CHIPS_FILE, "r")
     )
     for name in glob.glob(
         os.path.join(config.DATA_PATH, "*.npz")
