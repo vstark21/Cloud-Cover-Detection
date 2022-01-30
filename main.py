@@ -228,7 +228,7 @@ if __name__ == "__main__":
                 model=model, 
                 optimizer=optimizer,
                 scheduler=scheduler,
-                epoch=epoch
+                epoch=epoch,
             )
             if config.USE_WANDB:
                 wandb.save(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
