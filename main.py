@@ -106,13 +106,18 @@ if __name__ == "__main__":
     init_epoch = 0
     if config.USE_WANDB:
         import wandb
-        wandb.init(
-            project=config.NAME, 
-            entity="vstark21", 
-            config=config,
-            resume=args.resume
-        )
-        if args.resume:
+        if not args.resume:
+            wandb.init(
+                project=config.NAME, 
+                entity="vstark21", 
+                config=config,
+            )
+        else:
+            wandb.init(
+                project=config.NAME, 
+                entity="vstark21",
+                resume=args.resume
+            )
             checkpoint_path = os.path.join(config.OUTPUT_PATH, config.NAME + '.pt')
             wandb.restore(checkpoint_path)
             model, optimizer, scheduler, init_epoch = load_checkpoint(
