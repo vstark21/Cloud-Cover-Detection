@@ -28,7 +28,7 @@ from loguru import logger
 
 # Arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('--config', dest='config', type=str, help='Path to the config file', default='config.yaml')
+parser.add_argument('--config', dest='config', type=str, help='Path to the config file', default='config.yml')
 parser.add_argument('--resume', dest='resume', type=bool, help='Resume training', default=False)
 args = parser.parse_args()
 
