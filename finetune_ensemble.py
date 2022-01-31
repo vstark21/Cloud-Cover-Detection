@@ -36,9 +36,7 @@ if config.DEBUG:
 config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 if not os.path.exists(config.OUTPUT_PATH):
     os.makedirs(config.OUTPUT_PATH)
-logger.add(config.LOG_FILE)
 logger.info(f"Using device: {config.DEVICE}")
-seed_everything(config.SEED)
 if config.USE_WANDB:
     import wandb
     wandb.init(
@@ -61,7 +59,7 @@ if __name__ == "__main__":
             "feat_path": name,
             "label_path": name.replace(".npz", "_label.npz")
         })
-    logger.info("Finetuning with {} chips".format(
+    logger.info("Ensemble Finetuning with {} chips".format(
         len(files)
     ))
     dataset = CloudDataset(
@@ -77,23 +75,33 @@ if __name__ == "__main__":
     loss_fn = CloudLoss(
         config.LOSS_CFG
     )
-    model = getattr(models, config.MODEL)(
-        **config.MODEL_PARAMS[config.MODEL]
+    ensemble_models = []
+    for k, v in config.FT_MODELS.items():
+        logger.info(f"Loading checkpoint: {k}")
+        _model = getattr(models, v['MODEL'])(
+            **v['MODEL_PARAMS']
+            ).to(config.DEVICE)
+        _model.load_state_dict(
+            torch.load(os.path.join(config.FT_MODELS_DIR, f"{k}.pt"), map_location=config.DEVICE)
+        )
+        _model.eval()
+        ensemble_models.append(_model)
+    ensembler = getattr(models, config.FT_ENSEMBLER)(
+        num_channels=len(ensemble_models), out_channels=1
     ).to(config.DEVICE)
-    model = load_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
     optimizer = getattr(torch.optim, config.FT_OPTIMIZER_CFG.pop('type'))(
-        model.parameters(), **config.FT_OPTIMIZER_CFG
+        ensembler.parameters(), **config.FT_OPTIMIZER_CFG
     )
     grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
 
-    logger.info(f"Model has {count_parameters(model)} parameters")
+    logger.info(f"Ensembler has {count_parameters(ensembler)} parameters")
 
     for epoch in range(config.FT_EPOCHS):
         tic = time.time()
 
         # Finetuning
-        model.train()
-        model.zero_grad()
+        ensembler.train()
+        ensembler.zero_grad()
         bar = tqdm(enumerate(dataloader), total=len(dataloader))
         metrics = defaultdict(lambda: 0)
         dataset_len = 0
@@ -104,7 +112,11 @@ if __name__ == "__main__":
             labels = batch_data['labels'].to(config.DEVICE)
             
             with torch.cuda.amp.autocast(enabled=config.AMP):
-                preds_dict = model(images)
+                with torch.no_grad():
+                    images = torch.cat([
+                        torch.sigmoid(model(images)['out']) for model in ensemble_models
+                    ], dim=1)
+                preds_dict = ensembler(images)
                 loss_dict = loss_fn(preds_dict, labels)
                 loss = loss_dict['loss']
 
@@ -145,8 +157,12 @@ if __name__ == "__main__":
 
         logger.info(f"Epoch {epoch} ended, time taken {format_time(time.time()-tic)}\n")
 
-    save_model_weights(model, config.NAME + '_f.pt', folder=config.OUTPUT_PATH)
+    save_checkpoint(
+        filename=os.path.join(config.OUTPUT_PATH, f"E_{config.NAME}.pt"),
+        model=ensembler.state_dict(),
+        optimizer=optimizer.state_dict(),
+        epoch=epoch,
+    )
     if config.USE_WANDB:
-        wandb.save(config.LOG_FILE)
-        wandb.save(os.path.join(config.OUTPUT_PATH, config.NAME + '_f.pt'))
+        wandb.save(os.path.join(config.OUTPUT_PATH, f"E_{config.NAME}.pt"))
     torch.cuda.empty_cache()
