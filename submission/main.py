@@ -28,11 +28,19 @@ feature_directory = os.path.join(ROOT_DIRECTORY, "data", "test_features")
 
 chips = os.listdir(feature_directory)
 logger.info(f"Processing {len(chips)} chips in {feature_directory}")
-model = getattr(models, config.MODEL)(
-    **config.MODEL_PARAMS[config.MODEL]
-).to(config.DEVICE)
-model.load_state_dict(torch.load(F"{config.NAME}.pt", map_location=config.DEVICE))
-model.eval()
+
+inference_models = []
+for k, v in config.MODELS.items():
+    logger.info(f"Loading checkpoint: {k}")
+    model = getattr(models, v['MODEL'])(
+        **v['MODEL_PARAMS']
+        ).to(config.DEVICE)
+    checkpoint = torch.load(f"{k}.pt", map_location=config.DEVICE)
+    if 'model' in checkpoint.keys():
+        checkpoint = checkpoint['model']
+    model.load_state_dict(checkpoint)
+    model.eval()
+    inference_models.append(model)
 
 @torch.no_grad()
 def main():
@@ -53,8 +61,11 @@ def main():
         inputs = torch.Tensor(inputs)
         inputs = inputs.to(config.DEVICE)
 
-        pred = model(inputs)['out']
-        pred = torch.sigmoid(pred).squeeze().cpu().numpy()
+        pred = 0
+        for model in inference_models:
+            pred += torch.sigmoid(model(inputs)['out'])
+        pred /= len(inference_models)
+        pred = pred.squeeze().cpu().numpy()
         pred = np.round(pred).astype(np.uint8)
 
         Image.fromarray(pred).save(

@@ -1,109 +1,16 @@
 ---
-NAME: 'CCD_22'
-
-MODEL: 'Unet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask' or 'SegNet'
-NUM_WORKERS: 2
-MODEL_PARAMS:
-    CloudNetp:
-        n_channels: 4
-        n_classes: 1
-        inception_depth: 6
-        residual: True
-    SwinSegmenter:
-        cfg:
-            backbone:
-                type: 'SwinTransformer'
-                img_size: 512
-                in_chans: 4
-                embed_dim: 96
-                depths: [2, 2, 18, 2]
-                num_heads: [3, 6, 12, 24]
-                window_size: 7
-                mlp_ratio: 4.
-                qkv_bias: True
-                qk_scale: null
-                drop_rate: 0.
-                attn_drop_rate: 0.
-                drop_path_rate: 0.3
-                ape: False
-                patch_norm: True
-                out_indices: [0, 1, 2, 3]
-                use_checkpoint: False
-            decode_head:
-                type: 'UPerHead'
-                in_channels: [96, 192, 384, 768]
-                in_index: [0, 1, 2, 3]
-                pool_scales: [1, 2, 3, 6]
-                channels: 512
-                dropout_ratio: 0.1
-                num_classes: 512
-                norm_cfg: 
-                    type: 'BN2d'
-                    requires_grad: True
-                align_corners: False
-            auxiliary_head:
-                type: 'FCNHead'
-                in_channels: 384
-                in_index: 2
-                channels: 256
-                num_convs: 1
-                concat_input: False
-                dropout_ratio: 0.1
-                num_classes: 512
-                norm_cfg:  
-                    type: 'BN2d'
-                    requires_grad: True
-                align_corners: False
-    SeMask:
-        cfg:
-            backbone:
-                type: 'SeMaskSwinTransformer'
-                img_size: 512
-                in_chans: 4
-                embed_dim: 96
-                depths: [2, 2, 18, 2]
-                num_heads: [3, 6, 12, 24]
-                window_size: 7
-                num_cls: 512
-                sem_window_size: 7
-                num_sem_blocks: [1, 1, 1, 1]
-                mlp_ratio: 4.
-                qkv_bias: True
-                qk_scale: null
-                drop_rate: 0.
-                attn_drop_rate: 0.
-                drop_path_rate: 0.3
-                ape: False
-                patch_norm: True
-                out_indices: [0, 1, 2, 3]
-                use_checkpoint: False
-            decode_head:
-                type: 'BranchFPNHead'
-                in_channels: [96, 192, 384, 768]
-                in_index: [0, 1, 2, 3]
-                feature_strides: [4, 8, 16, 32]
-                channels: 256
-                dropout_ratio: 0.1
-                num_classes: 512
-                norm_cfg: 
-                    type: 'BN2d'
-                    requires_grad: True
-                align_corners: False
-    SegNet:
-        in_channels: 4
-        out_channels: 1
-        bn_momentum: 0.5
-    Unet:
-        cfg:
-            backbone:
-                type: 'EfficientNet' # ResNet or EfficientNet
-                variant: 'efficientnet-b5' # resnet* or efficientnet-b*
-                n_channels: 4
-            head:
-                type: 'UnetDecodeHead'
-                n_classes: 1
-                dropout: 0.2
-                out_channels: [256, 128, 64, 32, 16]
+MODELS:
+    CCD_23:
+        MODEL: 'FPN'
+        MODEL_PARAMS:
+            cfg:
+                backbone:
+                    type: 'EfficientNet'
+                    variant: 'efficientnet-b5'
+                    n_channels: 4
+                head:
+                    type: 'FPNDecodeHead'
+                    num_classes: 1    
 
 # Data
 USE_BANDS: ['B02', 'B03', 'B04', 'B08'] # ['AOT', 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B09', 'B11', 'B12', 'B8A', 'SCL', 'WVP']
