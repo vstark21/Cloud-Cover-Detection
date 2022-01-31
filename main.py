@@ -122,7 +122,7 @@ if __name__ == "__main__":
             checkpoint_path = os.path.join(config.OUTPUT_PATH, config.NAME + '.pt')
             wandb.restore(checkpoint_path)
             model, optimizer, scheduler, init_epoch = load_checkpoint(
-                wandb.restore(checkpoint_path),
+                wandb.restore(checkpoint_path).name,
                 model, optimizer, scheduler
             )
 
