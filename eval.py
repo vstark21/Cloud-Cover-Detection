@@ -32,7 +32,7 @@ logger.info(f"Using device: {config.DEVICE}")
 if __name__ == "__main__":
     files = []
     bad_chips = json.load(
-        open(os.path.join(config.DATA_PATH, config.BAD_CHIPS_FILE), "r")
+        open(config.BAD_CHIPS_FILE, "r")
     )
     for name in glob.glob(
         os.path.join(config.DATA_PATH, "*.npz")
@@ -56,7 +56,8 @@ if __name__ == "__main__":
     model = getattr(models, config.MODEL)(
         **config.MODEL_PARAMS[config.MODEL]
     )
-    model = load_model_weights(model, config.NAME + '.pt', folder=config.OUTPUT_PATH)
+    checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
+    model.load_state_dict(checkpoint['model'])
     model = model.to(config.DEVICE)
 
     logger.info(f"Model has {count_parameters(model)} parameters")
