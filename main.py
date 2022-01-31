@@ -29,7 +29,7 @@ from loguru import logger
 # Arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--config', dest='config', type=str, help='Path to the config file', default='config.yml')
-parser.add_argument('--resume', dest='resume', type=bool, help='Resume training', default=False)
+parser.add_argument('--resume_id', dest='resume_id', type=str, help='Resume training', default=None)
 args = parser.parse_args()
 
 # config
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     init_epoch = 0
     if config.USE_WANDB:
         import wandb
-        if not args.resume:
+        if not args.resume_id:
             wandb.init(
                 project=config.NAME, 
                 entity="vstark21", 
@@ -116,7 +116,8 @@ if __name__ == "__main__":
             wandb.init(
                 project=config.NAME, 
                 entity="vstark21",
-                resume=args.resume
+                id=args.resume_id,
+                resume='must'
             )
             checkpoint_path = os.path.join(config.OUTPUT_PATH, config.NAME + '.pt')
             wandb.restore(checkpoint_path)
