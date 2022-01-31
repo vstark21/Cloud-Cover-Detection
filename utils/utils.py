@@ -59,57 +59,22 @@ def worker_init_fn(worker_id):
 
 def save_checkpoint(
     filename,
-    model: nn.Module, 
-    optimizer: torch.optim.Optimizer,
-    scheduler: torch.optim.lr_scheduler._LRScheduler,
-    epoch: int,
+    **kwargs,
 ):
-    """
-    Saves the weights of a PyTorch model.
-
-    Args:
-        model (torch model): Model to save the weights of.
-        filename (str): Name of the checkpoint.
-    """
     logger.info(f"Saving state to {filename}")
     checkpoint = {}
-    checkpoint['model'] = model.state_dict()
-    if optimizer is not None:
-        checkpoint['optimizer'] = optimizer.state_dict()
-    if scheduler is not None:
-        checkpoint['scheduler'] = scheduler.state_dict()
-    if epoch is not None:
-        checkpoint['epoch'] = epoch
+    for k, v in kwargs.items():
+        checkpoint[k] = v
     torch.save(checkpoint, filename)
-
 
 def load_checkpoint(
     filename,
-    model: nn.Module, 
-    optimizer: torch.optim.Optimizer,
-    scheduler: torch.optim.lr_scheduler._LRScheduler,
 ):
-    """
-    Loads the weights of a PyTorch model.
-
-    Args:
-        model (torch model): Model to load the weights.
-        filename (str): Name of the checkpoint.
-        verbose (int, optional): Whether to display infos. Defaults to 1.
-        folder (str, optional): Folder to load from. Defaults to "".
-    Returns:
-        model (torch model): model with weights loaded
-    """
     logger.info(f"Loading weights from {filename}")
     if not os.path.exists(filename):
         raise ValueError(f"{filename} doesn't exist at {filename}")
-    
     checkpoint = torch.load(filename)
-    model.load_state_dict(checkpoint['model'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
-    scheduler.load_state_dict(checkpoint['scheduler'])
-    epoch = checkpoint['epoch']
-    return model, optimizer, scheduler, epoch
+    return checkpoint
 
 
 def format_time(seconds):

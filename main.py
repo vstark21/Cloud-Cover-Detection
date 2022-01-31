@@ -41,6 +41,7 @@ if config.DEBUG:
     config.N_ACCUMULATE = 2
 
 config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+config.CHECKPOINT_PATH = os.path.join(config.OUTPUT_PATH, config.NAME + '.pt')
 if not os.path.exists(config.OUTPUT_PATH):
     os.makedirs(config.OUTPUT_PATH)
 logger.info(f"Using device: {config.DEVICE}")
@@ -48,6 +49,7 @@ seed_everything(config.SEED)
 torch.autograd.set_detect_anomaly(config.DEBUG)
 
 if __name__ == "__main__":
+    # Loading data
     files = []
     bad_chips = json.load(
         open(config.BAD_CHIPS_FILE, "r")
@@ -88,8 +90,8 @@ if __name__ == "__main__":
                     batch_size=config.VAL_BATCH_SIZE,
                     shuffle=False,
                     num_workers=config.NUM_WORKERS)
-
     train_generator = train_dataloader.__iter__()
+
     loss_fn = CloudLoss(
         config.LOSS_CFG
     )
@@ -104,6 +106,7 @@ if __name__ == "__main__":
     )
     grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
     init_epoch = 0
+    best_val_js = 0
     if config.USE_WANDB:
         import wandb
         if not args.resume_id:
@@ -119,17 +122,17 @@ if __name__ == "__main__":
                 id=args.resume_id,
                 resume='must'
             )
-            checkpoint_path = os.path.join(config.OUTPUT_PATH, config.NAME + '.pt')
-            wandb.restore(checkpoint_path)
-            model, optimizer, scheduler, init_epoch = load_checkpoint(
-                wandb.restore(checkpoint_path).name,
-                model, optimizer, scheduler
-            )
+            checkpoint = load_checkpoint(wandb.restore(config.CHECKPOINT_PATH).name)
+            model.load_state_dict(checkpoint['model'])
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            scheduler.load_state_dict(checkpoint['scheduler'])
+            init_epoch = checkpoint['epoch'] + 1
+            best_val_js = checkpoint['best_val']
+            logger.info(f"Resuming training from epoch {init_epoch}")
 
     logger.info(f"Model has {count_parameters(model)} parameters")
-    best_val_js = 0
 
-    for epoch in range(init_epoch + 1, config.EPOCHS + 1):
+    for epoch in range(init_epoch, config.EPOCHS):
         tic = time.time()
 
         # Training
@@ -230,15 +233,17 @@ if __name__ == "__main__":
         if best_val_js < val_metrics['jaccard']:
             best_val_js = val_metrics['jaccard']
             save_checkpoint(
-                filename=os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'),
-                model=model, 
-                optimizer=optimizer,
-                scheduler=scheduler,
+                filename=config.CHECKPOINT_PATH,
+                model=model.state_dict(),
+                optimizer=optimizer.state_dict(),
+                scheduler=scheduler.state_dict(),
                 epoch=epoch,
+                best_val=best_val_js,
             )
             if config.USE_WANDB:
-                wandb.save(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
+                wandb.save(config.CHECKPOINT_PATH)
         logger.info(f"Epoch {epoch} ended, time taken {format_time(time.time()-tic)}\n")
+
         if optimizer.param_groups[0]['lr'] <= config.MIN_LEARNING_RATE:
             logger.info(f"Learning rate has reached its minimum value, stopping training at {epoch}")
             break

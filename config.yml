@@ -5,7 +5,7 @@ DEBUG: False
 
 NAME: 'CCD'
 
-MODEL: 'Unet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask', 'SegNet' or 'CheapLab'
+MODEL: 'Unet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask', 'SegNet', 'FPN' or 'CheapLab'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     CloudNetp:
@@ -108,6 +108,15 @@ MODEL_PARAMS:
                 n_classes: 1
                 dropout: 0.2
                 out_channels: [256, 128, 64, 32, 16]
+    FPN:
+        cfg:
+            backbone:
+                type: 'EfficientNet'
+                variant: 'efficientnet-b5'
+                n_channels: 4
+            head:
+                type: 'FPNDecodeHead'
+                num_classes: 1       
     CheapLab:
         num_channels: 4
         out_channels: 1
