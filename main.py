@@ -228,7 +228,7 @@ if __name__ == "__main__":
             for name, value in val_metrics.items():
                 log_dict[f"val_{name}"] = value
             log_dict['lr'] = optimizer.param_groups[0]['lr']
-            wandb.log(log_dict, step=epoch)
+            wandb.log(log_dict)
 
         if best_val_js < val_metrics['jaccard']:
             best_val_js = val_metrics['jaccard']

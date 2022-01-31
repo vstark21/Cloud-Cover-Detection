@@ -71,9 +71,6 @@ class FPNDecodeHead(nn.Module):
         in_channels = encoder_channels
         self.merge = merge
         self.in_channels = in_channels
-        print('[Decoder::__init__] merge:', self.merge)
-        print('[Decoder::__init__] final_upsampling:', final_upsampling)
-        print('[Decoder::__init__] encoder_channels:', encoder_channels)
 
         self.final_upsampling = final_upsampling
         self.conv1 = nn.Conv2d(in_channels[0], pyramid_channels, kernel_size=(1, 1))
