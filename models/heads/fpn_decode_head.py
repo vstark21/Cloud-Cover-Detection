@@ -139,8 +139,7 @@ class FPNDecodeHead(nn.Module):
         if self.final_upsampling is not None and self.final_upsampling > 1:
             x = F.interpolate(x, scale_factor=self.final_upsampling, mode='bilinear', align_corners=True)
 
-        output_dict = {'logits': x}
-        return output_dict
+        return x
 
     def initialize(self):
         for m in self.modules():
