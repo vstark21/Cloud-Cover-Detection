@@ -1,42 +1,5 @@
 ---
 MODELS:
-    CCD_21:
-        MODEL: 'Unet'
-        MODEL_PARAMS:
-            cfg:
-                backbone:
-                    type: 'EfficientNet' # ResNet or EfficientNet
-                    variant: 'efficientnet-b1' # resnet* or efficientnet-b*
-                    n_channels: 4
-                head:
-                    type: 'UnetDecodeHead'
-                    n_classes: 1
-                    dropout: 0.2
-                    out_channels: [256, 128, 64, 32, 16]
-    CCD_22:
-        MODEL: 'Unet'
-        MODEL_PARAMS:
-            cfg:
-                backbone:
-                    type: 'EfficientNet' # ResNet or EfficientNet
-                    variant: 'efficientnet-b5' # resnet* or efficientnet-b*
-                    n_channels: 4
-                head:
-                    type: 'UnetDecodeHead'
-                    n_classes: 1
-                    dropout: 0.2
-                    out_channels: [256, 128, 64, 32, 16]
-    CCD_24:
-        MODEL: 'FPN'
-        MODEL_PARAMS:
-            cfg:
-                backbone:
-                    type: 'EfficientNet'
-                    variant: 'efficientnet-b3'
-                    n_channels: 4
-                head:
-                    type: 'FPNDecodeHead'
-                    num_classes: 1
     CCD_25:
         MODEL: 'Unet'
         MODEL_PARAMS:
