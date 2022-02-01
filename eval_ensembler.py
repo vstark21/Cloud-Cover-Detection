@@ -81,7 +81,7 @@ if __name__ == "__main__":
         ensembler = getattr(models, config.FT_ENSEMBLER)(
             in_channels=len(ensemble_models), out_channels=1
         ).to(config.DEVICE)
-        checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, f"E_{args.ensembler_id}.pt"))
+        checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, f"{args.ensembler_id}.pt"))
         if 'model' in checkpoint.keys():
             checkpoint = checkpoint['model']
         ensembler.load_state_dict(checkpoint)
