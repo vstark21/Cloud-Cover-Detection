@@ -5,8 +5,9 @@ class Nugget(nn.Module):
     def __init__(self, kernel_size, in_channels, out_channels, padding=0):
         super(Nugget, self).__init__()
         self.conv2d = nn.Conv2d(in_channels,
-                                      out_channels,
-                                      kernel_size=kernel_size)
+                                out_channels,
+                                kernel_size=kernel_size,
+                                padding=padding)
         self.batch_norm = nn.BatchNorm2d(out_channels)
         self.relu = nn.SiLU()
 
