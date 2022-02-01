@@ -29,7 +29,7 @@ from loguru import logger
 # Arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_ids', dest='model_ids', type=str, help='Model ids', default=None)
-parser.add_argument('--use_wandb', dest='use_wandb', type=bool, help='Use wandb', default=True)
+parser.add_argument('--use_wandb', dest='use_wandb', type=bool, help='Use wandb', default=1)
 args = parser.parse_args()
 
 # config
