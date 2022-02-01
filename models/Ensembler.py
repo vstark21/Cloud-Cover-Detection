@@ -32,7 +32,7 @@ class Ensembler(nn.Module):
         
     def forward(self, x):
         # x = self.nuggets(x)
-        x = self.conv1(x)
+        # x = self.conv1(x)
         x = self.act(x)
         x = self.conv2(x)
 
