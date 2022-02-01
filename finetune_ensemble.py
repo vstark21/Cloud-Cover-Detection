@@ -85,7 +85,7 @@ if __name__ == "__main__":
     if args.model_ids is None:
         raise ValueError("Please provide model ids")
     for k in args.model_ids.split(","):
-        v = config.FT_MODEL[k]
+        v = config.FT_MODELS[k]
         logger.info(f"Loading checkpoint: {k}")
         _model = getattr(models, v['MODEL'])(
             **v['MODEL_PARAMS']
