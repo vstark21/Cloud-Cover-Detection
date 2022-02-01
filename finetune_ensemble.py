@@ -29,6 +29,7 @@ from loguru import logger
 # Arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_ids', dest='model_ids', type=str, help='Model ids', default=None)
+parser.add_argument('--use_wandb', dest='use_wandb', type=bool, help='Use wandb', default=True)
 args = parser.parse_args()
 
 # config
@@ -39,6 +40,7 @@ if config.DEBUG:
     config.AMP = False
     config.N_ACCUMULATE = 2
 
+config.USE_WANDB = args.use_wandb
 config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 if not os.path.exists(config.OUTPUT_PATH):
     os.makedirs(config.OUTPUT_PATH)
