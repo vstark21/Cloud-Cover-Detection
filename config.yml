@@ -278,7 +278,7 @@ FT_OPTIMIZER_CFG:
     lr: 1.0e-5
     betas: [0.9, 0.999]
     weight_decay: 0.01
-FT_EPOCHS: 2
+FT_EPOCHS: 1
 FT_ENSEMBLER: 'Ensembler'
 
 # Wandb 
