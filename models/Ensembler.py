@@ -1,16 +1,19 @@
 import torch
 import torch.nn as nn
+from timm.models.layers import trunc_normal_
 
 class Nugget(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size):
         super(Nugget, self).__init__()
-        self.conv2d = nn.Conv2d(in_channels,
+        self.conv = nn.Conv2d(in_channels,
                                 out_channels,
                                 kernel_size=kernel_size)
         self.act = nn.SiLU()
+        
+        trunc_normal_(self.conv.weight, std=.02)        
 
     def forward(self, x):
-        x = self.conv2d(x)
+        x = self.conv(x)
         x = self.act(x)
         return x
 
@@ -26,6 +29,8 @@ class Ensembler(nn.Module):
             Nugget(16, in_channels, 1),
         )
         self.out_conv = nn.Conv2d(in_channels, out_channels, 1)
+        
+        trunc_normal_(self.out_conv.weight, std=.02)
         
     def forward(self, x):
         x = self.nuggets(x)
