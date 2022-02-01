@@ -61,7 +61,16 @@ if __name__ == "__main__":
 
     eval_models = []
     if args.model_ids is None:
-        raise ValueError("Please provide model ids")
+        logger.info(f"Evaluating {config.NAME}")
+        _model = getattr(models, config.MODEL)(
+            **config.MODEL_PARAMS[config.MODEL]
+        ).to(config.DEVICE)
+        checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
+        if 'model' in checkpoint.keys():
+            checkpoint = checkpoint['model']
+        _model.load_state_dict(checkpoint)
+        _model.eval()
+        eval_models.append(_model)
     else:
         logger.info(f"Evaluating {args.model_ids}")
         model_ids = args.model_ids.split(",")
