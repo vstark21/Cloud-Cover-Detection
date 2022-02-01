@@ -8,7 +8,7 @@ class Nugget(nn.Module):
                                 out_channels,
                                 kernel_size=kernel_size,
                                 padding=padding)
-        self.act = nn.Sigmoid()
+        self.act = nn.SiLU()
 
     def forward(self, x):
         x = self.conv2d(x)
@@ -22,15 +22,14 @@ class Ensembler(nn.Module):
         out_channels=1
     ):
         super(Ensembler, self).__init__()
-        # self.nuggets = nn.Sequential(
-        #     Nugget(1, in_channels, 16),
-        #     Nugget(1, 16, 4),
-        #     Nugget(1, 4, out_channels),
-        # )
+        self.nuggets = nn.Sequential(
+            Nugget(1, in_channels, 16),
+            Nugget(1, 16, in_channels),
+        )
         self.out_conv = nn.Conv2d(in_channels, out_channels, 1)
         
     def forward(self, x):
-        # x = self.nuggets(x)
+        x = self.nuggets(x)
         out = self.out_conv(x)
 
         return dict(out=out)
