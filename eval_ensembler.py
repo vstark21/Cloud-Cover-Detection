@@ -101,7 +101,7 @@ if __name__ == "__main__":
                 _model(images)['out'] for _model in ensemble_models
             ], dim=1)
             preds_dict = ensembler(images)
-            cur_jac = jaccard_score(preds_dict['out'], labels, from_logits=False).item()
+            cur_jac = jaccard_score(preds_dict['out'], labels).item()
             jac_score += cur_jac
             dataset_len += 1
 
