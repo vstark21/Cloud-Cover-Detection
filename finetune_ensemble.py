@@ -124,7 +124,7 @@ if __name__ == "__main__":
             with torch.cuda.amp.autocast(enabled=config.AMP):
                 with torch.no_grad():
                     images = torch.cat([
-                        torch.sigmoid(model(images)['out']) for model in ensemble_models
+                        model(images)['out'] for model in ensemble_models
                     ], dim=1)
                 preds_dict = ensembler(images)
                 loss_dict = loss_fn(preds_dict, labels)
