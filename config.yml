@@ -1,5 +1,5 @@
 ---
-SEED: 156 # 2022, 42, 444, 156, 1024
+SEED: 42 # 2022, 42, 444, 156, 1024
 VERBOSE: 1
 DEBUG: False
 
@@ -128,7 +128,7 @@ TRAIN_AUGMENTATIONS:
     RandomCrop:
         height: 384
         width: 384
-        p: 0.5
+        p: 0.
     Resize:
         height: 512
         width: 512
@@ -183,7 +183,7 @@ LOSS_CFG:
         fjacc_loss: "FilteredJaccardLoss"
     loss_weights: 
         bce_loss: 0.
-        dice_loss: 1.
+        dice_loss: 0.
         jacc_loss: 1.
         fjacc_loss: 0.
     out_weights:
