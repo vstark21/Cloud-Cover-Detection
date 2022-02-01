@@ -10,7 +10,7 @@ class Nugget(nn.Module):
                                 kernel_size=kernel_size)
         self.act = nn.SiLU()
         
-        trunc_normal_(self.conv.weight, std=.002)        
+        trunc_normal_(self.conv.weight, std=.02)        
 
     def forward(self, x):
         x = self.conv(x)
@@ -30,7 +30,7 @@ class Ensembler(nn.Module):
         )
         self.out_conv = nn.Conv2d(in_channels, out_channels, 1)
         
-        trunc_normal_(self.out_conv.weight, std=.002)
+        trunc_normal_(self.out_conv.weight, std=.02)
         
     def forward(self, x):
         x = self.nuggets(x)
