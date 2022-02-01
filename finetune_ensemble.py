@@ -81,6 +81,7 @@ if __name__ == "__main__":
     loss_fn = CloudLoss(
         config.LOSS_CFG
     )
+    
     ensemble_models = []
     if args.model_ids is None:
         raise ValueError("Please provide model ids")
@@ -104,7 +105,6 @@ if __name__ == "__main__":
     grad_scaler = torch.cuda.amp.GradScaler(enabled=config.AMP)
 
     logger.info(f"Ensembler has {count_parameters(ensembler)} parameters")
-
     for epoch in range(config.FT_EPOCHS):
         tic = time.time()
 
