@@ -8,12 +8,12 @@ class Nugget(nn.Module):
                                 out_channels,
                                 kernel_size=kernel_size,
                                 padding=padding)
-        self.batch_norm = nn.BatchNorm2d(out_channels)
+        # self.batch_norm = nn.BatchNorm2d(out_channels)
         self.silu = nn.SiLU()
 
     def forward(self, x):
         x = self.conv2d(x)
-        x = self.batch_norm(x)
+        # x = self.batch_norm(x)
         x = self.silu(x)
         return x
 
@@ -25,7 +25,7 @@ class Ensembler(nn.Module):
     ):
         super(Ensembler, self).__init__()
         self.nuggets = nn.Sequential(
-            Nugget(3, in_channels, 16, padding=1),
+            Nugget(1, in_channels, 16, padding=0),
             Nugget(1, 16, 4),
             Nugget(1, 4, out_channels),
         )
