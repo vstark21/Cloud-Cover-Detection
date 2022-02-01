@@ -90,7 +90,7 @@ if __name__ == "__main__":
             preds = 0
             for _model in ensemble_models:
                 preds += torch.sigmoid(_model(images)['out'])
-            pred /= len(ensemble_models)
+            preds /= len(ensemble_models)
             
             cur_jac = jaccard_score(preds, labels).item()
             jac_score += cur_jac
