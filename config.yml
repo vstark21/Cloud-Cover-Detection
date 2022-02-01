@@ -1,11 +1,11 @@
 ---
-SEED: 156 # 2022, 42, 444, 156
+SEED: 1024 # 2022, 42, 444, 156
 VERBOSE: 1
 DEBUG: False
 
 NAME: 'CCD'
 
-MODEL: 'Unet' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask', 'SegNet', 'FPN' or 'CheapLab'
+MODEL: 'FPN' # 'CloudNetp', 'Unet', 'SwinSegmenter', 'SeMask', 'SegNet', 'FPN' or 'CheapLab'
 NUM_WORKERS: 2
 MODEL_PARAMS:
     CloudNetp:
