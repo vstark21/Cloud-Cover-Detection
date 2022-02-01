@@ -35,7 +35,7 @@ with open("config.yml", "r") as f:
 
 config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 logger.info(f"Using device: {config.DEVICE}")
-
+seed_everything(config.SEED)
 if __name__ == "__main__":
     files = []
     bad_chips = json.load(

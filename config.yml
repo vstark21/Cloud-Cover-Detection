@@ -275,7 +275,7 @@ FT_MODELS:
     
 FT_OPTIMIZER_CFG: 
     type: 'AdamW' # Should be one of the algorithms in https://pytorch.org/docs/stable/optim.html
-    lr: 1.0e-4
+    lr: 1.0e-5
     betas: [0.9, 0.999]
     weight_decay: 0.01
 FT_EPOCHS: 1
