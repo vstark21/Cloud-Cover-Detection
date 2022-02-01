@@ -122,7 +122,22 @@ MODEL_PARAMS:
         out_channels: 1
 
 # Data
-IMG_SIZE: 512
+TRAIN_AUGMENTATIONS:
+    Flip:
+        p: 0.5
+    RandomCrop:
+        height: 384
+        width: 384
+        p: 0.
+    Resize:
+        height: 512
+        width: 512
+        p: 1.0
+    ShiftScaleRotate:
+        shift_limit: 0.1
+        scale_limit: 0.2
+        rotate_limit: 10
+        p: 0.5
 DATA_PATH: "/kaggle/input/ccd-data/ccd_data/"
 BAD_CHIPS_FILE: "/kaggle/working/bad_chips.json"
 USE_BANDS: ['B02', 'B03', 'B04', 'B08'] # ['AOT', 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B09', 'B11', 'B12', 'B8A', 'SCL', 'WVP']

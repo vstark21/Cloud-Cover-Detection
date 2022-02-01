@@ -71,10 +71,7 @@ if __name__ == "__main__":
         len(train_files), len(val_files)
     ))
     train_transform = A.Compose([
-        A.Flip(p=0.5),
-        A.RandomCrop(384, 384, p=0.5),
-        A.Resize(config.IMG_SIZE, config.IMG_SIZE, p=1.0),
-        A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.2, rotate_limit=10, p=0.5),
+        getattr(A, k)(**v) for k, v in config.TRAIN_AUGMENTATIONS.items()
     ])
     train_dataset = CloudDataset(
         train_files, config.DATA_MEAN, config.DATA_STD, use_bands=config.USE_BANDS, transforms=train_transform)
