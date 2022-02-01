@@ -13,7 +13,7 @@ import datetime
 import argparse
 import numpy as np
 import pandas as pd
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 import albumentations as A
 from sklearn.model_selection import train_test_split
 
@@ -22,7 +22,7 @@ from torch.utils.data import DataLoader
 
 import models
 from datasets import CloudDataset
-from losses import CloudLoss
+from losses import CloudLoss, jaccard_loss
 from utils import *
 from loguru import logger
 
@@ -147,8 +147,10 @@ if __name__ == "__main__":
 
             bar.set_postfix(
                 epoch=epoch, 
-                **{name: value / dataset_len 
-                            for name, value in metrics.items()},
+                jac_loss=metrics['jacc_loss'] / dataset_len,
+                jaccard=metrics['jaccard'] / dataset_len,
+                # **{name: value / dataset_len 
+                #             for name, value in metrics.items()},
                 lr=optimizer.param_groups[0]['lr']
             )
         metrics = {
