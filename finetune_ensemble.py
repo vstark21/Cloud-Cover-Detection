@@ -13,7 +13,7 @@ import datetime
 import argparse
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
+from tqdm.notebook import tqdm
 import albumentations as A
 from sklearn.model_selection import train_test_split
 
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     loss_fn = CloudLoss(
         config.LOSS_CFG
     )
-    
+
     ensemble_models = []
     if args.model_ids is None:
         raise ValueError("Please provide model ids")

@@ -9,12 +9,12 @@ class Nugget(nn.Module):
                                 kernel_size=kernel_size,
                                 padding=padding)
         self.batch_norm = nn.BatchNorm2d(out_channels)
-        self.relu = nn.SiLU()
+        self.silu = nn.SiLU()
 
     def forward(self, x):
         x = self.conv2d(x)
         x = self.batch_norm(x)
-        x = self.relu(x)
+        x = self.silu(x)
         return x
 
 class Ensembler(nn.Module):
