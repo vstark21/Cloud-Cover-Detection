@@ -45,6 +45,7 @@ config.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 if not os.path.exists(config.OUTPUT_PATH):
     os.makedirs(config.OUTPUT_PATH)
 logger.info(f"Using device: {config.DEVICE}")
+print(config.USE_WANDB, args.use_wandb)
 if config.USE_WANDB:
     import wandb
     wandb.init(
