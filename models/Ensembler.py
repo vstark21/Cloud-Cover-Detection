@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class Nugget(nn.Module):
-    def __init__(self, kernel_size, in_channels, out_channels):
+    def __init__(self, kernel_size, in_channels, out_channels, padding=0):
         super(Nugget, self).__init__()
         self.conv2d = nn.Conv2d(in_channels,
                                       out_channels,
@@ -24,7 +24,7 @@ class Ensembler(nn.Module):
     ):
         super(Ensembler, self).__init__()
         self.nuggets = nn.Sequential(
-            Nugget(3, in_channels, 16),
+            Nugget(3, in_channels, 16, padding=1),
             Nugget(1, 16, 4),
             Nugget(1, 4, out_channels),
         )
