@@ -99,8 +99,9 @@ def format_time(seconds):
     return result
 
 @torch.no_grad()
-def jaccard_score(pred, true, eps=1e-7):
-    pred = torch.sigmoid(pred)
+def jaccard_score(pred, true, eps=1e-7, from_logits=True):
+    if from_logits:
+        pred = torch.sigmoid(pred)
     pred = torch.round(pred)
     intersection = torch.logical_and(pred, true).sum()
     union = torch.logical_or(pred, true).sum() + eps

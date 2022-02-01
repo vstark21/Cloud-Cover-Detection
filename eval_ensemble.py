@@ -68,12 +68,11 @@ if __name__ == "__main__":
         for model_id in model_ids:
             _model = getattr(models, config.FT_MODELS[model_id]['MODEL'])(
                 **config.FT_MODELS[model_id]['MODEL_PARAMS']
-            )
+            ).to(config.DEVICE)
             checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, model_id + '.pt'))
             if 'model' in checkpoint.keys():
                 checkpoint = checkpoint['model']
             _model.load_state_dict(checkpoint)
-            _model = _model.to(config.DEVICE)
             _model.eval()
             ensemble_models.append(_model)
 
@@ -91,8 +90,7 @@ if __name__ == "__main__":
             for _model in ensemble_models:
                 preds += torch.sigmoid(_model(images)['out'])
             preds /= len(ensemble_models)
-            
-            cur_jac = jaccard_score(preds, labels).item()
+            cur_jac = jaccard_score(preds, labels, from_logits=False).item()
             jac_score += cur_jac
             dataset_len += 1
 
