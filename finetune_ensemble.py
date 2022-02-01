@@ -10,6 +10,7 @@ import scipy
 import random
 import warnings
 import datetime
+import argparse
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -24,6 +25,11 @@ from datasets import CloudDataset
 from losses import CloudLoss
 from utils import *
 from loguru import logger
+
+# Arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_ids', dest='model_ids', type=str, help='Model ids', default=None)
+args = parser.parse_args()
 
 # config
 with open("config.yml", "r") as f:
@@ -76,7 +82,10 @@ if __name__ == "__main__":
         config.LOSS_CFG
     )
     ensemble_models = []
-    for k, v in config.FT_MODELS.items():
+    if args.model_ids is None:
+        raise ValueError("Please provide model ids")
+    for k in args.model_ids.split(","):
+        v = config.FT_MODEL[k]
         logger.info(f"Loading checkpoint: {k}")
         _model = getattr(models, v['MODEL'])(
             **v['MODEL_PARAMS']
