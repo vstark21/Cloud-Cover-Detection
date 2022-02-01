@@ -25,10 +25,15 @@ class Ensembler(nn.Module):
         #     Nugget(in_channels, 16, 1),
         #     Nugget(16, in_channels, 1),
         # )
-        self.out_conv = nn.Conv2d(in_channels, out_channels, 1)
+        self.conv1 = nn.Conv2d(in_channels, in_channels, 1)
+        self.conv2 = nn.Conv2d(in_channels, out_channels, 1)
+        self.act = nn.Sigmoid()
+
         
     def forward(self, x):
         # x = self.nuggets(x)
-        out = self.out_conv(x)
+        x = self.conv1(x)
+        x = self.act(x)
+        x = self.conv2(x)
 
-        return dict(out=out)
+        return dict(out=x)
