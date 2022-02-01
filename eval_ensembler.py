@@ -26,6 +26,7 @@ from loguru import logger
 # Arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_ids', dest='model_ids', type=str, help='Model ids', default=None)
+parser.add_argument('--ensembler_id', dest='ensembler_id', type=str, help='Ensembler id', default=None)
 args = parser.parse_args()
 
 # config
@@ -62,8 +63,10 @@ if __name__ == "__main__":
     ensemble_models = []
     if args.model_ids is None:
         raise ValueError("Please provide model ids")
+    elif args.ensembler_id is None:
+        raise ValueError("Please provide ensembler id")
     else:
-        logger.info(f"Evaluating {args.model_ids}")
+        logger.info(f"Evaluating {args.model_ids} with {args.ensembler_id}")
         model_ids = args.model_ids.split(",")
         for model_id in model_ids:
             _model = getattr(models, config.FT_MODELS[model_id]['MODEL'])(
@@ -75,6 +78,14 @@ if __name__ == "__main__":
             _model.load_state_dict(checkpoint)
             _model.eval()
             ensemble_models.append(_model)
+        ensembler = getattr(models, config.FT_ENSEMBLER)(
+            in_channels=len(ensemble_models), out_channels=1
+        ).to(config.DEVICE)
+        checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, f"E_{args.ensembler_id}.pt"))
+        if 'model' in checkpoint.keys():
+            checkpoint = checkpoint['model']
+        ensembler.load_state_dict(checkpoint)
+        ensembler.eval()
 
     with torch.no_grad():
         bar = tqdm(dataloader, total=len(dataloader))
@@ -86,11 +97,11 @@ if __name__ == "__main__":
             images = batch_data['inputs'].to(config.DEVICE)
             labels = batch_data['labels'].to(config.DEVICE)
 
-            preds = 0
-            for _model in ensemble_models:
-                preds += torch.sigmoid(_model(images)['out'])
-            preds /= len(ensemble_models)
-            cur_jac = jaccard_score(preds, labels, from_logits=False).item()
+            images = torch.cat([
+                _model(images)['out'] for _model in ensemble_models
+            ], dim=1)
+            preds_dict = ensembler(images)
+            cur_jac = jaccard_score(preds_dict['out'], labels, from_logits=False).item()
             jac_score += cur_jac
             dataset_len += 1
 

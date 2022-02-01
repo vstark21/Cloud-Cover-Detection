@@ -25,7 +25,7 @@ from loguru import logger
 
 # Arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_id', dest='model_id', type=str, help='Model id', default=None)
+parser.add_argument('--model_ids', dest='model_ids', type=str, help='Model ids', default=None)
 args = parser.parse_args()
 
 # config
@@ -59,27 +59,24 @@ if __name__ == "__main__":
                     shuffle=False,
                     num_workers=config.NUM_WORKERS)
 
-    if args.model_id is None:
-        print(f"Evaluating {config.MODEL}.pt")
-        model = getattr(models, config.MODEL)(
-            **config.MODEL_PARAMS[config.MODEL]
-        )
-        checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
+    eval_models = []
+    if args.model_ids is None:
+        raise ValueError("Please provide model ids")
     else:
-        print(f"Evaluating {args.model_id}.pt")
-        model = getattr(models, config.FT_MODELS[args.model_id]['MODEL'])(
-            **config.FT_MODELS[args.model_id]['MODEL_PARAMS']
-        )
-        checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, args.model_id + '.pt'))
-    if 'model' in checkpoint.keys():
-        checkpoint = checkpoint['model']
-    model.load_state_dict(checkpoint)
-    model = model.to(config.DEVICE)
-
-    logger.info(f"Model has {count_parameters(model)} parameters")
+        logger.info(f"Evaluating {args.model_ids}")
+        model_ids = args.model_ids.split(",")
+        for model_id in model_ids:
+            _model = getattr(models, config.FT_MODELS[model_id]['MODEL'])(
+                **config.FT_MODELS[model_id]['MODEL_PARAMS']
+            ).to(config.DEVICE)
+            checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, model_id + '.pt'))
+            if 'model' in checkpoint.keys():
+                checkpoint = checkpoint['model']
+            _model.load_state_dict(checkpoint)
+            _model.eval()
+            eval_models.append(_model)
 
     with torch.no_grad():
-        model.eval()
         bar = tqdm(dataloader, total=len(dataloader))
         jac_score = 0
         dataset_len = 0
@@ -89,8 +86,11 @@ if __name__ == "__main__":
             images = batch_data['inputs'].to(config.DEVICE)
             labels = batch_data['labels'].to(config.DEVICE)
 
-            preds_dict = model(images)
-            cur_jac = jaccard_score(preds_dict['out'], labels).item()
+            preds = 0
+            for _model in eval_models:
+                preds += torch.sigmoid(_model(images)['out'])
+            preds /= len(eval_models)
+            cur_jac = jaccard_score(preds, labels, from_logits=False).item()
             jac_score += cur_jac
             dataset_len += 1
 
