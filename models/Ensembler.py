@@ -23,7 +23,7 @@ class Ensembler(nn.Module):
     ):
         super(Ensembler, self).__init__()
         self.nuggets = nn.Sequential(
-            Nugget(3, in_channels, 16, padding=1),
+            Nugget(1, in_channels, 16),
             Nugget(1, 16, in_channels),
         )
         self.out_conv = nn.Conv2d(in_channels, out_channels, 1)
