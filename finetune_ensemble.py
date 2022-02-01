@@ -87,7 +87,7 @@ if __name__ == "__main__":
         _model.eval()
         ensemble_models.append(_model)
     ensembler = getattr(models, config.FT_ENSEMBLER)(
-        num_channels=len(ensemble_models), out_channels=1
+        in_channels=len(ensemble_models), out_channels=1
     ).to(config.DEVICE)
     optimizer = getattr(torch.optim, config.FT_OPTIMIZER_CFG.pop('type'))(
         ensembler.parameters(), **config.FT_OPTIMIZER_CFG

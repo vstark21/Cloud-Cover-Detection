@@ -8,3 +8,4 @@ from SeMask import SeMask
 from SegNet import SegNet
 from CheapLab import CheapLab
 from FPN import FPN
+from Ensembler import Ensembler

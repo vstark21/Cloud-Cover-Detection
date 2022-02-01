@@ -10,6 +10,7 @@ import scipy
 import random
 import warnings
 import datetime
+import argparse
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -21,6 +22,11 @@ import models
 from datasets import CloudDataset
 from utils import *
 from loguru import logger
+
+# Arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_id', dest='model_id', type=str, help='Model id', default=None)
+args = parser.parse_args()
 
 # config
 with open("config.yml", "r") as f:
@@ -53,11 +59,21 @@ if __name__ == "__main__":
                     shuffle=False,
                     num_workers=config.NUM_WORKERS)
 
-    model = getattr(models, config.MODEL)(
-        **config.MODEL_PARAMS[config.MODEL]
-    )
-    checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
-    model.load_state_dict(checkpoint['model'])
+    if args.model_id is None:
+        print(f"Evaluating {config.MODEL}.pt")
+        model = getattr(models, config.MODEL)(
+            **config.MODEL_PARAMS[config.MODEL]
+        )
+        checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, config.NAME + '.pt'))
+    else:
+        print(f"Evaluating {args.model_id}.pt")
+        model = getattr(models, config.FT_MODELS[args.model_id]['MODEL'])(
+            **config.FT_MODELS[args.model_id]['MODEL_PARAMS']
+        )
+        checkpoint = torch.load(os.path.join(config.OUTPUT_PATH, args.model_id + '.pt'))
+    if 'model' in checkpoint.keys():
+        checkpoint = checkpoint['model']
+    model.load_state_dict(checkpoint)
     model = model.to(config.DEVICE)
 
     logger.info(f"Model has {count_parameters(model)} parameters")
