@@ -1,31 +1,5 @@
 ---
 MODELS:
-    CCD_21:
-        MODEL: 'Unet'
-        MODEL_PARAMS:
-            cfg:
-                backbone:
-                    type: 'EfficientNet' # ResNet or EfficientNet
-                    variant: 'efficientnet-b1' # resnet* or efficientnet-b*
-                    n_channels: 4
-                head:
-                    type: 'UnetDecodeHead'
-                    n_classes: 1
-                    dropout: 0.2
-                    out_channels: [256, 128, 64, 32, 16]
-    CCD_27:
-        MODEL: 'Unet'
-        MODEL_PARAMS:
-            cfg:
-                backbone:
-                    type: 'EfficientNet' 
-                    variant: 'efficientnet-b3' 
-                    n_channels: 4
-                head:
-                    type: 'UnetDecodeHead'
-                    n_classes: 1
-                    dropout: 0.2
-                    out_channels: [256, 128, 64, 32, 16]
     CCD_28:
         MODEL: 'Unet'
         MODEL_PARAMS:
@@ -33,32 +7,6 @@ MODELS:
                 backbone:
                     type: 'EfficientNet' 
                     variant: 'efficientnet-b5' 
-                    n_channels: 4
-                head:
-                    type: 'UnetDecodeHead'
-                    n_classes: 1
-                    dropout: 0.2
-                    out_channels: [256, 128, 64, 32, 16]
-    CCD_30:
-        MODEL: 'Unet'
-        MODEL_PARAMS:
-            cfg:
-                backbone:
-                    type: 'EfficientNet' 
-                    variant: 'efficientnet-b3' 
-                    n_channels: 4
-                head:
-                    type: 'UnetDecodeHead'
-                    n_classes: 1
-                    dropout: 0.2
-                    out_channels: [256, 128, 64, 32, 16]
-    CCD_32:
-        MODEL: 'Unet'
-        MODEL_PARAMS:
-            cfg:
-                backbone:
-                    type: 'EfficientNet' 
-                    variant: 'efficientnet-b1' 
                     n_channels: 4
                 head:
                     type: 'UnetDecodeHead'
