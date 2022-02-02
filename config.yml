@@ -125,25 +125,14 @@ MODEL_PARAMS:
 TRAIN_AUGMENTATIONS:
     Flip:
         p: 0.5
-    RandomCrop:
-        height: 384
-        width: 384
-        p: 0.5
-    Resize:
-        height: 512
-        width: 512
-        p: 1.0
     ShiftScaleRotate:
         shift_limit: 0.1
         scale_limit: 0.2
         rotate_limit: 10
+        border_mode: 0
+        value: 0
         p: 0.5
     GridDistortion:
-        p: 0.5
-    RandomBrightnessContrast:
-        p: 0.5
-    GaussNoise:
-        var_limit: 0.1
         p: 0.5
 
 DATA_PATH: "data/"
