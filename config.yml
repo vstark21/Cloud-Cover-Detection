@@ -1,5 +1,5 @@
 ---
-SEED: 156 # 2022, 42, 444, 156, 1024
+SEED: 2022 # 2022, 42, 444, 156, 1024
 VERBOSE: 1
 DEBUG: False
 
@@ -125,6 +125,14 @@ MODEL_PARAMS:
 TRAIN_AUGMENTATIONS:
     Flip:
         p: 0.5
+    RandomCrop:
+        height: 384
+        width: 384
+        p: 0.5
+    Resize:
+        height: 512
+        width: 512
+        p: 1.0   
     ShiftScaleRotate:
         shift_limit: 0.1
         scale_limit: 0.2
@@ -378,6 +386,19 @@ FT_MODELS:
                     dropout: 0.2
                     out_channels: [256, 128, 64, 32, 16]
     CCD_35:
+        MODEL: 'Unet'
+        MODEL_PARAMS:
+            cfg:
+                backbone:
+                    type: 'EfficientNet' 
+                    variant: 'efficientnet-b5' 
+                    n_channels: 4
+                head:
+                    type: 'UnetDecodeHead'
+                    n_classes: 1
+                    dropout: 0.2
+                    out_channels: [256, 128, 64, 32, 16]
+    CCD_36:
         MODEL: 'Unet'
         MODEL_PARAMS:
             cfg:
