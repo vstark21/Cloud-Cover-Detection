@@ -1,6 +1,6 @@
 ---
 MODELS:
-    CCD_28:
+    CCD_35:
         MODEL: 'Unet'
         MODEL_PARAMS:
             cfg:
