@@ -13,19 +13,6 @@ MODELS:
                     n_classes: 1
                     dropout: 0.2
                     out_channels: [256, 128, 64, 32, 16]
-    CCD_25:
-        MODEL: 'Unet'
-        MODEL_PARAMS:
-            cfg:
-                backbone:
-                    type: 'EfficientNet' 
-                    variant: 'efficientnet-b5' 
-                    n_channels: 4
-                head:
-                    type: 'UnetDecodeHead'
-                    n_classes: 1
-                    dropout: 0.2
-                    out_channels: [256, 128, 64, 32, 16]
     CCD_28:
         MODEL: 'Unet'
         MODEL_PARAMS:
@@ -53,6 +40,45 @@ MODELS:
                     dropout: 0.2
                     out_channels: [256, 128, 64, 32, 16]
     CCD_36:
+        MODEL: 'Unet'
+        MODEL_PARAMS:
+            cfg:
+                backbone:
+                    type: 'EfficientNet' 
+                    variant: 'efficientnet-b5' 
+                    n_channels: 4
+                head:
+                    type: 'UnetDecodeHead'
+                    n_classes: 1
+                    dropout: 0.2
+                    out_channels: [256, 128, 64, 32, 16]
+    CCD_38:
+        MODEL: 'Unet'
+        MODEL_PARAMS:
+            cfg:
+                backbone:
+                    type: 'EfficientNet' 
+                    variant: 'efficientnet-b5' 
+                    n_channels: 4
+                head:
+                    type: 'UnetDecodeHead'
+                    n_classes: 1
+                    dropout: 0.2
+                    out_channels: [256, 128, 64, 32, 16]
+    CCD_39:
+        MODEL: 'Unet'
+        MODEL_PARAMS:
+            cfg:
+                backbone:
+                    type: 'EfficientNet' 
+                    variant: 'efficientnet-b5' 
+                    n_channels: 4
+                head:
+                    type: 'UnetDecodeHead'
+                    n_classes: 1
+                    dropout: 0.2
+                    out_channels: [256, 128, 64, 32, 16]
+    CCD_40:
         MODEL: 'Unet'
         MODEL_PARAMS:
             cfg:

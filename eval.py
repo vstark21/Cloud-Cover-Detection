@@ -23,6 +23,15 @@ from datasets import CloudDataset
 from utils import *
 from loguru import logger
 
+KERNEL = np.ones((3, 3), np.uint8)
+def apply_morph(img):
+    img = torch.round(img)
+    img = img.cpu().numpy()
+    img = (img * 255).astype(np.uint8)
+    img = cv2.morphologyEx(img, cv2.MORPH_OPEN, KERNEL)
+    img = torch.Tensor(img, device=config.DEVICE) / 255.0
+    return img
+
 # Arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_ids', dest='model_ids', type=str, help='Model ids', default=None)
@@ -99,6 +108,8 @@ if __name__ == "__main__":
             for _model in eval_models:
                 preds += torch.sigmoid(_model(images)['out'])
             preds /= len(eval_models)
+            for i in range(preds.shape[0]):
+                preds[i] = apply_morph(preds[i])
             cur_jac = jaccard_score(preds, labels, from_logits=False).item()
             jac_score += cur_jac
             dataset_len += 1
