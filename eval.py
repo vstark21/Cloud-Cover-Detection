@@ -23,14 +23,14 @@ from datasets import CloudDataset
 from utils import *
 from loguru import logger
 
-KERNEL = np.ones((3, 3), np.uint8)
+KERNEL = np.ones((5, 5), np.uint8)
 def apply_morph(img):
     img = torch.round(img)
     img = img.cpu().numpy()
     img = (img * 255).astype(np.uint8)
     img = cv2.morphologyEx(img, cv2.MORPH_OPEN, KERNEL)
-    img = torch.Tensor(img, device=config.DEVICE) / 255.0
-    return img
+    img = torch.Tensor(img) / 255.0
+    return img.to(config.DEVICE)
 
 # Arguments
 parser = argparse.ArgumentParser()

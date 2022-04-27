@@ -136,4 +136,5 @@ temp*
 *.pt
 *.pth
 *.zip
-!submission/testexecution/data/
+submission/
+clutter/
