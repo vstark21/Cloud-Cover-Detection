@@ -38,7 +38,7 @@ The following points briefly explains  the overall approach.
   Sensing Imagery via Filtered Jaccard Loss Function](https://arxiv.org/pdf/2001.08768.pdf)
 
 * [U-Net: Convolutional Networks for Biomedical
-  Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf()
+  Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf)
 
 * https://github.com/SwinTransformer/Swin-Transformer-Semantic-Segmentation
 
